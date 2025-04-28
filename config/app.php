@@ -123,4 +123,10 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'middleware' => [
+    // other middleware...
+    'role' => \App\Http\Middleware\RoleMiddleware::class,
+],
+
+
 ];
