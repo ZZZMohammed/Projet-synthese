@@ -25,7 +25,10 @@ class UserController extends Controller
 
         // Generate a token for the user
         $token = $user->createToken('auth_token')->plainTextToken;
-        return response()->json(['token' => $token]);
+        return response()->json([
+            'token' => $token ,
+            'user' => $user
+        ]);
     }
 
     public function register(Request $request)
