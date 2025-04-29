@@ -27,8 +27,9 @@ Route::post('/contact' , [ContactController::class , 'store']) ;
 
 // TIMES ROUTES 
 
-Route::middleware(['auth' ,'role:admin'])->group(function (){
+Route::middleware(['auth:sanctum' ,'role:admin'])->group(function (){
     Route::get('/times' , [SlotsController::class , 'index']) ;
+    Route::post('/times' , [SlotsController::class , 'store']) ;
 });
 
 
