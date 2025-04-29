@@ -45,4 +45,52 @@ class SlotsController extends Controller
             'data' => $slot
         ], 201); // Created
     }
+
+
+    
+    public function show($id)
+    {
+        $slot = Slot::find($id);
+
+        if (!$slot) {
+            return response()->json(['message' => 'Slot not found.'], 404);
+        }
+
+        return response()->json($slot);
+    }
+
+    
+    public function update(Request $request, $id)
+    {
+        $slot = Slot::find($id);
+
+        if (!$slot) {
+            return response()->json(['message' => 'Slot not found.'], 404);
+        }
+
+        $validated = $request->validate([
+            'date' => 'required|date',
+            'time' => 'required|date_format:H:i',
+            'is_booked' => 'boolean',
+        ]);
+
+        $slot->update($validated);
+
+        return response()->json($slot);
+    }
+
+    
+    public function destroy($id)
+    {
+        $slot = Slot::find($id);
+
+        if (!$slot) {
+            return response()->json(['message' => 'Slot not found.'], 404);
+        }
+
+        $slot->delete();
+
+        return response()->json(['message' => 'Slot deleted successfully.']);
+    }
 }
+
