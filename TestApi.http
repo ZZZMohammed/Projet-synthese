@@ -25,8 +25,21 @@ Content-Type: application/json
   "password": "password123"
 }
 
+
 ### Logout the user (requires authentication)
 POST http://localhost:8000/api/logout
 Accept: application/json
 Authorization: Bearer 3|GY44DuE2vJ9GrmadDMHNHjPvUkGfm3WmZEsK63kU4a034726
 
+
+### Contact
+POST http://localhost:8000/api/contact
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "Aouad Mohammed",
+  "email": "aouad6@gmail.com",
+  "phone": "0689104243",
+  "message": "test tsest"
+}
