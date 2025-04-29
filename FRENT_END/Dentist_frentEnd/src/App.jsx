@@ -6,6 +6,7 @@ import Login from './pages/login'
 import Register from './pages/register'
 import Notfound from './pages/Notfound'
 import Admin from './pages/admin'
+import Contact from './pages/contact'
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
         <Route path='/login' element={<Login/>}/>
         <Route path='/register' element={<Register/>}/>
         <Route path='/admin' element={<Admin/>}/>
+        <Route path='/contact' element={<Contact/>}/>
         <Route path='*' element={<Notfound/>}/>
     
       </Routes>
