@@ -21,7 +21,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "email": "admin@example.com",
+  "email": "ufeufuwe@example.com",
   "password": "password123"
 }
 
@@ -42,4 +42,16 @@ Content-Type: application/json
   "email": "aouad6@gmail.com",
   "phone": "0689104243",
   "message": "test tsest"
+}
+
+
+### Create time slot
+POST http://localhost:8000/api/times
+Authorization: Bearer 31|5T4XkPjK3xeKBxzV7l7YaUyBvSloqCOMeGHND5dW83a3d48d
+Content-Type: application/json
+Accept: application/json
+
+{
+  "date": "2025-05-01",
+  "time": "10:00"
 }

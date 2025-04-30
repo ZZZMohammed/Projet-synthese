@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Models\Slot;
+use App\Models\Time_Slot;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class SlotsController extends Controller
+class SlotsController extends Controller 
 {
-    public function index(){
-
-        $times = Slot::orderBy('date')->orderBy('time')->get() ;
-        return response()->json($times) ;
+    public function index()
+    {
+        $times = Time_Slot::orderBy('date')->orderBy('time')->get();
+        return response()->json($times);
     }
 
     public function store(Request $request)
@@ -22,8 +22,8 @@ class SlotsController extends Controller
             'time' => 'required|date_format:H:i',
         ]);
 
-        // Check if the slot already exists
-        $exists = Slot::where('date', $validated['date'])
+        // Check if the Time_Slots already exists
+        $exists = Time_Slot::where('date', $validated['date'])
                       ->where('time', $validated['time'])
                       ->exists();
 
@@ -34,7 +34,7 @@ class SlotsController extends Controller
         }
 
         // Create the time slot
-        $slot = Slot::create([
+        $timeSlot = Time_Slot::create([
             'date' => $validated['date'],
             'time' => $validated['time'],
             'is_booked' => false,
@@ -42,30 +42,27 @@ class SlotsController extends Controller
 
         return response()->json([
             'message' => 'Time slot created successfully.',
-            'data' => $slot
+            'data' => $timeSlot
         ], 201); // Created
     }
 
-
-    
     public function show($id)
     {
-        $slot = Slot::find($id);
+        $timeSlot = Time_Slot::find($id);
 
-        if (!$slot) {
-            return response()->json(['message' => 'Slot not found.'], 404);
+        if (!$timeSlot) {
+            return response()->json(['message' => 'Time slot not found.'], 404);
         }
 
-        return response()->json($slot);
+        return response()->json($timeSlot);
     }
 
-    
     public function update(Request $request, $id)
     {
-        $slot = Slot::find($id);
+        $timeSlot = Time_Slot::find($id);
 
-        if (!$slot) {
-            return response()->json(['message' => 'Slot not found.'], 404);
+        if (!$timeSlot) {
+            return response()->json(['message' => 'Time slot not found.'], 404);
         }
 
         $validated = $request->validate([
@@ -74,23 +71,21 @@ class SlotsController extends Controller
             'is_booked' => 'boolean',
         ]);
 
-        $slot->update($validated);
+        $timeSlot->update($validated);
 
-        return response()->json($slot);
+        return response()->json($timeSlot);
     }
 
-    
     public function destroy($id)
     {
-        $slot = Slot::find($id);
+        $timeSlot = Time_Slot::find($id);
 
-        if (!$slot) {
-            return response()->json(['message' => 'Slot not found.'], 404);
+        if (!$timeSlot) {
+            return response()->json(['message' => 'Time slot not found.'], 404);
         }
 
-        $slot->delete();
+        $timeSlot->delete();
 
-        return response()->json(['message' => 'Slot deleted successfully.']);
+        return response()->json(['message' => 'Time slot deleted successfully.']);
     }
 }
-
