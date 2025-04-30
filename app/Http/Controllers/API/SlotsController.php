@@ -8,21 +8,29 @@ use App\Http\Controllers\Controller;
 
 class SlotsController extends Controller 
 {
-    public function index()
+    // ✅ GET /api/slots or /api/slots?date=YYYY-MM-DD
+    public function index(Request $request)
     {
-        $times = Time_Slot::orderBy('date')->orderBy('time')->get();
-        return response()->json($times);
+        $query = Time_Slot::query();
+
+        // Filter by date if provided
+        if ($request->has('date')) {
+            $query->where('date', $request->query('date'));
+        }
+
+        $timeSlots = $query->orderBy('date')->orderBy('time')->get();
+
+        return response()->json($timeSlots);
     }
 
+    // ✅ POST /api/slots
     public function store(Request $request)
     {
-        // Validate input
         $validated = $request->validate([
             'date' => 'required|date',
             'time' => 'required|date_format:H:i',
         ]);
 
-        // Check if the Time_Slots already exists
         $exists = Time_Slot::where('date', $validated['date'])
                       ->where('time', $validated['time'])
                       ->exists();
@@ -30,10 +38,9 @@ class SlotsController extends Controller
         if ($exists) {
             return response()->json([
                 'message' => 'This time slot already exists.'
-            ], 409); // Conflict
+            ], 409);
         }
 
-        // Create the time slot
         $timeSlot = Time_Slot::create([
             'date' => $validated['date'],
             'time' => $validated['time'],
@@ -43,9 +50,10 @@ class SlotsController extends Controller
         return response()->json([
             'message' => 'Time slot created successfully.',
             'data' => $timeSlot
-        ], 201); // Created
+        ], 201);
     }
 
+    // ✅ GET /api/slots/{id}
     public function show($id)
     {
         $timeSlot = Time_Slot::find($id);
@@ -57,6 +65,7 @@ class SlotsController extends Controller
         return response()->json($timeSlot);
     }
 
+    // ✅ PUT /api/slots/{id}
     public function update(Request $request, $id)
     {
         $timeSlot = Time_Slot::find($id);
@@ -76,6 +85,7 @@ class SlotsController extends Controller
         return response()->json($timeSlot);
     }
 
+    // ✅ DELETE /api/slots/{id}
     public function destroy($id)
     {
         $timeSlot = Time_Slot::find($id);

@@ -1,6 +1,4 @@
 
-
-
 ### Register a new user
 POST http://localhost:8000/api/register
 Accept: application/json
@@ -8,10 +6,10 @@ Content-Type: application/json
 
 {
   "name": "Aouad mohammed",
-  "email": "user1@example.com",
+  "email": "3@example.com",
   "password": "password123",
   "password_confirmation": "password123",
-  "role": "patient"
+  "role": "admin"
 }
 
 
@@ -21,7 +19,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "email": "user1@example.com",
+  "email": "3@example.com",
   "password": "password123"
 }
 
@@ -47,11 +45,21 @@ Content-Type: application/json
 
 ### Create time slot
 POST http://localhost:8000/api/times
-Authorization: Bearer 4|Tc6lA26aPMoWGhwqDgv3BnDqjVHzzNMl74WMCH7Z9c7b3f7e
+Authorization: Bearer 8|R4JsiaAU7qTknHPzf9rHmRbYFCd9na3W7Oj9XvWmb8fcf007
 Content-Type: application/json
 Accept: application/json
 
 {
   "date": "2025-05-01",
-  "time": "14:00"
+  "time": "15:00"
 }
+
+
+## get all time slots
+GET http://localhost:8000/api/times?date=2025-05-01
+Authorization: Bearer 8|R4JsiaAU7qTknHPzf9rHmRbYFCd9na3W7Oj9XvWmb8fcf007
+Content-Type: application/json
+Accept: application/json
+
+ 
+
