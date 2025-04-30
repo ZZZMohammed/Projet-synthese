@@ -10,7 +10,8 @@ class Time_Slot extends Model
 {
     use HasFactory;
 
-    
+    protected $table = 'time_slots'; // <- with ONE underscore
+
 
     // Define the fillable fields to protect against mass assignment vulnerabilities
     protected $fillable = ['date', 'time', 'is_booked'];

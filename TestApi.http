@@ -8,10 +8,10 @@ Content-Type: application/json
 
 {
   "name": "Aouad mohammed",
-  "email": "ufeufuwe@example.com",
+  "email": "user1@example.com",
   "password": "password123",
   "password_confirmation": "password123",
-  "role": "admin"
+  "role": "patient"
 }
 
 
@@ -21,7 +21,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "email": "ufeufuwe@example.com",
+  "email": "user1@example.com",
   "password": "password123"
 }
 
@@ -29,7 +29,7 @@ Content-Type: application/json
 ### Logout the user (requires authentication)
 POST http://localhost:8000/api/logout
 Accept: application/json
-Authorization: Bearer 3|GY44DuE2vJ9GrmadDMHNHjPvUkGfm3WmZEsK63kU4a034726
+Authorization: Bearer 2|xwNQSSG5PZIMTzhvb166nXKupwyvDZlZhQD6jGmR801229dd
 
 
 ### Contact
@@ -47,11 +47,11 @@ Content-Type: application/json
 
 ### Create time slot
 POST http://localhost:8000/api/times
-Authorization: Bearer 31|5T4XkPjK3xeKBxzV7l7YaUyBvSloqCOMeGHND5dW83a3d48d
+Authorization: Bearer 4|Tc6lA26aPMoWGhwqDgv3BnDqjVHzzNMl74WMCH7Z9c7b3f7e
 Content-Type: application/json
 Accept: application/json
 
 {
   "date": "2025-05-01",
-  "time": "10:00"
+  "time": "14:00"
 }
