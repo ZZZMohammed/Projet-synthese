@@ -1,3 +1,9 @@
+## get all time slots
+GET http://localhost:8000/api/times?date=2025-05-01
+Authorization: Bearer 8|R4JsiaAU7qTknHPzf9rHmRbYFCd9na3W7Oj9XvWmb8fcf007
+Content-Type: application/json
+Accept: application/json
+
 
 ### Register a new user
 POST http://localhost:8000/api/register
@@ -55,11 +61,37 @@ Accept: application/json
 }
 
 
-## get all time slots
-GET http://localhost:8000/api/times?date=2025-05-01
+###
+GET http://localhost:8000/api/appointments
 Authorization: Bearer 8|R4JsiaAU7qTknHPzf9rHmRbYFCd9na3W7Oj9XvWmb8fcf007
-Content-Type: application/json
+Accept: application/json
 Accept: application/json
 
- 
 
+### book an appoi
+POST http://localhost:8000/api/appointments
+Content-Type: application/json
+Authorization: Bearer 9|U6byVtA4Mx36m10MF7bQ3OJ6uNj14LgeDpErNetZd2bee411
+Accept: application/json
+
+{
+  "time_slot_id": 2
+}
+
+
+###
+PUT http://localhost:8000/api/appointments/1
+Content-Type: application/json
+Authorization: Bearer 10|Mgbva9DBh5ggdaSd0ldYOmT5moP3BVrseQJGniXc10a25fcb
+Accept: application/json
+
+{
+  "status": "accepted"
+}
+
+
+###
+DELETE http://localhost:8000/api/appointments/2
+Authorization: Bearer 10|Mgbva9DBh5ggdaSd0ldYOmT5moP3BVrseQJGniXc10a25fcb
+Accept: application/json
+Content-Type: application/json
