@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react'
 import axios from 'axios'
+import {useNavigate} from 'react-router-dom'
 
 export default function Register() {
 
@@ -10,6 +11,7 @@ export default function Register() {
       password : '',
       confirmpass : ''
   }) ;
+  const navigate = useNavigate() ;
 
 
   const handleChange = (e) =>{
@@ -31,6 +33,7 @@ export default function Register() {
       alert('you registred successful') ;
       console.log(res.data)
       localStorage.setItem('token' , res.data.token) ;
+      navigate('/') ;
     }
     catch(e){
       console.error(e)
