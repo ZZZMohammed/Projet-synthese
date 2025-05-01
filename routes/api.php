@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\SlotsController;
 use App\Http\Controllers\API\ContactController;
+use App\Http\Controllers\API\appointementContoller;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -37,3 +38,8 @@ Route::middleware(['auth:sanctum' ,'role:admin'])->group(function (){
 
 
 
+// APPOINTEMNT ROUTES
+
+Route::middleware(['auth:sanctum'])->group(function (){
+    Route::apiResource('appointments', appointementContoller::class);
+});
