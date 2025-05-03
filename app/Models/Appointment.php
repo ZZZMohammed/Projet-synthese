@@ -26,7 +26,7 @@ class Appointment extends Model
 
 public function timeSlot()
 {
-    return $this->belongsTo(Time_Slots::class);
+    return $this->belongsTo(Time_Slot::class);
 }
 
 }

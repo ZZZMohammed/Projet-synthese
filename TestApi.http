@@ -82,7 +82,7 @@ Accept: application/json
 ###
 PUT http://localhost:8000/api/appointments/1
 Content-Type: application/json
-Authorization: Bearer 10|Mgbva9DBh5ggdaSd0ldYOmT5moP3BVrseQJGniXc10a25fcb
+Authorization: Bearer 4|WPHPs0GQ37rRIccpMwNmojvQZE97zjY1HjTtBqAwfa84f33c
 Accept: application/json
 
 {
@@ -92,6 +92,6 @@ Accept: application/json
 
 ###
 DELETE http://localhost:8000/api/appointments/2
-Authorization: Bearer 10|Mgbva9DBh5ggdaSd0ldYOmT5moP3BVrseQJGniXc10a25fcb
+Authorization: Bearer 4|WPHPs0GQ37rRIccpMwNmojvQZE97zjY1HjTtBqAwfa84f33c
 Accept: application/json
 Content-Type: application/json
