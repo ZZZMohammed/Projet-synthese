@@ -1,6 +1,6 @@
 ## get all time slots
-GET http://localhost:8000/api/times?date=2025-05-01
-Authorization: Bearer 8|R4JsiaAU7qTknHPzf9rHmRbYFCd9na3W7Oj9XvWmb8fcf007
+GET http://localhost:8000/api/times
+Authorization: Bearer 5|sHBQSI7DifojtWXlEGZdkuSitkGKgWdhy1WxVIpYecf61fa4
 Content-Type: application/json
 Accept: application/json
 

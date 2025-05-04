@@ -5,7 +5,7 @@ import thunk from 'redux-thunk'
 
 const rootReducer = combineReducers({
     timeSlots: timeSlotReducer,
-  appointments: appointmentReducer,
+    appointments: appointmentReducer,
 })
 
 const store = createStore(rootReducer , applyMiddleware(thunk))
