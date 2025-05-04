@@ -1,11 +1,14 @@
 
 
-import {createStore} from 'redux'
+import {applyMiddleware, combineReducers, createStore} from 'redux'
+import thunk from 'redux-thunk'
 
-const store = createStore({
-    appointmentAction ,
-    timeSlotAction
+const rootReducer = combineReducers({
+    timeSlots: timeSlotReducer,
+  appointments: appointmentReducer,
 })
+
+const store = createStore(rootReducer , applyMiddleware(thunk))
 
 
 export default store ;
