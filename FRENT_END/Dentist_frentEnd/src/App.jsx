@@ -7,6 +7,7 @@ import Register from './pages/register'
 import Notfound from './pages/Notfound'
 import Admin from './pages/admin'
 import Contact from './pages/contact'
+import TimeSlotPage from './pages/timeSlotPage'
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
         <Route path='/register' element={<Register/>}/>
         <Route path='/admin' element={<Admin/>}/>
         <Route path='/contact' element={<Contact/>}/>
+        <Route path='/list' element={<TimeSlotPage/>}/>
         <Route path='*' element={<Notfound/>}/>
     
       </Routes>

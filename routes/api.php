@@ -29,13 +29,13 @@ Route::post('/contact' , [ContactController::class , 'store']) ;
 // TIMES ROUTES 
 
 Route::middleware(['auth:sanctum' ,'role:admin'])->group(function (){
-    Route::get('/times' , [SlotsController::class , 'index']) ;
+    
     Route::post('/times' , [SlotsController::class , 'store']) ;
     Route::get('/times/{id}', [SlotsController::class, 'show']);    
     Route::put('/times/{id}', [SlotsController::class, 'update']);   
     Route::delete('/times/{id}', [SlotsController::class, 'destroy']);
 });
-
+Route::get('/times' , [SlotsController::class , 'index']) ;
 
 
 // APPOINTEMNT ROUTES

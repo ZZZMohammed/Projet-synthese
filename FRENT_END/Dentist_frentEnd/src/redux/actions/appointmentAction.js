@@ -1,24 +1,32 @@
+import axios from 'axios';
 
+export const bookAppointment = (time_slot_id) => async (dispatch) => {
+  try {
+    dispatch({ type: 'APPOINTMENT_REQUEST' });
 
-import axios from 'axios'
+    // Fetch the token from localStorage
+    const token = localStorage.getItem('token');
 
-export const FetchAppointment = (time_slot_id) => async(dispatch) =>{
-
-    try{
-        dispatch({ type :'APPOINTMENT_REQUEST'}) ;
-
-        const token = localStorage.getItem('token') ;
-        const res = await axios.post('http://localhost:8000/api/appointments' ,
-            {time_slot_id},
-            {
-                headers:{
-                    Authorization: `Bearer ${token}` ,
-                },
-            }
-        );
-        dispatch ({type :'APPOINTMENT_SUCCESS' , payload: res.data }) ;
+    if (!token) {
+      throw new Error('Authentication token is missing.');
     }
-    catch(error){
-        dispatch({ type: 'APPOINTMENT_FAIL', payload: error.message });
-    }
-}
+
+    // Make the API request with the token included in the headers
+    const res = await axios.post(
+      'http://localhost:8000/api/appointments',
+      { time_slot_id },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, // Include token in header
+        },
+      }
+    );
+
+    // Dispatch success action with response data
+    dispatch({ type: 'APPOINTMENT_SUCCESS', payload: res.data });
+  } catch (error) {
+    // Improved error handling to show better error messages
+    const errorMsg = error.response ? error.response.data.message : error.message;
+    dispatch({ type: 'APPOINTMENT_FAIL', payload: errorMsg });
+  }
+};
