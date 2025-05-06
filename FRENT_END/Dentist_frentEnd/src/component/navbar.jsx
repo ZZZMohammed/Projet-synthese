@@ -54,7 +54,7 @@ export default function Navbar() {
 
         {/* Book Now Button - RIGHT SIDE */}
         <div className="d-none d-lg-flex ms-auto">
-          <button className="btn btn-primary">Book Now</button>
+          <Link to={'/list'} className="btn btn-primary">Book Now</Link>
         </div>
       </div>
     </nav>
