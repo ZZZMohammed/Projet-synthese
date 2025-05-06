@@ -11,6 +11,9 @@ import Admin from './pages/admin'
 import Contact from './pages/contact'
 import TimeSlotPage from './pages/timeSlotPage'
 import Navbar from './component/navbar';
+import About from './pages/about';
+import Galery from './pages/galery';
+import BeforAfter from './pages/BeforAfter';
 
 export default function App() {
   return (
@@ -27,6 +30,9 @@ export default function App() {
         <Route path='/contact' element={<Contact/>}/>
         <Route path='/list' element={<TimeSlotPage/>}/>
         <Route path='*' element={<Notfound/>}/>
+        <Route path='/about' element={<About/>}/>
+        <Route path='/galery' element={<Galery/>}/>
+        <Route path='befor' element={<BeforAfter/>}/>
     
       </Routes>
     
