@@ -63,7 +63,7 @@ Accept: application/json
 
 ###
 GET http://localhost:8000/api/appointments
-Authorization: Bearer 8|R4JsiaAU7qTknHPzf9rHmRbYFCd9na3W7Oj9XvWmb8fcf007
+Authorization: Bearer 18|MwpNy48NNGxuiiyDTv82s4fiZDBNmsgClactsD68c064d841
 Accept: application/json
 Accept: application/json
 
