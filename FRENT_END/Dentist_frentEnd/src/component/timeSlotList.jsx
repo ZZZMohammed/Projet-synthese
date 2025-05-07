@@ -8,7 +8,7 @@ const TimeSlotList = () => {
 
   const { slots, loading, error } = useSelector((state) => state.timeSlots);
   const { success, error: bookingError } = useSelector(
-    (state) => state.appointments || {} // fix: match 'appointments' from store.js
+    (state) => state.appointments || {} 
   );
 
   useEffect(() => {
