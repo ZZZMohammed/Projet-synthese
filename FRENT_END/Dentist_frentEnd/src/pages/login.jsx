@@ -19,6 +19,7 @@ export default function Login() {
       });
 
       localStorage.setItem('token' , res.data.token) ;
+      localStorage.setItem('user', JSON.stringify(res.data.user)); 
       console.log('Token:', res.data.token);
       console.log('User:', res.data.user);
       
