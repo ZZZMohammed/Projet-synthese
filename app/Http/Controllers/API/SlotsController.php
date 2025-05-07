@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 
 class SlotsController extends Controller 
 {
-    // ✅ GET /api/slots or /api/slots?date=YYYY-MM-DD
+    
     public function index(Request $request)
     {
         $query = Time_Slot::query();
@@ -23,7 +23,6 @@ class SlotsController extends Controller
         return response()->json($timeSlots);
     }
 
-    // ✅ POST /api/slots
     public function store(Request $request)
     {
         $validated = $request->validate([
