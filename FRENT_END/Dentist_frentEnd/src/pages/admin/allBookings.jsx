@@ -5,15 +5,14 @@ export default function AllBookings() {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const token = localStorage.getItem('token') ;
-
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     const fetchBookings = async () => {
       try {
         const response = await axios.get('http://localhost:8000/api/appointments', {
-          headers : {
-            Authorization : `Bearer ${token}` ,
+          headers: {
+            Authorization: `Bearer ${token}`,
           }
         });
         setBookings(response.data);
@@ -30,20 +29,55 @@ export default function AllBookings() {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
+  const formatTime = (timeString) => {
+    return new Date(`1970-01-01T${timeString}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  };
+
   return (
-    <div>
-      <h1>All Bookings</h1>
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-2xl font-bold mb-6">All Bookings</h1>
       {bookings.length > 0 ? (
-        <ul>
-          {bookings.map(booking => (
-            <li key={booking.id}>
-              {/* Render your booking data here */}
-              {JSON.stringify(booking)}
-            </li>
-          ))}
-        </ul>
+        <div className="overflow-x-auto">
+          <table className="min-w-full bg-white border border-gray-200">
+            <thead>
+              <tr className="bg-gray-100">
+                <th className="py-2 px-4 border-b">Patient</th>
+                <th className="py-2 px-4 border-b">Email</th>
+                <th className="py-2 px-4 border-b">Role</th>
+                <th className="py-2 px-4 border-b">Appointment Date</th>
+                <th className="py-2 px-4 border-b">Time</th>
+                <th className="py-2 px-4 border-b">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {bookings.map(booking => (
+                <tr key={booking.id} className="hover:bg-gray-50">
+                  <td className="py-2 px-4 border-b text-center">{booking.user.name}</td>
+                  <td className="py-2 px-4 border-b text-center">{booking.user.email}</td>
+                  <td className="py-2 px-4 border-b text-center">{booking.user.role}</td>
+                  <td className="py-2 px-4 border-b text-center">{formatDate(booking.time_slot.date)}</td>
+                  <td className="py-2 px-4 border-b text-center">{formatTime(booking.time_slot.time)}</td>
+                  <td className="py-2 px-4 border-b text-center">
+                    <span className={`px-2 py-1 rounded-full text-xs ${
+                      booking.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                      booking.status === 'confirmed' ? 'bg-green-100 text-green-800' :
+                      'bg-red-100 text-red-800'
+                    }`}>
+                      {booking.status}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       ) : (
-        <p>No bookings found</p>
+        <p className="text-gray-500">No bookings found</p>
       )}
     </div>
   );
