@@ -71,11 +71,11 @@ Accept: application/json
 ### book an appoi
 POST http://localhost:8000/api/appointments
 Content-Type: application/json
-Authorization: Bearer 9|U6byVtA4Mx36m10MF7bQ3OJ6uNj14LgeDpErNetZd2bee411
+Authorization: Bearer 1|KxMrVzmhElCqy5zeSTklkwzsKO4ganLtG6BzjuPUeae80834
 Accept: application/json
 
 {
-  "time_slot_id": 2
+  "time_slot_id": 1
 }
 
 

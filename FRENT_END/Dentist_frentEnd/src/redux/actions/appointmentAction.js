@@ -44,14 +44,14 @@ export const getAppointment = () => async (dispatch) => {
 };
 
 
-export const deleteAppointment = (time_slot_id) => async (dispatch) => {
+export const deleteAppointment = (appointment_id) => async (dispatch) => {
 
   try{
 
       dispatch ({ type: 'APPOINTMENTS_REQUEST'}) ;
       const token = localStorage.getItem('token') ;
 
-      const res = await axios.delete(`http://localhost:8000/api/appointments/${time_slot_id}` ,
+      const res = await axios.delete(`http://localhost:8000/api/appointments/${appointment_id}` ,
         { headers : {
 
              Authorization : `Bearer ${token}`
@@ -60,7 +60,7 @@ export const deleteAppointment = (time_slot_id) => async (dispatch) => {
         }
       ) ;
 
-      dispatch ({ type : 'DELETE_SUCCESS' }) ;
+      dispatch ({ type : 'DELETE_SUCCESS' , payload:res.data}) ;
 
   }
   catch(error){

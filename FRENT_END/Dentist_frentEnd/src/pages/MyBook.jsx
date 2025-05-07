@@ -1,32 +1,31 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAppointment , deleteAppointment} from '../redux/actions/appointmentAction';
+import { getAppointment, deleteAppointment } from '../redux/actions/appointmentAction';
 
 export default function MyBook() {
   const dispatch = useDispatch();
   
-  // Access the full state to debug if needed
+  // Debug the full state
   const appointmentState = useSelector(state => state.appointments);
-  console.log('Current state:', appointmentState);
+  console.log('Current appointments state:', appointmentState);
   
-  const { appointments, loading, error ,deleteSuccess } = useSelector(state => ({
+  const { appointments, loading, error, deleteSuccess } = useSelector(state => ({
     appointments: state.appointments.appointments || [],
     loading: state.appointments.loading,
-    error: state.appointments.error ,
-    deleteSuccess :state.appointments.deleteSuccess
+    error: state.appointments.error,
+    deleteSuccess: state.appointments.deleteSuccess
   }));
 
   useEffect(() => {
     dispatch(getAppointment());
-  }, [dispatch , deleteSuccess]);
+  }, [dispatch, deleteSuccess]);
 
-
-  const handleDelete =(time_slot_id)=>{
-      if(window.confirm('Are you sure you want to cancel this appointment?')) {
-        dispatch(deleteAppointment(time_slot_id)) ;
-      }
+  const handleDelete = (appointmentId) => {
+    console.log('Attempting to delete appointment ID:', appointmentId); // Debug
+    if (window.confirm('Are you sure you want to cancel this appointment?')) {
+      dispatch(deleteAppointment(appointmentId));
+    }
   }
-
 
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
@@ -57,6 +56,7 @@ export default function MyBook() {
                 <th className="py-3 px-4 border-b text-left">Date</th>
                 <th className="py-3 px-4 border-b text-left">Time</th>
                 <th className="py-3 px-4 border-b text-left">Status</th>
+                <th className="py-3 px-4 border-b text-left">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -73,7 +73,14 @@ export default function MyBook() {
                       {booking.status}
                     </span>
                   </td>
-                  <td className='btn btn-danger'  onClick={()=>handleDelete(booking.time_slot_id)}>Cancel</td>
+                  <td className="py-3 px-4 border-b">
+                    <button 
+                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded"
+                      onClick={() => handleDelete(booking.id)} // Changed from booking.appointment_id to booking.id
+                    >
+                      Cancel
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
