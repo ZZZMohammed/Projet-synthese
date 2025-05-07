@@ -14,6 +14,9 @@ import Navbar from './component/navbar';
 import About from './pages/about';
 import Galery from './pages/galery';
 import BeforAfter from './pages/BeforAfter';
+import AllTimeSlots from './pages/admin/allTimeSlots';
+import AllBookings from './pages/admin/allBookings' ;
+import Notifications from './pages/admin/notifications' ;
 
 export default function App() {
   return (
@@ -32,7 +35,11 @@ export default function App() {
         <Route path='*' element={<Notfound/>}/>
         <Route path='/about' element={<About/>}/>
         <Route path='/galery' element={<Galery/>}/>
-        <Route path='befor' element={<BeforAfter/>}/>
+        <Route path='/befor' element={<BeforAfter/>}/>
+        <Route path='/allTimes' element={<AllTimeSlots/>}/>
+        <Route path='/allBookings' element={<AllBookings/>}/>
+        <Route path='/notifications' element={<Notifications/>}/>
+        
     
       </Routes>
     
