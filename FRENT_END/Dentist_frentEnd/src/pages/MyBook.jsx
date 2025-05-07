@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAppointment } from '../redux/actions/appointmentAction';
+import { getAppointment , deleteAppointment} from '../redux/actions/appointmentAction';
 
 export default function MyBook() {
   const dispatch = useDispatch();
@@ -9,15 +9,24 @@ export default function MyBook() {
   const appointmentState = useSelector(state => state.appointments);
   console.log('Current state:', appointmentState);
   
-  const { appointments, loading, error } = useSelector(state => ({
+  const { appointments, loading, error ,deleteSuccess } = useSelector(state => ({
     appointments: state.appointments.appointments || [],
     loading: state.appointments.loading,
-    error: state.appointments.error
+    error: state.appointments.error ,
+    deleteSuccess :state.appointments.deleteSuccess
   }));
 
   useEffect(() => {
     dispatch(getAppointment());
-  }, [dispatch]);
+  }, [dispatch , deleteSuccess]);
+
+
+  const handleDelete =(time_slot_id)=>{
+      if(window.confirm('Are you sure you want to cancel this appointment?')) {
+        dispatch(deleteAppointment(time_slot_id)) ;
+      }
+  }
+
 
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
@@ -64,7 +73,7 @@ export default function MyBook() {
                       {booking.status}
                     </span>
                   </td>
-                  <td className='btn btn-danger'>Cancel</td>
+                  <td className='btn btn-danger'  onClick={()=>handleDelete(booking.time_slot_id)}>Cancel</td>
                 </tr>
               ))}
             </tbody>

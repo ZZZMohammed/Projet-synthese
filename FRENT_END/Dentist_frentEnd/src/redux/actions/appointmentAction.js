@@ -64,6 +64,7 @@ export const deleteAppointment = (time_slot_id) => async (dispatch) => {
 
   }
   catch(error){
+    console.error('Delete error:', error.response); // Detailed error log
     const errorMsg = error.response ? error.response.data.message : error.message;
     dispatch({ type: 'DELETE_FAIL', payload: errorMsg });
   }

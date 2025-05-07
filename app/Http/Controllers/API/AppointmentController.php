@@ -97,10 +97,9 @@ class AppointmentController extends Controller
         $appointment = Appointment::findOrFail($id);
         $user = Auth::user();
 
-        if ($user->role !== 'admin' && $appointment->user_id !== $user->id) {
+        if (!($user->role === 'admin' || $appointment->user_id === $user->id)) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
-
         // Free the time slot
         $timeSlot = $appointment->timeSlot;
         if ($timeSlot) {

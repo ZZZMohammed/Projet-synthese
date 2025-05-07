@@ -2,7 +2,8 @@ const initialState = {
   appointments: [],
   loading: false,
   success: false,
-  error: null
+  error: null,
+  deleteSuccess: false,
 };
 
 export const appointmentReducer = (state = initialState, action) => {
@@ -14,15 +15,29 @@ export const appointmentReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         success: true,
-        appointments: action.payload,  // Store the appointments here
-        error: null
+        appointments: action.payload,
+        error: null,
       };
     case 'APPOINTMENTS_FAIL':
       return { 
         ...state,
         loading: false,
         success: false,
-        error: action.payload
+        error: action.payload,
+      };
+    case 'DELETE_SUCCESS':
+      return {
+        ...state, 
+        loading: false,
+        deleteSuccess: true,
+        error: null,
+      };
+    case 'DELETE_FAIL':
+      return {
+        ...state, 
+        loading: false,
+        deleteSuccess: false,
+        error: action.payload,
       };
     default:
       return state;

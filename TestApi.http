@@ -91,7 +91,7 @@ Accept: application/json
 
 
 ###
-DELETE http://localhost:8000/api/appointments/2
-Authorization: Bearer 4|WPHPs0GQ37rRIccpMwNmojvQZE97zjY1HjTtBqAwfa84f33c
+DELETE http://localhost:8000/api/appointments/7
+Authorization: Bearer 32|pVMrgRVRwuMWJiT2vwnlAhX0Eim821GFiR8V224W7257e18b
 Accept: application/json
 Content-Type: application/json
