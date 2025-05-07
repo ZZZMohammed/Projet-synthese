@@ -64,6 +64,7 @@ export default function MyBook() {
                       {booking.status}
                     </span>
                   </td>
+                  <td className='btn btn-danger'>Cancel</td>
                 </tr>
               ))}
             </tbody>
