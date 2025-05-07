@@ -42,3 +42,29 @@ export const getAppointment = () => async (dispatch) => {
     dispatch({ type: APPOINTMENTS_FAIL, payload: errorMsg });
   }
 };
+
+
+export const deleteAppointment = (time_slot_id) => async (dispatch) => {
+
+  try{
+
+      dispatch ({ type: 'APPOINTMENTS_REQUEST'}) ;
+      const token = localStorage.getItem('token') ;
+
+      const res = await axios.delete(`http://localhost:8000/api/appointments/${time_slot_id}` ,
+        { headers : {
+
+             Authorization : `Bearer ${token}`
+        }
+         
+        }
+      ) ;
+
+      dispatch ({ type : 'DELETE_SUCCESS' }) ;
+
+  }
+  catch(error){
+    const errorMsg = error.response ? error.response.data.message : error.message;
+    dispatch({ type: 'DELETE_FAIL', payload: errorMsg });
+  }
+}
