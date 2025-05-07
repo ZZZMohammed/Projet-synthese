@@ -47,6 +47,9 @@ export default function Navbar() {
               <Link className="nav-link" to="/about">About Us</Link>
             </li>
             <li className="nav-item">
+              <Link className="nav-link" to="/mybook">My Bookings</Link>
+            </li>
+            <li className="nav-item">
               <Link className="nav-link" to="/contact">Contact Us</Link>
             </li>
           </ul>

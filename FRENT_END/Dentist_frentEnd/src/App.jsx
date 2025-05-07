@@ -16,6 +16,7 @@ import BeforAfter from './pages/BeforAfter';
 import AllTimeSlots from './pages/admin/allTimeSlots';
 import AllBookings from './pages/admin/allBookings';
 import Notifications from './pages/admin/notifications';
+import MyBook from './pages/MyBook';
 
 export default function App() {
   const user = JSON.parse(localStorage.getItem('user')); // Get user data
@@ -33,6 +34,7 @@ export default function App() {
         <Route path='/about' element={<About/>} />
         <Route path='/galery' element={<Galery/>} />
         <Route path='/befor' element={<BeforAfter/>} />
+        <Route path='/mybook' element={<MyBook/>} />
         <Route path='*' element={<Notfound/>} />
 
         {/* Protected Admin Routes */}

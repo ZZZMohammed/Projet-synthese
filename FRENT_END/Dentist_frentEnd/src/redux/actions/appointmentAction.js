@@ -1,32 +1,44 @@
 import axios from 'axios';
 
+// Consistent action types
+const APPOINTMENTS_REQUEST = 'APPOINTMENTS_REQUEST';
+const APPOINTMENTS_SUCCESS = 'APPOINTMENTS_SUCCESS';
+const APPOINTMENTS_FAIL = 'APPOINTMENTS_FAIL';
+
 export const bookAppointment = (time_slot_id) => async (dispatch) => {
   try {
-    dispatch({ type: 'APPOINTMENT_REQUEST' });
+    dispatch({ type: APPOINTMENTS_REQUEST });
 
-    // Fetch the token from localStorage
     const token = localStorage.getItem('token');
+    if (!token) throw new Error('Authentication token is missing.');
 
-    if (!token) {
-      throw new Error('Authentication token is missing.');
-    }
-
-    // Make the API request with the token included in the headers
     const res = await axios.post(
       'http://localhost:8000/api/appointments',
       { time_slot_id },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`, // Include token in header
-        },
-      }
+      { headers: { Authorization: `Bearer ${token}` } }
     );
 
-    // Dispatch success action with response data
-    dispatch({ type: 'APPOINTMENT_SUCCESS', payload: res.data });
+    dispatch({ type: APPOINTMENTS_SUCCESS, payload: res.data });
   } catch (error) {
-    // Improved error handling to show better error messages
     const errorMsg = error.response ? error.response.data.message : error.message;
-    dispatch({ type: 'APPOINTMENT_FAIL', payload: errorMsg });
+    dispatch({ type: APPOINTMENTS_FAIL, payload: errorMsg });
+  }
+};
+
+export const getAppointment = () => async (dispatch) => {
+  try {
+    dispatch({ type: APPOINTMENTS_REQUEST });
+
+    const token = localStorage.getItem('token');
+    if (!token) throw new Error("Authentication token is missing.");
+
+    const res = await axios.get('http://localhost:8000/api/appointments', {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    dispatch({ type: APPOINTMENTS_SUCCESS, payload: res.data });
+  } catch (error) {
+    const errorMsg = error.response ? error.response.data.message : error.message;
+    dispatch({ type: APPOINTMENTS_FAIL, payload: errorMsg });
   }
 };
