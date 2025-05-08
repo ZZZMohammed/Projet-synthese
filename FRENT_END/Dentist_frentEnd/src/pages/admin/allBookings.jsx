@@ -1,11 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import {useDispatch , useSelector} from 'react-redux'
+import { deleteAppointment } from '../../redux/actions/appointmentAction';
 
 export default function AllBookings() {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const token = localStorage.getItem('token');
+  const dispatch = useDispatch()
+
+  const appointmentState = useSelector(state => state.appointments);
+  console.log('Current appointments state:', appointmentState);
+  
+  const { appointments,  deleteSuccess } = useSelector(state => ({
+    appointments: state.appointments.appointments || [],
+    deleteSuccess: state.appointments.deleteSuccess
+  }));
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -24,7 +35,7 @@ export default function AllBookings() {
     };
 
     fetchBookings();
-  }, []);
+  }, [deleteSuccess]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -37,6 +48,13 @@ export default function AllBookings() {
   const formatTime = (timeString) => {
     return new Date(`1970-01-01T${timeString}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
+
+
+  const handleDelete =(appointment_id)=>{
+   console.log('Attempting to delete appointment ID:', appointment_id); // Debug
+       if (window.confirm('Are you sure you want to cancel this appointment?')) {
+         dispatch(deleteAppointment(appointment_id));
+  }}
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -71,6 +89,7 @@ export default function AllBookings() {
                       {booking.status}
                     </span>
                   </td>
+                  <td className="py-2 px-4 border-b text-center btn btn-danger" onClick={()=>handleDelete(booking.id)}>Delete</td>
                 </tr>
               ))}
             </tbody>
