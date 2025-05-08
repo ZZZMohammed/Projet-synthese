@@ -2,8 +2,23 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import logo from '../img/teth.png.webp';
+import { useDispatch } from 'react-redux';
+import { logout } from '../redux/actions/aythAction';
 
 export default function Navbar() {
+
+  const dispatch = useDispatch() ;
+
+  const handleLogout = async () => {
+    if (window.confirm('Are you sure you want to logout?')) {
+      try {
+        await dispatch(logout());
+        navigate('/login');
+      } catch (error) {
+        console.error('Logout failed:', error);
+      }
+    }
+  };
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
@@ -58,6 +73,7 @@ export default function Navbar() {
         {/* Book Now Button - RIGHT SIDE */}
         <div className="d-none d-lg-flex ms-auto">
           <Link to={'/list'} className="btn btn-primary">Book Now</Link>
+          <button className='btn btn-danger'   onClick={handleLogout}>LogOut</button>
         </div>
       </div>
     </nav>
