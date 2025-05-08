@@ -54,7 +54,7 @@ export default function AllBookings() {
    console.log('Attempting to delete appointment ID:', appointment_id); // Debug
        if (window.confirm('Are you sure you want to cancel this appointment?')) {
          dispatch(deleteAppointment(appointment_id));
-  }}
+  }} ;
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -90,6 +90,7 @@ export default function AllBookings() {
                     </span>
                   </td>
                   <td className="py-2 px-4 border-b text-center btn btn-danger" onClick={()=>handleDelete(booking.id)}>Delete</td>
+                   <td className="py-2 px-4 border-b text-center btn btn-warning" >Update</td>
                 </tr>
               ))}
             </tbody>
