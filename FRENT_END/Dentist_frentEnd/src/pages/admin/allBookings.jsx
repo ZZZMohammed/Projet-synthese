@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {useDispatch , useSelector} from 'react-redux'
-import { deleteAppointment } from '../../redux/actions/appointmentAction';
+import { deleteAppointment , updateAppointmentStatus } from '../../redux/actions/appointmentAction';
 
 export default function AllBookings() {
   const [bookings, setBookings] = useState([]);
@@ -13,7 +13,7 @@ export default function AllBookings() {
   const appointmentState = useSelector(state => state.appointments);
   console.log('Current appointments state:', appointmentState);
   
-  const { appointments,  deleteSuccess } = useSelector(state => ({
+  const { appointments,  deleteSuccess , updateSuccess } = useSelector(state => ({
     appointments: state.appointments.appointments || [],
     deleteSuccess: state.appointments.deleteSuccess
   }));
@@ -35,7 +35,7 @@ export default function AllBookings() {
     };
 
     fetchBookings();
-  }, [deleteSuccess]);
+  }, [deleteSuccess , updateSuccess]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -55,6 +55,12 @@ export default function AllBookings() {
        if (window.confirm('Are you sure you want to cancel this appointment?')) {
          dispatch(deleteAppointment(appointment_id));
   }} ;
+
+  const handleUpdate = (appointment_id) => {
+    if (window.confirm('Are you sure you want to accept this appointment?')) {
+      dispatch(updateAppointmentStatus(appointment_id, 'accepted'));
+    }
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -90,7 +96,7 @@ export default function AllBookings() {
                     </span>
                   </td>
                   <td className="py-2 px-4 border-b text-center btn btn-danger" onClick={()=>handleDelete(booking.id)}>Delete</td>
-                   <td className="py-2 px-4 border-b text-center btn btn-warning" >Update</td>
+                   <td className="py-2 px-4 border-b text-center btn btn-warning" onClick={()=>handleUpdate(booking.id)}>Update</td>
                 </tr>
               ))}
             </tbody>
