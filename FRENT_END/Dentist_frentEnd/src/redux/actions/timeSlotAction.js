@@ -40,3 +40,34 @@ export const deleteTimeSlot = (timeSlot_id) => async (dispatch) => {
     });
   }
 }
+
+
+export const updateTimeSlot = (timeSlot_id, updatedData) => async (dispatch) => {
+  try {
+    dispatch({ type: 'UPDATE_TIME_REQUEST' });
+    
+    const token = localStorage.getItem('token');
+    const res = await axios.put(
+      `http://localhost:8000/api/times/${timeSlot_id}`,
+      updatedData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+
+    dispatch({
+      type: 'UPDATE_TIME_SUCCESS',
+      payload: res.data
+    });
+    
+    return res.data; // Return the updated data if needed
+  } catch (error) {
+    dispatch({
+      type: 'UPDATE_TIME_FAIL',
+      payload: error.response?.data?.message || error.message
+    });
+    throw error; // Re-throw the error for handling in the component
+  }
+};

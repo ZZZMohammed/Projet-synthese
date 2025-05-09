@@ -1,25 +1,106 @@
-import { React, useEffect , useState} from 'react';
+import { React, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchTimeSlots, deleteTimeSlot } from '../../redux/actions/timeSlotAction';
+import { fetchTimeSlots, deleteTimeSlot, updateTimeSlot } from '../../redux/actions/timeSlotAction';
+import Modal from 'react-bootstrap/Modal';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 export default function AllTimeSlots() {
   const dispatch = useDispatch();
-  const { slots: times, loading, error, deleting } = useSelector(state => state.timeSlots);
+  const { slots: times, loading, error, deleting, updating } = useSelector(state => state.timeSlots);
   const [deletingId, setDeletingId] = useState(null);
+  const [editingSlot, setEditingSlot] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [formData, setFormData] = useState({
+    date: '',
+    time: '',
+    is_booked: false
+  });
+  const [timeError, setTimeError] = useState('');
 
   useEffect(() => {
     dispatch(fetchTimeSlots());
   }, [dispatch]);
 
   const handleDelete = (timeSlot_id) => {
-    if (window.confirm('Are you sure you want to cancel this appointment?')) {
+    if (window.confirm('Are you sure you want to delete this time slot?')) {
       setDeletingId(timeSlot_id);
       dispatch(deleteTimeSlot(timeSlot_id))
         .finally(() => setDeletingId(null));
     }
   };
 
-  if (loading) return (
+  const handleEditClick = (timeSlot) => {
+    setEditingSlot(timeSlot);
+    setTimeError('');
+    
+    // Format time to HH:MM if it's in 12-hour format
+    const formattedTime = formatTimeTo24Hour(timeSlot.time);
+    
+    setFormData({
+      date: timeSlot.date.split('T')[0],
+      time: formattedTime,
+      is_booked: timeSlot.is_booked
+    });
+    setShowEditModal(true);
+  };
+
+  // Helper function to convert time to 24-hour format
+  const formatTimeTo24Hour = (timeString) => {
+    if (!timeString) return '';
+    
+    // If already in 24-hour format (HH:MM)
+    if (/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(timeString)) {
+      return timeString;
+    }
+    
+    // If in 12-hour format (H:MM AM/PM)
+    const timeParts = timeString.match(/(\d+):(\d+)\s*(AM|PM)/i);
+    if (timeParts) {
+      let hours = parseInt(timeParts[1]);
+      const minutes = timeParts[2];
+      const period = timeParts[3].toUpperCase();
+      
+      if (period === 'PM' && hours < 12) hours += 12;
+      if (period === 'AM' && hours === 12) hours = 0;
+      
+      return `${hours.toString().padStart(2, '0')}:${minutes}`;
+    }
+    
+    return timeString; // Return as-is if format is unrecognized
+  };
+
+  const handleUpdate = async () => {
+    // Validate time format (HH:MM)
+    if (!/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(formData.time)) {
+      setTimeError('Please enter time in 24-hour format (HH:MM)');
+      return;
+    }
+    
+    try {
+      await dispatch(updateTimeSlot(editingSlot.id, {
+        ...formData,
+        time: formData.time // Ensure time is in correct format
+      }));
+      setShowEditModal(false);
+    } catch (error) {
+      // Error is handled by the reducer
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+    
+    if (name === 'time') {
+      setTimeError('');
+    }
+  };
+
+  if (loading && times.length === 0) return (
     <div className="d-flex justify-content-center align-items-center vh-100">
       <div className="spinner-border text-primary" role="status">
         <span className="visually-hidden">Loading...</span>
@@ -51,7 +132,7 @@ export default function AllTimeSlots() {
                   <th scope="col">Date</th>
                   <th scope="col">Time</th>
                   <th scope="col">Status</th>
-                  <th scope="col">Action</th>
+                  <th scope="col">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -65,18 +146,32 @@ export default function AllTimeSlots() {
                       </span>
                     </td>
                     <td>
-                      <button 
-                        className={`btn btn-danger ${deletingId === time.id ? 'disabled' : ''}`}
-                        onClick={() => handleDelete(time.id)}
-                        disabled={deletingId === time.id}
-                      >
-                        {deletingId === time.id ? (
-                          <>
-                            <span className="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
-                            Deleting...
-                          </>
-                        ) : 'Delete'}
-                      </button>
+                      <div className="d-flex gap-2">
+                        <Button
+                          variant="danger"
+                          disabled={deletingId === time.id}
+                          onClick={() => handleDelete(time.id)}
+                        >
+                          {deletingId === time.id ? (
+                            <>
+                              <span className="spinner-border spinner-border-sm me-1" />
+                              Deleting...
+                            </>
+                          ) : 'Delete'}
+                        </Button>
+                        <Button
+                          variant="warning"
+                          disabled={updating && editingSlot?.id === time.id}
+                          onClick={() => handleEditClick(time)}
+                        >
+                          {updating && editingSlot?.id === time.id ? (
+                            <>
+                              <span className="spinner-border spinner-border-sm me-1" />
+                              Updating...
+                            </>
+                          ) : 'Edit'}
+                        </Button>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -85,6 +180,65 @@ export default function AllTimeSlots() {
           </div>
         </div>
       </div>
+
+      {/* Edit Modal */}
+      <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Edit Time Slot</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3">
+              <Form.Label>Date</Form.Label>
+              <Form.Control
+                type="date"
+                name="date"
+                value={formData.date}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Time (24-hour format)</Form.Label>
+              <Form.Control
+                type="time"
+                name="time"
+                value={formData.time}
+                onChange={handleChange}
+                required
+                isInvalid={!!timeError}
+              />
+              <Form.Control.Feedback type="invalid">
+                {timeError}
+              </Form.Control.Feedback>
+              <Form.Text className="text-muted">
+                Example: 14:30 for 2:30 PM
+              </Form.Text>
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Check
+                type="checkbox"
+                label="Booked"
+                name="is_booked"
+                checked={formData.is_booked}
+                onChange={handleChange}
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowEditModal(false)}>
+            Cancel
+          </Button>
+          <Button 
+            variant="primary" 
+            onClick={handleUpdate}
+            disabled={updating}
+          >
+            {updating ? 'Saving...' : 'Save Changes'}
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }
