@@ -1,15 +1,23 @@
-import { React, useEffect } from 'react';
+import { React, useEffect , useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchTimeSlots } from '../../redux/actions/timeSlotAction';
-import 'bootstrap/dist/css/bootstrap.min.css'; // Make sure Bootstrap CSS is imported
+import { fetchTimeSlots, deleteTimeSlot } from '../../redux/actions/timeSlotAction';
 
 export default function AllTimeSlots() {
   const dispatch = useDispatch();
-  const { slots: times, loading, error } = useSelector(state => state.timeSlots);
+  const { slots: times, loading, error, deleting } = useSelector(state => state.timeSlots);
+  const [deletingId, setDeletingId] = useState(null);
 
   useEffect(() => {
     dispatch(fetchTimeSlots());
   }, [dispatch]);
+
+  const handleDelete = (timeSlot_id) => {
+    if (window.confirm('Are you sure you want to cancel this appointment?')) {
+      setDeletingId(timeSlot_id);
+      dispatch(deleteTimeSlot(timeSlot_id))
+        .finally(() => setDeletingId(null));
+    }
+  };
 
   if (loading) return (
     <div className="d-flex justify-content-center align-items-center vh-100">
@@ -43,6 +51,7 @@ export default function AllTimeSlots() {
                   <th scope="col">Date</th>
                   <th scope="col">Time</th>
                   <th scope="col">Status</th>
+                  <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -55,7 +64,20 @@ export default function AllTimeSlots() {
                         {time.is_booked ? "Booked" : "Available"}
                       </span>
                     </td>
-                    <td className='btn btn-danger'>Delete</td>
+                    <td>
+                      <button 
+                        className={`btn btn-danger ${deletingId === time.id ? 'disabled' : ''}`}
+                        onClick={() => handleDelete(time.id)}
+                        disabled={deletingId === time.id}
+                      >
+                        {deletingId === time.id ? (
+                          <>
+                            <span className="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                            Deleting...
+                          </>
+                        ) : 'Delete'}
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>

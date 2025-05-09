@@ -2,12 +2,12 @@ const initialState = {
     loading: false,
     slots: [],
     error: null,
+    deleting: false  // Add this new state
 };
 
 export const timeSlotReducer = (state = initialState, action) => {
     switch(action.type) {
         case 'TIMESLOT_REQUEST':
-        case 'DELETE_TIME_REQUEST':  
             return {
                 ...state,
                 loading: true
@@ -27,18 +27,24 @@ export const timeSlotReducer = (state = initialState, action) => {
                 error: action.payload
             };
 
+        case 'DELETE_TIME_REQUEST':
+            return {
+                ...state,
+                deleting: true  // Set deleting to true
+            };
+
         case 'DELETE_TIME_SUCCESS':
             return {
                 ...state,
-                loading: false,
-                slots: state.slots.filter(slot => slot.id !== action.payload.id),
+                deleting: false,
+                slots: state.slots.filter(slot => slot.id !== action.payload),
                 error: null
             };
 
         case 'DELETE_TIME_FAIL':
             return {
                 ...state,
-                loading: false,
+                deleting: false,
                 error: action.payload
             };
 
