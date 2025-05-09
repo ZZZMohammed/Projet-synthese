@@ -1,16 +1,17 @@
 import { React, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchTimeSlots, deleteTimeSlot, updateTimeSlot } from '../../redux/actions/timeSlotAction';
+import { fetchTimeSlots, deleteTimeSlot, updateTimeSlot, ajouterTimeSlot } from '../../redux/actions/timeSlotAction';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
 export default function AllTimeSlots() {
   const dispatch = useDispatch();
-  const { slots: times, loading, error, deleting, updating } = useSelector(state => state.timeSlots);
+  const { slots: times, loading, error, deleting, updating, adding, addSuccess } = useSelector(state => state.timeSlots);
   const [deletingId, setDeletingId] = useState(null);
   const [editingSlot, setEditingSlot] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
   const [formData, setFormData] = useState({
     date: '',
     time: '',
@@ -21,6 +22,13 @@ export default function AllTimeSlots() {
   useEffect(() => {
     dispatch(fetchTimeSlots());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (addSuccess) {
+      setShowAddModal(false);
+      dispatch(fetchTimeSlots()); // Refresh the list after successful addition
+    }
+  }, [addSuccess, dispatch]);
 
   const handleDelete = (timeSlot_id) => {
     if (window.confirm('Are you sure you want to delete this time slot?')) {
@@ -34,7 +42,6 @@ export default function AllTimeSlots() {
     setEditingSlot(timeSlot);
     setTimeError('');
     
-    // Format time to HH:MM if it's in 12-hour format
     const formattedTime = formatTimeTo24Hour(timeSlot.time);
     
     setFormData({
@@ -45,16 +52,23 @@ export default function AllTimeSlots() {
     setShowEditModal(true);
   };
 
-  // Helper function to convert time to 24-hour format
+  const handleAddClick = () => {
+    setTimeError('');
+    setFormData({
+      date: new Date().toISOString().split('T')[0], // Default to today's date
+      time: '',
+      is_booked: false
+    });
+    setShowAddModal(true);
+  };
+
   const formatTimeTo24Hour = (timeString) => {
     if (!timeString) return '';
     
-    // If already in 24-hour format (HH:MM)
     if (/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(timeString)) {
       return timeString;
     }
     
-    // If in 12-hour format (H:MM AM/PM)
     const timeParts = timeString.match(/(\d+):(\d+)\s*(AM|PM)/i);
     if (timeParts) {
       let hours = parseInt(timeParts[1]);
@@ -67,22 +81,36 @@ export default function AllTimeSlots() {
       return `${hours.toString().padStart(2, '0')}:${minutes}`;
     }
     
-    return timeString; // Return as-is if format is unrecognized
+    return timeString;
+  };
+
+  const validateTimeFormat = () => {
+    if (!/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(formData.time)) {
+      setTimeError('Please enter time in 24-hour format (HH:MM)');
+      return false;
+    }
+    return true;
   };
 
   const handleUpdate = async () => {
-    // Validate time format (HH:MM)
-    if (!/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(formData.time)) {
-      setTimeError('Please enter time in 24-hour format (HH:MM)');
-      return;
-    }
+    if (!validateTimeFormat()) return;
     
     try {
       await dispatch(updateTimeSlot(editingSlot.id, {
         ...formData,
-        time: formData.time // Ensure time is in correct format
+        time: formData.time
       }));
       setShowEditModal(false);
+    } catch (error) {
+      // Error is handled by the reducer
+    }
+  };
+
+  const handleAdd = async () => {
+    if (!validateTimeFormat()) return;
+    
+    try {
+      await dispatch(ajouterTimeSlot(formData));
     } catch (error) {
       // Error is handled by the reducer
     }
@@ -114,70 +142,76 @@ export default function AllTimeSlots() {
     </div>
   );
 
-  if (!times || !Array.isArray(times)) return (
-    <div className="alert alert-info text-center mt-5" role="alert">
-      No time slots available
-    </div>
-  );
-
   return (
     <div className="container py-5">
       <div className="row justify-content-center">
         <div className="col-md-10 col-lg-8">
-          <h1 className="text-center mb-4">All Time Slots</h1>
-          <div className="table-responsive">
-            <table className="table table-striped table-hover">
-              <thead className="table-dark">
-                <tr>
-                  <th scope="col">Date</th>
-                  <th scope="col">Time</th>
-                  <th scope="col">Status</th>
-                  <th scope="col">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {times.map((time) => (
-                  <tr key={time.id}>
-                    <td>{new Date(time.date).toLocaleDateString()}</td>
-                    <td>{time.time}</td>
-                    <td>
-                      <span className={`badge ${time.is_booked ? 'bg-danger' : 'bg-success'}`}>
-                        {time.is_booked ? "Booked" : "Available"}
-                      </span>
-                    </td>
-                    <td>
-                      <div className="d-flex gap-2">
-                        <Button
-                          variant="danger"
-                          disabled={deletingId === time.id}
-                          onClick={() => handleDelete(time.id)}
-                        >
-                          {deletingId === time.id ? (
-                            <>
-                              <span className="spinner-border spinner-border-sm me-1" />
-                              Deleting...
-                            </>
-                          ) : 'Delete'}
-                        </Button>
-                        <Button
-                          variant="warning"
-                          disabled={updating && editingSlot?.id === time.id}
-                          onClick={() => handleEditClick(time)}
-                        >
-                          {updating && editingSlot?.id === time.id ? (
-                            <>
-                              <span className="spinner-border spinner-border-sm me-1" />
-                              Updating...
-                            </>
-                          ) : 'Edit'}
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="d-flex justify-content-between align-items-center mb-4">
+            <h1 className="mb-0">All Time Slots</h1>
+            <Button variant="success" onClick={handleAddClick}>
+              Add New Time Slot
+            </Button>
           </div>
+          
+          {times && Array.isArray(times) && times.length > 0 ? (
+            <div className="table-responsive">
+              <table className="table table-striped table-hover">
+                <thead className="table-dark">
+                  <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {times.map((time) => (
+                    <tr key={time.id}>
+                      <td>{new Date(time.date).toLocaleDateString()}</td>
+                      <td>{time.time}</td>
+                      <td>
+                        <span className={`badge ${time.is_booked ? 'bg-danger' : 'bg-success'}`}>
+                          {time.is_booked ? "Booked" : "Available"}
+                        </span>
+                      </td>
+                      <td>
+                        <div className="d-flex gap-2">
+                          <Button
+                            variant="danger"
+                            disabled={deletingId === time.id}
+                            onClick={() => handleDelete(time.id)}
+                          >
+                            {deletingId === time.id ? (
+                              <>
+                                <span className="spinner-border spinner-border-sm me-1" />
+                                Deleting...
+                              </>
+                            ) : 'Delete'}
+                          </Button>
+                          <Button
+                            variant="warning"
+                            disabled={updating && editingSlot?.id === time.id}
+                            onClick={() => handleEditClick(time)}
+                          >
+                            {updating && editingSlot?.id === time.id ? (
+                              <>
+                                <span className="spinner-border spinner-border-sm me-1" />
+                                Updating...
+                              </>
+                            ) : 'Edit'}
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div className="alert alert-info text-center mt-5" role="alert">
+              No time slots available
+            </div>
+          )}
         </div>
       </div>
 
@@ -236,6 +270,70 @@ export default function AllTimeSlots() {
             disabled={updating}
           >
             {updating ? 'Saving...' : 'Save Changes'}
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Add Modal */}
+      <Modal show={showAddModal} onHide={() => setShowAddModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add New Time Slot</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3">
+              <Form.Label>Date</Form.Label>
+              <Form.Control
+                type="date"
+                name="date"
+                value={formData.date}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Time (24-hour format)</Form.Label>
+              <Form.Control
+                type="time"
+                name="time"
+                value={formData.time}
+                onChange={handleChange}
+                required
+                isInvalid={!!timeError}
+              />
+              <Form.Control.Feedback type="invalid">
+                {timeError}
+              </Form.Control.Feedback>
+              <Form.Text className="text-muted">
+                Example: 14:30 for 2:30 PM
+              </Form.Text>
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Check
+                type="checkbox"
+                label="Mark as booked"
+                name="is_booked"
+                checked={formData.is_booked}
+                onChange={handleChange}
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowAddModal(false)}>
+            Cancel
+          </Button>
+          <Button 
+            variant="success" 
+            onClick={handleAdd}
+            disabled={adding}
+          >
+            {adding ? (
+              <>
+                <span className="spinner-border spinner-border-sm me-1" />
+                Adding...
+              </>
+            ) : 'Add Time Slot'}
           </Button>
         </Modal.Footer>
       </Modal>
