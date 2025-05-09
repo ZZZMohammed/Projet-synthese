@@ -48,7 +48,7 @@ export default function Login() {
         <label htmlFor="">Your Password</label>
         <input type="password" value={password} onChange={(e)=> setPassword(e.target.value)}/><br />
 
-        <button type='submit'> Log <Input:btn></Input:btn></button>
+        <button type='submit'> Login <Input:btn></Input:btn></button>
       </form>
   
   )

@@ -1,13 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import logo from '../img/teth.png.webp';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../redux/actions/aythAction';
 
 export default function Navbar() {
-
-  const dispatch = useDispatch() ;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 
   const handleLogout = async () => {
     if (window.confirm('Are you sure you want to logout?')) {
@@ -19,6 +20,7 @@ export default function Navbar() {
       }
     }
   };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
@@ -73,7 +75,9 @@ export default function Navbar() {
         {/* Book Now Button - RIGHT SIDE */}
         <div className="d-none d-lg-flex ms-auto">
           <Link to={'/list'} className="btn btn-primary">Book Now</Link>
-          <button className='btn btn-danger'   onClick={handleLogout}>LogOut</button>
+          {isAuthenticated && (
+            <button className='btn btn-danger ms-2' onClick={handleLogout}>LogOut</button>
+          )}
         </div>
       </div>
     </nav>

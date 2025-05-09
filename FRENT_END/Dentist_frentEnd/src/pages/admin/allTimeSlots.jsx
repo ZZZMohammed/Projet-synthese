@@ -333,7 +333,7 @@ export default function AllTimeSlots() {
                 <span className="spinner-border spinner-border-sm me-1" />
                 Adding...
               </>
-            ) : 'Add Time Slot'}
+            ) : 'Add Time Slot'} 
           </Button>
         </Modal.Footer>
       </Modal>
