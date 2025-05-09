@@ -62,12 +62,33 @@ export const updateTimeSlot = (timeSlot_id, updatedData) => async (dispatch) => 
       payload: res.data
     });
     
-    return res.data; // Return the updated data if needed
+    return res.data; 
   } catch (error) {
     dispatch({
       type: 'UPDATE_TIME_FAIL',
       payload: error.response?.data?.message || error.message
     });
-    throw error; // Re-throw the error for handling in the component
+    throw error; 
   }
 };
+
+
+
+export const ajouterTimeSlot = (timeSlotDta) => async (dispatch)=> {
+    try{
+        const token = localStorage.getItem('token') ;
+
+        const res = await axios.post('http://localhost:8000/api/times' , timeSlotDta ,
+        {
+            headers : {
+              Authorization : `Bearer ${token}`
+            }
+        })  ;
+        dispatch ({ type : 'ADD_SUCCESS' , payload:res.data}) ;
+
+    } 
+    catch(error) {
+
+        dispatch ({type: 'ADD_FAIL' , payload:error.message}) ;
+    }
+}
