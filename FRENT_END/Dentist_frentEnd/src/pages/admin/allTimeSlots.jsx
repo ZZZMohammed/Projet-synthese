@@ -55,6 +55,7 @@ export default function AllTimeSlots() {
                         {time.is_booked ? "Booked" : "Available"}
                       </span>
                     </td>
+                    <td className='btn btn-danger'>Delete</td>
                   </tr>
                 ))}
               </tbody>

@@ -18,4 +18,25 @@ export const fetchTimeSlots = () => async (dispatch) => {
 };
 
 
+export const deleteTimeSlot = (timeSlot_id) => async (dispatch) => {
+  try {
+    const token = localStorage.getItem('token');
+    
+    const res = await axios.delete(`http://localhost:8000/api/times/${timeSlot_id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
 
+    dispatch({ 
+      type: 'DELETE_TIME_SUCCESS', 
+      payload: res.data 
+    });
+    
+  } catch (error) {
+    dispatch({
+      type: 'DELETE_TIME_FAIL',
+      payload: error.response?.data?.message || error.message
+    });
+  }
+}
