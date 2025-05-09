@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchTimeSlots } from '../redux/actions/timeSlotAction';
 import { bookAppointment } from '../redux/actions/appointmentAction';
 
+
 const TimeSlotList = () => {
   const dispatch = useDispatch();
   const [bookingInProgress, setBookingInProgress] = useState(null);
