@@ -51,7 +51,16 @@ class AppointmentController extends Controller
         $timeSlot->is_booked = true;
         $timeSlot->save();
 
-        return response()->json(['message' => 'Appointment booked successfully.', 'data' => $appointment], 201);
+        // Notify all admins
+        $admins = User::where('role', 'admin')->get();
+        foreach ($admins as $admin) {
+            $admin->notify(new NewAppointmentNotification($appointment));
+        }
+
+        return response()->json([
+            'message' => 'Appointment booked successfully.', 
+            'data' => $appointment->load('user', 'timeSlot')
+        ], 201);
     }
 
     // View single appointment
