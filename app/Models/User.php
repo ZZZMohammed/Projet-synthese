@@ -1,35 +1,57 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Models;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Notification;
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Appointment;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class NewAppointmentNotification extends Notification implements ShouldQueue
+class User extends Authenticatable
 {
-    use Queueable;
+    /** @use HasFactory<\Database\Factories\UserFactory> */
+    use HasApiTokens, HasFactory, Notifiable;
 
-    protected $appointment;
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'role'
+    ];
 
-    public function __construct($appointment)
-    {
-        $this->appointment = $appointment;
-    }
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var list<string>
+     */
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
 
-    public function via(object $notifiable): array
-    {
-        return ['database'];
-    }
-
-    public function toDatabase(object $notifiable): array
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
     {
         return [
-            'patient_name' => $this->appointment->user->name,
-            'date' => $this->appointment->timeSlot->date,
-            'time' => $this->appointment->timeSlot->time,
-            'message' => 'New appointment booked!',
-            'appointment_id' => $this->appointment->id 
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
         ];
     }
+
+    public function appointments()
+{
+    return $this->hasMany(Appointment::class);
+}
+
 }

@@ -25,7 +25,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "email": "admin@example.com",
+  "email": "user1@example.com",
   "password": "password123"
 }
 
@@ -71,11 +71,11 @@ Accept: application/json
 ### book an appoi
 POST http://localhost:8000/api/appointments
 Content-Type: application/json
-Authorization: Bearer 1|KxMrVzmhElCqy5zeSTklkwzsKO4ganLtG6BzjuPUeae80834
+Authorization: Bearer 25|O3GrO6m30Ic6di0gUXBQQr1a5Zp79YVPJSMH3U2Bc1a9f624
 Accept: application/json
 
 {
-  "time_slot_id": 1
+  "time_slot_id": 11
 }
 
 

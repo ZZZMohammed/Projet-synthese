@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
 
-class NewAppointmentNotification extends Notification
+class NewAppointmentNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -17,18 +17,19 @@ class NewAppointmentNotification extends Notification
         $this->appointment = $appointment;
     }
 
-    public function via(object $notifiable): array
+    public function via($notifiable)
     {
         return ['database'];
     }
 
-    public function toDatabase(object $notifiable): array
+    public function toDatabase($notifiable)
     {
         return [
-            'Patient_Name' => $this->appointment->user->name,
-            'Date' => $this->appointment->timeSlot->date,
-            'Time' => $this->appointment->timeSlot->time,
-            'Message' => 'New appointment booked!'
+            'patient_name' => $this->appointment->user->name,
+            'date' => $this->appointment->timeSlot->date,
+            'time' => $this->appointment->timeSlot->time,
+            'appointment_id' => $this->appointment->id,
+            'message' => 'New appointment booked by ' . $this->appointment->user->name
         ];
     }
 }
