@@ -34,19 +34,7 @@ Route::middleware(['auth:sanctum' ,'role:admin'])->group(function (){
     Route::get('/times/{id}', [SlotsController::class, 'show']);    
     Route::put('/times/{id}', [SlotsController::class, 'update']);   
     Route::delete('/times/{id}', [SlotsController::class, 'destroy']);
-});
-Route::get('/times' , [SlotsController::class , 'index']) ;
-
-
-// APPOINTEMNT ROUTES
-
-Route::middleware(['auth:sanctum'])->group(function (){
-    Route::apiResource('appointments', AppointmentController::class);
-});
-
-
-
-// Get unread notifications
+    // Get unread notifications
 Route::get('/notifications', function() {
     return response()->json([
         'unread' => auth()->user()->unreadNotifications,
@@ -59,3 +47,15 @@ Route::post('/notifications/mark-read', function() {
     auth()->user()->unreadNotifications->markAsRead();
     return response()->json(['success' => true]);
 });
+});
+Route::get('/times' , [SlotsController::class , 'index']) ;
+
+
+// APPOINTEMNT ROUTES
+
+Route::middleware(['auth:sanctum'])->group(function (){
+    Route::apiResource('appointments', AppointmentController::class);
+});
+
+
+
