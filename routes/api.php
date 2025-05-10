@@ -43,3 +43,19 @@ Route::get('/times' , [SlotsController::class , 'index']) ;
 Route::middleware(['auth:sanctum'])->group(function (){
     Route::apiResource('appointments', AppointmentController::class);
 });
+
+
+
+// Get unread notifications
+Route::get('/notifications', function() {
+    return response()->json([
+        'unread' => auth()->user()->unreadNotifications,
+        'read' => auth()->user()->readNotifications
+    ]);
+});
+
+// Mark as read
+Route::post('/notifications/mark-read', function() {
+    auth()->user()->unreadNotifications->markAsRead();
+    return response()->json(['success' => true]);
+});
