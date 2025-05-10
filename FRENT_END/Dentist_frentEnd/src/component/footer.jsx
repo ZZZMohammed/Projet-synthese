@@ -3,43 +3,51 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <footer className="w-full" style={{ backgroundColor: '#176ABC' }}>
-      <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer className="bg-primary py-5" style={{ backgroundColor: '#176ABC' }}>
+      <div className="container">
+        <div className="row">
           {/* Column 1 - About */}
-          <div className="text-white">
-            <h3 className="text-lg font-bold mb-4">About Us</h3>
-            <p className="text-sm mb-4">
+          <div className="col-md-3 mb-4 mb-md-0">
+            <h5 className="text-white mb-3">About Us</h5>
+            <p className="text-white-50 small">
               Providing quality healthcare services with compassion and excellence.
             </p>
-            <div className="flex space-x-4">
-              <a href="#" className="text-white hover:text-gray-200">
+            <div className="d-flex gap-3 mt-3">
+              <a href="#" className="text-white">
                 <i className="fab fa-facebook-f"></i>
               </a>
-              <a href="#" className="text-white hover:text-gray-200">
+              <a href="#" className="text-white">
                 <i className="fab fa-twitter"></i>
               </a>
-              <a href="#" className="text-white hover:text-gray-200">
+              <a href="#" className="text-white">
                 <i className="fab fa-instagram"></i>
               </a>
             </div>
           </div>
 
           {/* Column 2 - Quick Links */}
-          <div className="text-white">
-            <h3 className="text-lg font-bold mb-4">Quick Links</h3>
-            <ul className="space-y-2">
-              <li><Link to="/" className="text-sm hover:text-gray-200">Home</Link></li>
-              <li><Link to="/services" className="text-sm hover:text-gray-200">Services</Link></li>
-              <li><Link to="/doctors" className="text-sm hover:text-gray-200">Doctors</Link></li>
-              <li><Link to="/appointments" className="text-sm hover:text-gray-200">Appointments</Link></li>
+          <div className="col-md-3 mb-4 mb-md-0">
+            <h5 className="text-white mb-3">Quick Links</h5>
+            <ul className="list-unstyled">
+              <li className="mb-2">
+                <Link to="/" className="text-white-50 small text-decoration-none hover:text-white">Home</Link>
+              </li>
+              <li className="mb-2">
+                <Link to="/services" className="text-white-50 small text-decoration-none hover:text-white">Services</Link>
+              </li>
+              <li className="mb-2">
+                <Link to="/doctors" className="text-white-50 small text-decoration-none hover:text-white">Doctors</Link>
+              </li>
+              <li>
+                <Link to="/appointments" className="text-white-50 small text-decoration-none hover:text-white">Appointments</Link>
+              </li>
             </ul>
           </div>
 
           {/* Column 3 - Contact */}
-          <div className="text-white">
-            <h3 className="text-lg font-bold mb-4">Contact Us</h3>
-            <address className="not-italic text-sm">
+          <div className="col-md-3 mb-4 mb-md-0">
+            <h5 className="text-white mb-3">Contact Us</h5>
+            <address className="text-white-50 small">
               <p className="mb-2">123 Medical Center Drive</p>
               <p className="mb-2">City, State 12345</p>
               <p className="mb-2">Phone: (123) 456-7890</p>
@@ -48,18 +56,18 @@ const Footer = () => {
           </div>
 
           {/* Column 4 - Newsletter */}
-          <div className="text-white">
-            <h3 className="text-lg font-bold mb-4">Newsletter</h3>
-            <p className="text-sm mb-4">
-              Subscribe to our newsletter for the latest updates.
+          <div className="col-md-3">
+            <h5 className="text-white mb-3">Newsletter</h5>
+            <p className="text-white-50 small mb-3">
+              Subscribe to our newsletter for updates.
             </p>
-            <div className="flex">
-              <input
-                type="email"
-                placeholder="Your email"
-                className="px-3 py-2 text-sm rounded-l focus:outline-none w-full"
+            <div className="input-group mb-3">
+              <input 
+                type="email" 
+                className="form-control form-control-sm" 
+                placeholder="Your email" 
               />
-              <button className="bg-white text-blue-700 px-4 py-2 rounded-r text-sm font-medium hover:bg-gray-100">
+              <button className="btn btn-light btn-sm" type="button">
                 Subscribe
               </button>
             </div>
@@ -67,8 +75,10 @@ const Footer = () => {
         </div>
 
         {/* Copyright */}
-        <div className="border-t border-blue-500 mt-8 pt-6 text-center text-white text-sm">
-          <p>&copy; {new Date().getFullYear()} Medical Center. All rights reserved.</p>
+        <div className="border-top border-primary pt-4 mt-4">
+          <p className="text-white-50 small text-center mb-0">
+            &copy; {new Date().getFullYear()} Medical Center. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>

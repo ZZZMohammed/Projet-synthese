@@ -17,6 +17,8 @@ import AllTimeSlots from './pages/admin/allTimeSlots';
 import AllBookings from './pages/admin/allBookings';
 import Notifications from './pages/admin/notifications';
 import MyBook from './pages/MyBook';
+import Footer from './component/footer';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 export default function App() {
   const user = JSON.parse(localStorage.getItem('user')); // Get user data
@@ -50,6 +52,7 @@ export default function App() {
           <Route path='/admin/*' element={<Navigate to="/" replace />} />
         )}
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }
