@@ -10,7 +10,7 @@ import Admin from './pages/admin';
 import Contact from './pages/contact';
 import TimeSlotPage from './pages/timeSlotPage';
 import Navbar from './component/navbar';
-import About from './pages/about';
+import About from './pages/About/about';
 import Galery from './pages/galery';
 import BeforAfter from './pages/BeforAfter';
 import AllTimeSlots from './pages/admin/allTimeSlots';

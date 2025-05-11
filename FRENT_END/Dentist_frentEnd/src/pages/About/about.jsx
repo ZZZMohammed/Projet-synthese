@@ -1,7 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClinicMedical, faUserMd } from '@fortawesome/free-solid-svg-icons';
-import clinicImage from '../img/doctors.jpg';
+import clinicImage from '../../img/doctors.jpg';
 import './about.css';
 
 export default function About() {
