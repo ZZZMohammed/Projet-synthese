@@ -33,8 +33,12 @@ export default function Contact() {
     return (
         <div style={{ backgroundColor: '#F7FAFF', minHeight: '100vh', padding: '2rem 0' }}>
             <div className="container">
-                <h1 className='text-center p-4'>Comment Nous Trouver</h1>
-                <h4 className='text-center pb-4'>Remplissez le formulaire et posez vos questions</h4>
+                <h1 className='text-center p-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-400'>
+                Comment Nous Trouver
+                </h1>
+                <h4 className='text-center pb-4 text-gray-600 font-light'>
+                Remplissez le formulaire et posez vos questions
+                </h4>
 
                 <div className="container mt-4">
                     <div className="row">
