@@ -34,84 +34,87 @@ export default function Contact() {
         <div style={{ backgroundColor: '#F7FAFF', minHeight: '100vh', padding: '2rem 0' }}>
             <div className="container">
                 <h1 className='text-center p-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-400'>
-                Comment Nous Trouver
+                    Comment Nous Trouver
                 </h1>
                 <h4 className='text-center pb-4 text-gray-600 font-light'>
-                Remplissez le formulaire et posez vos questions
+                    Remplissez le formulaire et posez vos questions
                 </h4>
 
                 <div className="container mt-4">
-                    <div className="row">
+                    <div className="row g-4" style={{ minHeight: '500px' }}>
                         {/* Left Column - Form */}
-                        <div className="col-md-6">
-                            <form onSubmit={handleSubmit} className="bg-white p-4 rounded shadow-sm h-100">
-                                <div className="mb-3">
-                                    <label htmlFor="name" className="form-label">Your Name:</label>
-                                    <input 
-                                        type="text" 
-                                        className="form-control" 
-                                        name='name' 
-                                        value={form.name} 
-                                        onChange={handleForm}
-                                        required
-                                    />
-                                </div>
+                        <div className="col-lg-6">
+                            <div className="bg-white p-4 rounded shadow-sm h-100">
+                                <form onSubmit={handleSubmit} className="h-100 d-flex flex-column">
+                                    <div className="mb-3">
+                                        <label htmlFor="name" className="form-label">Your Name:</label>
+                                        <input 
+                                            type="text" 
+                                            className="form-control" 
+                                            name='name' 
+                                            value={form.name} 
+                                            onChange={handleForm}
+                                            required
+                                        />
+                                    </div>
 
-                                <div className="mb-3">
-                                    <label htmlFor="email" className="form-label">Your Email:</label>
-                                    <input 
-                                        type="email" 
-                                        className="form-control" 
-                                        name='email'  
-                                        value={form.email} 
-                                        onChange={handleForm}
-                                        required
-                                    />
-                                </div>
+                                    <div className="mb-3">
+                                        <label htmlFor="email" className="form-label">Your Email:</label>
+                                        <input 
+                                            type="email" 
+                                            className="form-control" 
+                                            name='email'  
+                                            value={form.email} 
+                                            onChange={handleForm}
+                                            required
+                                        />
+                                    </div>
 
-                                <div className="mb-3">
-                                    <label htmlFor="phone" className="form-label">Your Phone:</label>
-                                    <input 
-                                        type="text"  
-                                        className="form-control" 
-                                        name='phone' 
-                                        value={form.phone} 
-                                        onChange={handleForm}
-                                    />
-                                </div>
+                                    <div className="mb-3">
+                                        <label htmlFor="phone" className="form-label">Your Phone:</label>
+                                        <input 
+                                            type="text"  
+                                            className="form-control" 
+                                            name='phone' 
+                                            value={form.phone} 
+                                            onChange={handleForm}
+                                        />
+                                    </div>
 
-                                <div className="mb-3">
-                                    <label htmlFor="message" className="form-label">Message:</label>
-                                    <textarea 
-                                        className="form-control" 
-                                        name="message" 
-                                        rows="5"
-                                        value={form.message} 
-                                        onChange={handleForm}
-                                        required
-                                    ></textarea>
-                                </div>
+                                    <div className="mb-3 flex-grow-1">
+                                        <label htmlFor="message" className="form-label">Message:</label>
+                                        <textarea 
+                                            className="form-control h-100" 
+                                            name="message" 
+                                            value={form.message} 
+                                            onChange={handleForm}
+                                            required
+                                        ></textarea>
+                                    </div>
 
-                                <div className="d-grid">
-                                    <button type="submit" className="btn btn-primary">
-                                        Send Now
-                                    </button>
-                                </div>
-                            </form>
+                                    <div className="d-grid mt-auto">
+                                        <button type="submit" className="btn btn-primary">
+                                            Send Now
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
 
                         {/* Right Column - Google Maps */}
-                        <div className="col-md-6">
-                            <iframe 
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3465.8795566665067!2d-9.73043707504794!3d29.694271435077823!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xdb47b9d5b53cfc1%3A0x69c7b126f40fe639!2sCentre%20Dentaire%20LARGOU!5e0!3m2!1sar!2sma!4v1746921435273!5m2!1sar!2sma" 
-                                width="100%" 
-                                height="100%" 
-                                style={{ border: 0 }}
-                                allowFullScreen
-                                loading="lazy" 
-                                referrerPolicy="no-referrer-when-downgrade"
-                                title="Google Maps Location"
-                            ></iframe>
+                        <div className="col-lg-6">
+                            <div className="h-100 rounded overflow-hidden">
+                                <iframe 
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3465.8795566665067!2d-9.73043707504794!3d29.694271435077823!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xdb47b9d5b53cfc1%3A0x69c7b126f40fe639!2sCentre%20Dentaire%20LARGOU!5e0!3m2!1sar!2sma!4v1746921435273!5m2!1sar!2sma" 
+                                    width="100%" 
+                                    height="100%" 
+                                    style={{ border: 0, minHeight: '450px' }}
+                                    allowFullScreen
+                                    loading="lazy" 
+                                    referrerPolicy="no-referrer-when-downgrade"
+                                    title="Google Maps Location"
+                                ></iframe>
+                            </div>
                         </div>
                     </div>
                 </div>
