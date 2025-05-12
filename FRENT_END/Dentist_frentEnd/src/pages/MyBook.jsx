@@ -21,7 +21,7 @@ export default function MyBook() {
   }, [dispatch, deleteSuccess]);
 
   const handleDelete = (appointmentId) => {
-    console.log('Attempting to delete appointment ID:', appointmentId); // Debug
+    console.log('Attempting to delete appointment ID:', appointmentId);
     if (window.confirm('Are you sure you want to cancel this appointment?')) {
       dispatch(deleteAppointment(appointmentId));
     }
@@ -42,53 +42,57 @@ export default function MyBook() {
   };
 
   if (loading) return <div className="text-center py-4">Loading appointments...</div>;
-  if (error) return <div className="text-red-500 text-center py-4">Error: {error}</div>;
+  if (error) return <div className="alert alert-danger text-center py-4">Error: {error}</div>;
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-6">My Bookings</h1>
-      
-      {appointments.length > 0 ? (
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white border border-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="py-3 px-4 border-b text-left">Date</th>
-                <th className="py-3 px-4 border-b text-left">Time</th>
-                <th className="py-3 px-4 border-b text-left">Status</th>
-                <th className="py-3 px-4 border-b text-left">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {appointments.map((booking) => (
-                <tr key={booking.id} className="hover:bg-gray-50">
-                  <td className="py-3 px-4 border-b">{formatDate(booking.time_slot?.date)}</td>
-                  <td className="py-3 px-4 border-b">{formatTime(booking.time_slot?.time)}</td>
-                  <td className="py-3 px-4 border-b">
-                    <span className={`px-2 py-1 rounded-full text-xs ${
-                      booking.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                      booking.status === 'confirmed' ? 'bg-green-100 text-green-800' :
-                      'bg-red-100 text-red-800'
-                    }`}>
-                      {booking.status}
-                    </span>
-                  </td>
-                  <td className="py-3 px-4 border-b">
-                    <button 
-                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded"
-                      onClick={() => handleDelete(booking.id)} // Changed from booking.appointment_id to booking.id
-                    >
-                      Cancel
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+    <div className="container py-5">
+      <div className="row justify-content-center">
+        <div className="col-lg-10">
+          <h1 className="text-center mb-4">My Bookings</h1>
+          
+          {appointments.length > 0 ? (
+            <div className="table-responsive">
+              <table className="table table-bordered table-hover text-center">
+                <thead className="table-light">
+                  <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {appointments.map((booking) => (
+                    <tr key={booking.id}>
+                      <td>{formatDate(booking.time_slot?.date)}</td>
+                      <td>{formatTime(booking.time_slot?.time)}</td>
+                      <td>
+                        <span className={`badge ${
+                          booking.status === 'pending' ? 'bg-warning text-dark' :
+                          booking.status === 'confirmed' ? 'bg-success' :
+                          'bg-danger'
+                        }`}>
+                          {booking.status}
+                        </span>
+                      </td>
+                      <td>
+                        <button 
+                          className="btn btn-danger btn-sm"
+                          onClick={() => handleDelete(booking.id)} 
+                        >
+                          Cancel
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div className="alert alert-info text-center">You have no bookings yet.</div>
+          )}
         </div>
-      ) : (
-        <p className="text-gray-500">You have no bookings yet.</p>
-      )}
+      </div>
     </div>
   );
 }
