@@ -43,7 +43,7 @@ export default function Contact() {
                 <div className="container mt-4">
                     <div className="row g-4" style={{ minHeight: '500px' }}>
                         {/* Left Column - Form */}
-                        <div className="col-lg-6">
+                        <div className="col-lg-5">
                             <div className="bg-white p-4 rounded shadow-sm h-100">
                                 <form onSubmit={handleSubmit} className="h-100 d-flex flex-column">
                                     <div className="mb-3">
