@@ -35,7 +35,7 @@ Route::middleware(['auth:sanctum' ,'role:admin'])->group(function (){
     Route::put('/times/{id}', [SlotsController::class, 'update']);   
     Route::delete('/times/{id}', [SlotsController::class, 'destroy']);
     // Get unread notifications
-Route::get('/notifications', function() {
+    Route::get('/notifications', function() {
     return response()->json([
         'unread' => auth()->user()->unreadNotifications,
         'read' => auth()->user()->readNotifications
@@ -43,11 +43,20 @@ Route::get('/notifications', function() {
 });
 
 // Mark as read
-Route::post('/notifications/mark-read', function() {
-    auth()->user()->unreadNotifications->markAsRead();
+Route::post('/notifications/mark-read', function(Request $request) {
+    if ($request->has('notification_id')) {
+        // Mark single notification as read
+        auth()->user()->unreadNotifications()
+            ->where('id', $request->notification_id)
+            ->update(['read_at' => now()]);
+    } else {
+        // Mark all as read
+        auth()->user()->unreadNotifications->markAsRead();
+    }
     return response()->json(['success' => true]);
 });
 });
+
 Route::get('/times' , [SlotsController::class , 'index']) ;
 
 
