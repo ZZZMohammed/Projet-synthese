@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate, Outlet } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import Home from './pages/home';
@@ -30,6 +30,7 @@ export default function App() {
         <Route element={
           <>
             <Navbar />
+              <Outlet />
             <Footer />
           </>
         }>
