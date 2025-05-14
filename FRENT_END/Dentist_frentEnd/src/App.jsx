@@ -11,7 +11,6 @@ import Contact from './pages/contact';
 import TimeSlotPage from './pages/timeSlotPage';
 import Navbar from './component/navbar';
 import About from './pages/About/about';
-import Galery from './pages/Gallery/galery';
 import BeforAfter from './pages/BeforAfter';
 import AllTimeSlots from './pages/admin/allTimeSlots';
 import AllBookings from './pages/admin/allBookings';
@@ -40,7 +39,6 @@ export default function App() {
           <Route path='/contact' element={<Contact/>} />
           <Route path='/list' element={<TimeSlotPage/>} />
           <Route path='/about' element={<About/>} />
-          <Route path='/galery' element={<Galery/>} />
           <Route path='/befor' element={<BeforAfter/>} />
           <Route path='/mybook' element={<MyBook/>} />
           <Route path='*' element={<Notfound/>} />

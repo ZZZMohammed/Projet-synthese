@@ -58,9 +58,6 @@ export default function Navbar() {
               <Link className="nav-link" to="/befor">Before/After</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/galery">Gallery</Link>
-            </li>
-            <li className="nav-item">
               <Link className="nav-link" to="/about">About Us</Link>
             </li>
             <li className="nav-item">
