@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import logo from '../img/teth.png.webp';
+import logo from '../../public/img/teth.png.webp';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../redux/actions/aythAction';
 

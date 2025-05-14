@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Routes, Navigate, Outlet } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import Home from './pages/home';
+import Home from './pages/Home/home';
 import Login from './pages/login';
 import Register from './pages/register';
 import Notfound from './pages/Notfound';
