@@ -32,6 +32,7 @@ export default function Login() {
       
       if (res.data.user.role === 'admin') {
         navigate('/admin');
+        window.location.reload(); // Force refresh to reinitialize routes
       } else {
         navigate('/');
       }
@@ -101,7 +102,7 @@ export default function Login() {
 
               <div className="mt-3 text-center">
                 <small className="text-muted">
-                  Don't have an account? <  Link to={'/register'}>Register</Link>
+                  Don't have an account? <Link to={'/register'}>Register</Link>
                 </small>
               </div>
             </div>
