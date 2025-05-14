@@ -25,21 +25,27 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <Navbar />
       <Routes>
-        {/* Public Routes */}
-        <Route path='/' element={<Home/>} />
-        <Route path='/login' element={<Login/>} />
-        <Route path='/register' element={<Register/>} />
-        <Route path='/contact' element={<Contact/>} />
-        <Route path='/list' element={<TimeSlotPage/>} />
-        <Route path='/about' element={<About/>} />
-        <Route path='/galery' element={<Galery/>} />
-        <Route path='/befor' element={<BeforAfter/>} />
-        <Route path='/mybook' element={<MyBook/>} />
-        <Route path='*' element={<Notfound/>} />
+        {/* Public Routes with Navbar and Footer */}
+        <Route element={
+          <>
+            <Navbar />
+            <Footer />
+          </>
+        }>
+          <Route path='/' element={<Home/>} />
+          <Route path='/login' element={<Login/>} />
+          <Route path='/register' element={<Register/>} />
+          <Route path='/contact' element={<Contact/>} />
+          <Route path='/list' element={<TimeSlotPage/>} />
+          <Route path='/about' element={<About/>} />
+          <Route path='/galery' element={<Galery/>} />
+          <Route path='/befor' element={<BeforAfter/>} />
+          <Route path='/mybook' element={<MyBook/>} />
+          <Route path='*' element={<Notfound/>} />
+        </Route>
 
-        {/* Protected Admin Routes */}
+        {/* Admin Routes without Navbar and Footer */}
         {user?.role === 'admin' ? (
           <>
             <Route path='/admin' element={<Admin/>} />
@@ -52,7 +58,6 @@ export default function App() {
           <Route path='/admin/*' element={<Navigate to="/" replace />} />
         )}
       </Routes>
-      <Footer />
     </BrowserRouter>
   );
 }
