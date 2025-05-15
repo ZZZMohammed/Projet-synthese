@@ -18,6 +18,7 @@ import Notifications from './pages/admin/notifications';
 import MyBook from './pages/MyBook';
 import Footer from './component/footer';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import Profile from './component/profile';
 
 export default function App() {
   const user = JSON.parse(localStorage.getItem('user')); // Get user data
@@ -51,6 +52,7 @@ export default function App() {
             <Route path='/allTimes' element={<AllTimeSlots/>} />
             <Route path='/allBookings' element={<AllBookings/>} />
             <Route path='/notifications' element={<Notifications/>} />
+            <Route path='/profile' element={<Profile/>} />
           </>
         ) : (
           // Redirect non-admins trying to access admin routes

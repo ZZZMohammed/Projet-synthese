@@ -43,20 +43,7 @@ export const authReducer = (state = initialState, action) => {
         user: action.payload, // Store profile data
         isAuthenticated: true // Maintain auth state
       };
-      
-    case 'UPDATE_PROFILE_SUCCESS':
-      return {
-        ...state,
-        loading: false,
-        user: action.payload // Update user data
-      };
-      
-    case 'CHANGE_PASSWORD_SUCCESS':
-      return {
-        ...state,
-        loading: false,
-        error: null // Clear any previous errors
-      };
+
       
     case 'PROFILE_FAIL':
       return {
