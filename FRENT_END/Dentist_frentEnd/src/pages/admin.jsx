@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '../redux/actions/aythAction';
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 export default function Admin() {
   const dispatch = useDispatch();
@@ -12,15 +13,10 @@ export default function Admin() {
     setIsLoggingOut(true);
     try {
       const token = localStorage.getItem('token');
-      
-      
       await dispatch(logout(token));
-      
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      
       navigate('/login');
-      
     } catch (error) {
       console.error('Logout failed:', error);
       alert('Logout failed. Please try again.');
@@ -42,27 +38,39 @@ export default function Admin() {
           zIndex: 1000
         }}
       >
-        <button 
-          className='btn btn-danger' 
-          onClick={handleLogout}
-          disabled={isLoggingOut}
-        >
-          {isLoggingOut ? (
-            <>
-              <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-              Logging out...
-            </>
-          ) : (
-            'Logout'
-          )}
-        </button>
+        {/* Empty div on left for balance */}
+        <div style={{width: '150px'}}></div>
         
+        {/* Centered title */}
         <h1 className='text-center fw-bold m-0 flex-grow-1'>
           Admin Dashboard
         </h1>
         
-        {/* Empty div for balance */}
-        <div style={{width: '70px'}}></div>
+        {/* Buttons container on right */}
+        <div className="d-flex">
+          <Link 
+            to="/profile" 
+            className="btn btn-light d-flex align-items-center me-2"
+          >
+            <i className="bi bi-person-fill me-2"></i>
+            Profile
+          </Link>
+          
+          <button 
+            className='btn btn-danger d-flex align-items-center' 
+            onClick={handleLogout}
+            disabled={isLoggingOut}
+          >
+            {isLoggingOut ? (
+              <>
+                <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                Logging out...
+              </>
+            ) : (
+              'Logout'
+            )}
+          </button>
+        </div>
       </div>
 
       {/* Main content with padding for fixed header */}
