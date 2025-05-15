@@ -11,23 +11,27 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Content Section */}
-      <div className="container my-5">
-        <div className="row align-items-center">
-          {/* Text on the left */}
-          <div className="col-md-3 order-md-1 order-2">
-            <h2 className='fw-bold pb-3'>Welcome to Largou Dental Clinic</h2>
-            <p>
-              Your first choice for a <span className='fw-bold text-danger'>dental clinic in Tiznit</span>. Whether it's the dentists, dental assistants, or technicians, they all share a philosophy of gentle approach and expertise that you'll appreciate.
-            </p>
-          </div>
-
-          {/* Image on the right */}
-          <div className="col-md-6 order-md-2 order-1 text-center containar">
-            <img src="/img/4.jpg" className="img-fluid rounded shadow styleimg" alt="example" />
-          </div>
-        </div>
+      
+     <div className="container-fluid pt-4"> 
+  <div className="row g-0" > 
+    
+    <div className="col-md-6 " style={{ backgroundColor: '#00a8e8' }}>
+      <div className="p-5 text-white"> 
+        <h2 className='fw-bold pb-3 '>Welcome to <span>Largou Dental Clinic</span></h2>
+        <p>
+          Your first choice for a <span className='fw-bold text-danger'>dental clinic in Tiznit</span>. Whether it's the dentists, dental assistants, or technicians, they all share a philosophy of gentle approach and expertise that you'll appreciate.
+        </p>
       </div>
+    </div>
+
+    
+    <div className="col-md-5" style={{ backgroundColor: '#ade8f4' }}>
+      <div className="p-5 text-center"> 
+        <img src="/img/4.jpg" className="img-fluid rounded shadow"  alt="example" />
+      </div>
+    </div>
+  </div>
+</div>
     </>
   );
 }
