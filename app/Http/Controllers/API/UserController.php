@@ -59,7 +59,13 @@ class UserController extends Controller
         return response()->json(['message' => 'Logged out successfully'], 200);
     }
 
-
+    public function profile(Request $request)
+    {
+        return response()->json([
+            'user' => $request->user(),
+            'message' => 'Profile retrieved successfully'
+        ]);
+    }
 
 
 

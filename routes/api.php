@@ -42,7 +42,7 @@ Route::middleware(['auth:sanctum' ,'role:admin'])->group(function (){
     ]);
 });
 
-// Mark as read
+
 Route::post('/notifications/mark-read', function(Request $request) {
     if ($request->has('notification_id')) {
         // Mark single notification as read
@@ -64,6 +64,7 @@ Route::get('/times' , [SlotsController::class , 'index']) ;
 
 Route::middleware(['auth:sanctum'])->group(function (){
     Route::apiResource('appointments', AppointmentController::class);
+       Route::get('profile', [UserController::class , 'profile']);
 });
 
 
