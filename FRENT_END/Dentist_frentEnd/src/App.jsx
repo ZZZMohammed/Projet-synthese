@@ -11,7 +11,7 @@ import Contact from './pages/contact';
 import TimeSlotPage from './pages/timeSlotPage';
 import Navbar from './component/navbar';
 import About from './pages/About/about';
-import BeforAfter from './pages/BeforAfter';
+
 import AllTimeSlots from './pages/admin/allTimeSlots';
 import AllBookings from './pages/admin/allBookings';
 import Notifications from './pages/admin/notifications';
@@ -20,6 +20,7 @@ import Footer from './component/footer';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import Profile from './component/profile';
 import AllUsers from './pages/admin/allUsers';
+import Gallery from './pages/gallery';
 
 export default function App() {
   const user = JSON.parse(localStorage.getItem('user')); // Get user data
@@ -41,7 +42,7 @@ export default function App() {
           <Route path='/contact' element={<Contact/>} />
           <Route path='/list' element={<TimeSlotPage/>} />
           <Route path='/about' element={<About/>} />
-          <Route path='/befor' element={<BeforAfter/>} />
+          <Route path='/Gallery' element={<Gallery/>} />
           <Route path='/mybook' element={<MyBook/>} />
           <Route path='*' element={<Notfound/>} />
         </Route>

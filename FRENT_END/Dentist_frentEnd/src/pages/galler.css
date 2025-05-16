@@ -1,0 +1,13 @@
+
+.banner{
+    background-image: url('img/2.jpg');
+    background-size: cover;
+    height: 50vh;
+   background-position: center;
+}
+
+.banner .banner-text{
+    font-size: 80px;
+    letter-spacing: 12px;
+   
+}

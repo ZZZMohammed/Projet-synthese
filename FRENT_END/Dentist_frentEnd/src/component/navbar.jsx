@@ -55,7 +55,7 @@ export default function Navbar() {
               <Link className="nav-link" to="/">Home</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/befor">Before/After</Link>
+              <Link className="nav-link" to="/Gallery">Gallery</Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/about">About Us</Link>
