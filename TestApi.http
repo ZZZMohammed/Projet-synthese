@@ -95,3 +95,10 @@ DELETE http://localhost:8000/api/appointments/7
 Authorization: Bearer 32|pVMrgRVRwuMWJiT2vwnlAhX0Eim821GFiR8V224W7257e18b
 Accept: application/json
 Content-Type: application/json
+
+
+###
+GET http://localhost:8000/api/users
+Authorization: Bearer 50|e4MTGtma2UkqKRcYwaRoSCA6EcddfVGAubnYrXrjc7107812
+Accept: application/json
+Accept: application/json

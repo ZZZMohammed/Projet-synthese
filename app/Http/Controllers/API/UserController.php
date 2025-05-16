@@ -9,6 +9,14 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+
+     public function index()
+    {
+        return response()->json([
+            'users' => User::latest()->paginate(10),
+            'message' => 'Users retrieved successfully'
+        ]);
+    }
     
     public function login(Request $request)
     {

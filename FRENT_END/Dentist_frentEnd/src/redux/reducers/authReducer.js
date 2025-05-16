@@ -1,13 +1,16 @@
 const initialState = {
   isAuthenticated: !!localStorage.getItem('token'),
-  user: null,           // Added to store user profile data
+  user: null,           // Current authenticated user
+  users: [],            // List of all users (for admin)
   loading: false,
-  error: null
+  error: null,
+  usersLoading: false,  // Separate loading state for users list
+  usersError: null      // Separate error state for users list
 };
 
 export const authReducer = (state = initialState, action) => {
   switch (action.type) {
-    // Existing cases
+    // Existing authentication cases
     case 'LOGIN_REQUEST':
     case 'LOGOUT_REQUEST':
       return { ...state, loading: true, error: null };
@@ -16,7 +19,7 @@ export const authReducer = (state = initialState, action) => {
       return { 
         ...state, 
         isAuthenticated: true, 
-        user: action.payload.user, // Store user data on login
+        user: action.payload.user,
         loading: false 
       };
       
@@ -24,7 +27,7 @@ export const authReducer = (state = initialState, action) => {
       return { 
         ...state, 
         isAuthenticated: false, 
-        user: null, // Clear user data on logout
+        user: null,
         loading: false 
       };
       
@@ -32,7 +35,7 @@ export const authReducer = (state = initialState, action) => {
     case 'LOGOUT_FAIL':
       return { ...state, loading: false, error: action.payload };
     
-    // New profile cases
+    // Profile cases
     case 'PROFILE_LOADING':
       return { ...state, loading: true, error: null };
       
@@ -40,10 +43,9 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        user: action.payload, // Store profile data
-        isAuthenticated: true // Maintain auth state
+        user: action.payload,
+        isAuthenticated: true
       };
-
       
     case 'PROFILE_FAIL':
       return {
@@ -52,9 +54,32 @@ export const authReducer = (state = initialState, action) => {
         error: action.payload
       };
       
+    // Users list cases
+    case 'USERS_LOADING':
+      return { 
+        ...state, 
+        usersLoading: true,
+        usersError: null 
+      };
+      
+    case 'GET_USERS_SUCCESS':
+      return {
+        ...state,
+        usersLoading: false,
+        users: action.payload,
+        usersError: null
+      };
+      
+    case 'GET_USERS_FAIL':
+      return {
+        ...state,
+        usersLoading: false,
+        usersError: action.payload
+      };
+      
     case 'AUTH_ERROR':
       return {
-        ...initialState, // Reset to initial state
+        ...initialState,
         error: action.payload || 'Authentication error'
       };
       

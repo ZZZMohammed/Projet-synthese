@@ -34,6 +34,8 @@ Route::middleware(['auth:sanctum' ,'role:admin'])->group(function (){
     Route::get('/times/{id}', [SlotsController::class, 'show']);    
     Route::put('/times/{id}', [SlotsController::class, 'update']);   
     Route::delete('/times/{id}', [SlotsController::class, 'destroy']);
+    Route::get('/users' , [UserController::class , 'index']) ;
+
     // Get unread notifications
     Route::get('/notifications', function() {
     return response()->json([

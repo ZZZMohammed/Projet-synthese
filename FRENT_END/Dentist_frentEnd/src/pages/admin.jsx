@@ -79,6 +79,17 @@ export default function Admin() {
         style={{paddingTop: '80px'}}
       >
         <div className='d-flex flex-wrap gap-5 justify-content-center'>
+            <div>
+            <Link 
+              to={'/users'} 
+              className='nav-link text-white  p-4 d-flex align-items-center justify-content-center fw-bold rounded' 
+              style={{width: '200px', height: '100px', minWidth: '200px' , backgroundColor:'#99582a'}}
+              aria-label="Manage available time slots"
+            >
+              All Users
+            </Link>
+          </div>
+
           <div>
             <Link 
               to={'/allTimes'} 
@@ -111,6 +122,8 @@ export default function Admin() {
               Notifications
             </Link>
           </div>
+
+          
         </div>
       </div>
     </div>

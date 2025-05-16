@@ -19,6 +19,7 @@ import MyBook from './pages/MyBook';
 import Footer from './component/footer';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import Profile from './component/profile';
+import AllUsers from './pages/admin/allUsers';
 
 export default function App() {
   const user = JSON.parse(localStorage.getItem('user')); // Get user data
@@ -49,6 +50,7 @@ export default function App() {
         {user?.role === 'admin' ? (
           <>
             <Route path='/admin' element={<Admin/>} />
+            <Route path='/users' element={<AllUsers/>} />
             <Route path='/allTimes' element={<AllTimeSlots/>} />
             <Route path='/allBookings' element={<AllBookings/>} />
             <Route path='/notifications' element={<Notifications/>} />
