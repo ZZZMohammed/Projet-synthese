@@ -9,9 +9,8 @@ import Notfound from './pages/Notfound';
 import Admin from './pages/admin';
 import Contact from './pages/contact';
 import TimeSlotPage from './pages/timeSlotPage';
-import Navbar from './component/navbar';
+import Navbar from './component/Navbar/navbar';
 import About from './pages/About/about';
-
 import AllTimeSlots from './pages/admin/allTimeSlots';
 import AllBookings from './pages/admin/allBookings';
 import Notifications from './pages/admin/notifications';
