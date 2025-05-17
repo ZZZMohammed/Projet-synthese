@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {useDispatch , useSelector} from 'react-redux'
 import { deleteAppointment , updateAppointmentStatus } from '../../redux/actions/appointmentAction';
+import { Link } from 'react-router-dom';
 
 export default function AllBookings() {
   const [bookings, setBookings] = useState([]);
@@ -64,7 +65,8 @@ export default function AllBookings() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-6">All Bookings</h1>
+      <h1 className="text-2xl font-bold mb-6 text-center pt-6">All Bookings</h1>
+      <Link className='btn btn-primary m-4 fw-bold' to={'/back'}>Back</Link>
       {bookings.length > 0 ? (
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white border border-gray-200">

@@ -4,6 +4,8 @@ import { fetchTimeSlots, deleteTimeSlot, updateTimeSlot, ajouterTimeSlot } from 
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import { Link } from 'react-router-dom';
+
 
 export default function AllTimeSlots() {
   const dispatch = useDispatch();
@@ -102,7 +104,7 @@ export default function AllTimeSlots() {
       }));
       setShowEditModal(false);
     } catch (error) {
-      // Error is handled by the reducer
+    
     }
   };
 
@@ -112,7 +114,7 @@ export default function AllTimeSlots() {
     try {
       await dispatch(ajouterTimeSlot(formData));
     } catch (error) {
-      // Error is handled by the reducer
+
     }
   };
 
@@ -148,9 +150,11 @@ export default function AllTimeSlots() {
         <div className="col-md-10 col-lg-8">
           <div className="d-flex justify-content-between align-items-center mb-4">
             <h1 className="mb-0">All Time Slots</h1>
+            
             <Button variant="success" onClick={handleAddClick}>
               Add New Time Slot
             </Button>
+            <Link className='btn btn-primary m-4 fw-bold' to={'/back'}>Back</Link>
           </div>
           
           {times && Array.isArray(times) && times.length > 0 ? (

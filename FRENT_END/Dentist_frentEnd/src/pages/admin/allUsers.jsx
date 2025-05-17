@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUsers } from '../../redux/actions/aythAction'; 
 import { Spinner, Alert, Table, Container } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 export default function AllUsers() {
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ export default function AllUsers() {
   return (
     <Container className="mt-4">
       <h1 className="text-center mb-4">All Users</h1>
+      <Link className='btn btn-primary m-4 fw-bold' to={'/back'}>Back</Link>
 
       {/* Loading Spinner */}
       {usersLoading && (
@@ -60,6 +62,7 @@ export default function AllUsers() {
             ))}
           </tbody>
         </Table>
+        
       )}
 
       {/* No Users Found Message */}

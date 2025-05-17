@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+
 
 export default function Notifications() {
   const [notifications, setNotifications] = useState([]);
@@ -72,6 +74,7 @@ export default function Notifications() {
         <div className="col-md-8">
           <div className="d-flex justify-content-between align-items-center mb-4">
             <h1 className="h2 mb-0">Notifications</h1>
+            
             <button 
               onClick={() => markAsRead()}
               className="btn btn-primary"
@@ -79,6 +82,7 @@ export default function Notifications() {
               <i className="bi bi-check-all me-2"></i>
               Mark All as Read
             </button>
+            <Link className='btn btn-warning m-4 fw-bold' to={'/back'}>Back</Link>
           </div>
 
           {notifications.length === 0 ? (

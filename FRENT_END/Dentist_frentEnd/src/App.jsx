@@ -56,6 +56,7 @@ export default function App() {
             <Route path='/allBookings' element={<AllBookings/>} />
             <Route path='/notifications' element={<Notifications/>} />
             <Route path='/profile' element={<Profile/>} />
+            <Route path='/back' element={<Admin/>} />
           </>
         ) : (
           // Redirect non-admins trying to access admin routes
