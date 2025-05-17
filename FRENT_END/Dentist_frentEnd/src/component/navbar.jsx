@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import logo from '../../public/img/teth.png.webp';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../redux/actions/aythAction';
+import './navbar.css'
 
 export default function Navbar() {
   const dispatch = useDispatch();
@@ -49,22 +50,22 @@ export default function Navbar() {
         </button>
 
         {/* Nav Links - CENTER */}
-        <div className="collapse navbar-collapse" id="navbarContent">
+        <div className="collapse navbar-collapse links m-2" id="navbarContent">
           <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link className="nav-link" to="/">Home</Link>
+              <Link className="nav-link fw-bold " to="/">Home</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/Gallery">Gallery</Link>
+              <Link className="nav-link fw-bold" to="/Gallery">Gallery</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/about">About Us</Link>
+              <Link className="nav-link fw-bold" to="/about">About Us</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/mybook">My Bookings</Link>
+              <Link className="nav-link fw-bold" to="/mybook">My Bookings</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/contact">Contact Us</Link>
+              <Link className="nav-link fw-bold" to="/contact">Contact Us</Link>
             </li>
           </ul>
         </div>
