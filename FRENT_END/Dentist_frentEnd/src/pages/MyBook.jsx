@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAppointment, deleteAppointment } from '../redux/actions/appointmentAction';
+import { Link } from 'react-router-dom';
 
 export default function MyBook() {
   const dispatch = useDispatch();
@@ -42,7 +43,7 @@ export default function MyBook() {
   };
 
   if (loading) return <div className="text-center py-4">Loading appointments...</div>;
-  if (error) return <div className="alert alert-danger text-center py-4">Error: {error}</div>;
+  if (error) return <div className="alert alert-danger text-center py-4">Error: Book Now From Here<Link className='btn btn-primary m-3' to={'/list'}>Book Now</Link></div>;
 
   return (
     <div className="container py-5">

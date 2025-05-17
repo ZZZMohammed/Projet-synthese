@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchTimeSlots } from '../redux/actions/timeSlotAction';
 import { bookAppointment } from '../redux/actions/appointmentAction';
+import { Link } from 'react-router-dom';
 
 const TimeSlotList = () => {
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ const TimeSlotList = () => {
     setBookingInProgress(null);
     
     if (result) {
-      // Success - slots will refresh automatically from the action
+      
     }
   };
 
@@ -53,7 +54,7 @@ const TimeSlotList = () => {
               {bookingError && (
                 <div className="alert alert-danger">
                   <i className="bi bi-exclamation-triangle-fill me-2"></i>
-                  {bookingError}
+                  Please Log From Here First <Link className='btn btn-primary' to={'/login'}>Login</Link>
                 </div>
               )}
               
