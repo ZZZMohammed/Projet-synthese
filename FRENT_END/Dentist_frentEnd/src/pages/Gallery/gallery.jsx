@@ -1,6 +1,6 @@
 
 import React from 'react'
-import './galler.css'
+import '../Gallery/galler.css'
 
 export default function Gallery() {
   return (

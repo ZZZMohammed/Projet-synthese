@@ -19,7 +19,7 @@ import Footer from './component/footer';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import Profile from './component/profile';
 import AllUsers from './pages/admin/allUsers';
-import Gallery from './pages/gallery';
+import Gallery from './pages/Gallery/gallery';
 
 export default function App() {
   const user = JSON.parse(localStorage.getItem('user')); // Get user data
