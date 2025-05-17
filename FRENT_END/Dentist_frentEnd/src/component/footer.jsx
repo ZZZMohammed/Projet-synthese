@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <footer className="bg-primary py-5" style={{ backgroundColor: '#176ABC' }}>
+    <footer className="py-5" style={{ backgroundColor: '#1F5D74' }}>
       <div className="container">
         <div className="row">
           {/* Column 1 - About */}
-          <div className="col-md-3 mb-4 mb-md-0">
+          <div className="col-md-4 mb-4 mb-md-0">
             <h5 className="text-white mb-3">About Us</h5>
             <p className="text-white-50 small">
               Providing quality healthcare services with compassion and excellence.
@@ -26,20 +26,23 @@ const Footer = () => {
           </div>
 
           {/* Column 2 - Quick Links */}
-          <div className="col-md-3 mb-4 mb-md-0">
+          <div className="col-md-4 mb-4 mb-md-0">
             <h5 className="text-white mb-3">Quick Links</h5>
             <ul className="list-unstyled">
               <li className="mb-2">
                 <Link to="/" className="text-white-50 small text-decoration-none hover:text-white">Home</Link>
               </li>
               <li className="mb-2">
-                <Link to="/services" className="text-white-50 small text-decoration-none hover:text-white">Services</Link>
+                <Link to="/Gallery" className="text-white-50 small text-decoration-none hover:text-white">Gallery</Link>
               </li>
               <li className="mb-2">
-                <Link to="/doctors" className="text-white-50 small text-decoration-none hover:text-white">Doctors</Link>
+                <Link to="/about" className="text-white-50 small text-decoration-none hover:text-white">About Us</Link>
               </li>
-              <li>
-                <Link to="/appointments" className="text-white-50 small text-decoration-none hover:text-white">Appointments</Link>
+              <li className='mb-2'>
+                <Link to="/mybook" className="text-white-50 small text-decoration-none hover:text-white">My Booking</Link>
+              </li>
+              <li className='mb-2'>
+                <Link to="/contact" className="text-white-50 small text-decoration-none hover:text-white">Contact Us</Link>
               </li>
             </ul>
           </div>
@@ -55,27 +58,11 @@ const Footer = () => {
             </address>
           </div>
 
-          {/* Column 4 - Newsletter */}
-          <div className="col-md-3">
-            <h5 className="text-white mb-3">Newsletter</h5>
-            <p className="text-white-50 small mb-3">
-              Subscribe to our newsletter for updates.
-            </p>
-            <div className="input-group mb-3">
-              <input 
-                type="email" 
-                className="form-control form-control-sm" 
-                placeholder="Your email" 
-              />
-              <button className="btn btn-light btn-sm" type="button">
-                Subscribe
-              </button>
-            </div>
-          </div>
+         
         </div>
 
         {/* Copyright */}
-        <div className="border-top border-primary pt-4 mt-4">
+        <div className=" border-primary pt-4 mt-4">
           <p className="text-white-50 small text-center mb-0">
             &copy; {new Date().getFullYear()} Medical Center. All rights reserved.
           </p>
