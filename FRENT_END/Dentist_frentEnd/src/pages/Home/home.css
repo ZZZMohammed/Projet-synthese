@@ -19,3 +19,33 @@
     height: 35rem;
     width: 29rem;
 }
+
+/* Custom CSS for the component */
+.text-primary {
+  color: #2d7d9a !important;
+}
+
+.btn-primary {
+  background-color: #2d7d9a;
+  border-color: #2d7d9a;
+}
+
+.btn-primary:hover {
+  background-color: #1f5d74;
+  border-color: #1f5d74;
+}
+
+
+
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .display-5 {
+    font-size: 2.2rem;
+  }
+  
+  .lead {
+    font-size: 1rem;
+  }
+}

@@ -12,22 +12,37 @@ export default function Home() {
       </div>
 
       
-     <div className="container-fluid pt-4"> 
-  <div className="row g-0" > 
-    
-    <div className="col-md-6 " >
-      <div className="p-5 text-center"> 
-        <h2 className='fw-bold pb-3 '>Welcome to <span>Largou Dental Clinic</span></h2>
-        <p>
-          Your first choice for a <span className='fw-bold text-danger'>dental clinic in Tiznit</span>. Whether it's the dentists, dental assistants, or technicians, they all share a philosophy of gentle approach and expertise that you'll appreciate. Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi repellat architecto aut.
+   <div className="container-fluid px-0">
+  <div className="row g-0 align-items-center">
+    {/* Text Content Column */}
+    <div className="col-lg-6 col-md-5">
+      <div className="p-4 p-lg-5">
+        <h3 className="display-5 fw-bold text-primary mb-4 mx-auto" style={{maxWidth: "500px"}}>
+          Welcome to <span className="">Largou Dental Clinic</span>
+        </h3>
+        <p className="lead text-muted mb-4 mx-auto" style={{maxWidth: "500px"}}>
+          Your first choice for a <span className="fw-bold">dental clinic in Tiznit</span>. 
+          Whether it's the dentists, dental assistants, or technicians, they all share a philosophy 
+          of gentle approach and expertise that you'll appreciate. Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem corrupti accusamus neque? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente ad fugit ipsa?
         </p>
+        
       </div>
     </div>
 
-    
-    <div className="col-md-4" >
-      <div className="p-5 text-center"> 
-        <img src="/img/4.jpg" className="img-fluid rounded shadow"  alt="example" />
+    {/* Image Column */}
+    <div className="col-lg-5 col-md-5">
+      <div className="p-3 p-lg-5">
+        <img 
+          src="/img/4.jpg" 
+          className="img-fluid rounded-3 shadow-lg" 
+          alt="Dental Clinic Interior"
+          style={{
+            maxHeight: "400px",
+            width: "100%",
+            objectFit: "cover",
+            objectPosition: "center"
+          }}
+        />
       </div>
     </div>
   </div>
