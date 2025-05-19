@@ -1,44 +1,42 @@
+// src/components/Login.js
 import { useState } from 'react';
-import React from 'react';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { login } from '../redux/actions/aythAction';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [formError, setFormError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  
+  // Get error from Redux store
+  const { error: authError } = useSelector(state => state.auth);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
+    setFormError('');
 
     if (!email || !password) {
-      setError('Please fill in all fields');
+      setFormError('Please fill in all fields');
       setLoading(false);
       return;
     }
 
     try {
-      const res = await axios.post('http://localhost:8000/api/login', {
-        email,
-        password
-      });
-
-      localStorage.setItem('token', res.data.token);
-      localStorage.setItem('user', JSON.stringify(res.data.user));
+      const result = await dispatch(login({ email, password }));
       
-      if (res.data.user.role === 'admin') {
+      if (result?.user?.role === 'admin') {
         navigate('/admin');
-        window.location.reload(); // Force refresh to reinitialize routes
       } else {
         navigate('/');
       }
     } catch (error) {
       console.error('Login failed', error);
-      setError(error.response?.data?.message || 'Login failed. Please try again.');
+      // Error is already handled in the Redux action
     } finally {
       setLoading(false);
     }
@@ -52,10 +50,10 @@ export default function Login() {
             <div className="card-body p-4">
               <h2 className="text-center mb-4">Login</h2>
               
-              {error && (
+              {(formError || authError) && (
                 <div className="alert alert-danger" role="alert">
                   <i className="bi bi-exclamation-triangle-fill me-2"></i>
-                  {error}
+                  {formError || authError}
                 </div>
               )}
 
@@ -105,7 +103,6 @@ export default function Login() {
                   Don't have an account? <Link to={'/register'}>Register</Link>
                 </small>
               </div>
-              
             </div>
           </div>
         </div>

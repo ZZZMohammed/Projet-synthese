@@ -6,32 +6,67 @@ import axios from 'axios';
 
 
 
-
-export const logout = () => async (dispatch) => {
+    export const login = (credentials) => async(dispatch) => {
+  dispatch({ type: 'LOGIN_REQUEST' });
+  
   try {
-    const token = localStorage.getItem('token');
+    const res = await axios.post('http://localhost:8000/api/login', credentials);
     
-   
-    await axios.post('http://localhost:8000/api/logout', null, {
-      headers: {
-        Authorization: `Bearer ${token}`
+    // Store token and user data in localStorage
+    localStorage.setItem('token', res.data.token);
+    if (res.data.user) {
+      localStorage.setItem('user', JSON.stringify(res.data.user));
+    }
+    
+    dispatch({
+      type: 'LOGIN_SUCCESS',  // Fixed typo from 'LOGIN_SUCCES'
+      payload: {
+        token: res.data.token,
+        user: res.data.user
       }
     });
     
- 
-    dispatch({ type: 'LOGOUT_SUCCESS' });
+    return res.data; // Return data for potential chaining
     
- 
-    localStorage.removeItem('token');
-    
-
-    window.location.href = '/login';
-    
-  } catch (error) {
-    console.error('Logout error:', error);
-    dispatch({ type: 'LOGOUT_FAIL', payload: error.response?.data?.message || 'Logout failed' });
+  } catch(error) {
+    const errorMessage = error.response?.data?.message || error.message;
+    dispatch({
+      type: 'LOGIN_FAIL',
+      payload: errorMessage
+    });
+    throw errorMessage; // Re-throw for component-level handling
   }
 };
+
+
+
+
+
+    export const logout = () => async (dispatch) => {
+      try {
+        const token = localStorage.getItem('token');
+        
+      
+        await axios.post('http://localhost:8000/api/logout', null, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        
+    
+        dispatch({ type: 'LOGOUT_SUCCESS' });
+        
+    
+        localStorage.removeItem('token');
+        
+
+        window.location.href = '/login';
+        
+      } catch (error) {
+        console.error('Logout error:', error);
+        dispatch({ type: 'LOGOUT_FAIL', payload: error.response?.data?.message || 'Logout failed' });
+      }
+    };
 
 
 
