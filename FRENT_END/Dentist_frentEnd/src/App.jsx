@@ -21,8 +21,9 @@ import Profile from './component/profile';
 import AllUsers from './pages/admin/allUsers';
 import Gallery from './pages/Gallery/gallery';
 
+
 export default function App() {
-  const user = JSON.parse(localStorage.getItem('user')); // Get user data
+  const user = JSON.parse(localStorage.getItem('user')); 
 
   return (
     <BrowserRouter>
@@ -44,9 +45,10 @@ export default function App() {
           <Route path='/Gallery' element={<Gallery/>} />
           <Route path='/mybook' element={<MyBook/>} />
           <Route path='*' element={<Notfound/>} />
+        
         </Route>
 
-        {/* Admin Routes without Navbar and Footer */}
+     
         {user?.role === 'admin' ? (
           <>
             <Route path='/admin' element={<Admin/>} />
@@ -58,7 +60,7 @@ export default function App() {
             <Route path='/back' element={<Admin/>} />
           </>
         ) : (
-          // Redirect non-admins trying to access admin routes
+          
           <Route path='/admin/*' element={<Navigate to="/" replace />} />
         )}
       </Routes>

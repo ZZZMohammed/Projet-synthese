@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '../redux/actions/aythAction';
 import "bootstrap-icons/font/bootstrap-icons.css";
+import './admin.css'
+
 
 export default function Admin() {
   const dispatch = useDispatch();
@@ -86,6 +88,7 @@ export default function Admin() {
               style={{width: '200px', height: '100px', minWidth: '200px' , backgroundColor:'#99582a'}}
               aria-label="Manage available time slots"
             >
+              
               All Users
             </Link>
           </div>
@@ -97,6 +100,7 @@ export default function Admin() {
               style={{width: '200px', height: '100px', minWidth: '200px'}}
               aria-label="Manage available time slots"
             >
+              
               Available <br />Time Slots
             </Link>
           </div>
@@ -119,6 +123,7 @@ export default function Admin() {
               style={{width: '200px', height: '100px', minWidth: '200px'}}
               aria-label="View notifications"
             >
+              <i class="bi bi-bell-fill"></i>
               Notifications
             </Link>
           </div>

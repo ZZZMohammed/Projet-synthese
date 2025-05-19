@@ -6,6 +6,8 @@ use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\SlotsController;
 use App\Http\Controllers\API\ContactController;
 use App\Http\Controllers\API\AppointmentController;
+use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();

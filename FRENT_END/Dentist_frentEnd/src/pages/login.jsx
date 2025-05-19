@@ -105,6 +105,7 @@ export default function Login() {
                   Don't have an account? <Link to={'/register'}>Register</Link>
                 </small>
               </div>
+              
             </div>
           </div>
         </div>
