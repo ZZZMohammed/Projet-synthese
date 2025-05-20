@@ -9,16 +9,18 @@ use App\Http\Controllers\Controller;
 class SlotsController extends Controller 
 {
     
-    public function index(Request $request)
-    {
+    public function index(Request $request) {
+
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
         $query = Time_Slot::query();
 
-        // Filter by date if provided
-        if ($request->has('date')) {
-            $query->where('date', $request->query('date'));
+        if ($startDate && $endDate) {
+            $query->whereBetween('date', [$startDate, $endDate]);
         }
 
-        $timeSlots = $query->orderBy('date')->orderBy('time')->get();
+        $timeSlots = $query->get();
 
         return response()->json($timeSlots);
     }

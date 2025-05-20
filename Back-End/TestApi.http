@@ -1,6 +1,6 @@
 ## get all time slots
-GET http://localhost:8000/api/times
-Authorization: Bearer 15|3UQGTxoi16ao64v9xIQphyUMBIiV2MUx51YSj8PL72dcdc39
+GET http://localhost:8000/api/times?start_date=2025-05-01&end_date=2025-05-13
+Authorization: Bearer 62|7OXsJM0xxz91KPD5iX81zU0gtop09SnuPSN6hstfb86b78f8
 Content-Type: application/json
 Accept: application/json
 
@@ -51,12 +51,12 @@ Content-Type: application/json
 
 ### Create time slot
 POST http://localhost:8000/api/times
-Authorization: Bearer 33|KNnvRBHaw0WdXoMf8TpgKAIuZvBmhtHpG0tAwbew14a6f021
+Authorization: Bearer 62|7OXsJM0xxz91KPD5iX81zU0gtop09SnuPSN6hstfb86b78f8
 Content-Type: application/json
 Accept: application/json
 
 {
-  "date": "2025-05-13",
+  "date": "2025-05-20",
   "time": "17:00"
 }
 
