@@ -11,6 +11,8 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  
   
   // Get error from Redux store
   const { error: authError } = useSelector(state => state.auth);
@@ -36,7 +38,7 @@ export default function Login() {
       }
     } catch (error) {
       console.error('Login failed', error);
-      // Error is already handled in the Redux action
+      
     } finally {
       setLoading(false);
     }
