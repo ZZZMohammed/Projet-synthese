@@ -165,10 +165,39 @@ class SlotsController extends Controller
     /**
      * Check if a slot already exists
      */
-    private function slotExists($date, $time)
-    {
-        return Time_Slot::where('date', $date)
-            ->where('time', $time)
-            ->exists();
-    }
+    private function slotExists($date, $time) {
+        
+            return Time_Slot::where('date', $date)
+                ->where('time', $time)
+                ->exists();
+        }
+
+
+    public function generateSlots(Request $request){
+
+            $validated = $request->validate([
+                'date' => 'required|date',
+                'times' => 'required|array',
+                'times.*' => 'date_format:H:i:s'
+            ]);
+
+        $createdSlots = [];
+        $date = $validated['date'];
+
+        foreach ($validated['times'] as $time) {
+            // Check if slot already exists
+            if (!Time_Slot::where('date', $date)->where('time', $time)->exists()) {
+                $createdSlots[] = Time_Slot::create([
+                    'date' => $date,
+                    'time' => $time,
+                    'is_booked' => false,
+                ]);
+            }
+        }
+
+        return response()->json([
+            'message' => count($createdSlots) . ' slot(s) created successfully',
+            'data' => $createdSlots
+        ], 201);
+}
 }

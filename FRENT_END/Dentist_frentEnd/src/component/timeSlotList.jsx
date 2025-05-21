@@ -10,40 +10,37 @@ import {
   CardHeader,
   CardContent,
   CardActions,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemSecondaryAction,
-  Chip,
   CircularProgress,
   Alert,
   AlertTitle,
   Typography,
-  Divider
+  Grid
 } from '@mui/material';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import moment from 'moment';
-import {
-  CalendarToday,
-  AccessTime,
-  Bookmark,
-  CheckCircle,
-  Warning,
-  Info
-} from '@mui/icons-material';
+import { AccessTime, Bookmark, CheckCircle, Warning, Info } from '@mui/icons-material';
+
+const FIXED_TIME_SLOTS = [
+  '09:00:00',
+  '10:00:00',
+  '11:00:00',
+  '12:00:00',
+  '15:00:00',
+  '16:00:00',
+  '17:00:00',
+  '18:00:00'
+];
 
 const TimeSlotList = () => {
   const dispatch = useDispatch();
   const [bookingInProgress, setBookingInProgress] = useState(null);
   const [selectedDate, setSelectedDate] = useState(moment());
-  const [filteredSlots, setFilteredSlots] = useState([]);
+  const [availableSlots, setAvailableSlots] = useState([]);
 
   const { slots, loading, error } = useSelector((state) => state.timeSlots);
-  const { success, error: bookingError, loading: bookingLoading } = useSelector(
-    (state) => state.appointments
-  );
+  const { success, error: bookingError } = useSelector((state) => state.appointments);
 
   useEffect(() => {
     dispatch(fetchTimeSlots());
@@ -51,47 +48,22 @@ const TimeSlotList = () => {
 
   useEffect(() => {
     if (slots) {
-      const filtered = slots.filter(slot => 
-        !slot.is_booked && 
-        moment(slot.date).isSame(selectedDate, 'day')
+      const dateStr = selectedDate.format('YYYY-MM-DD');
+      const available = slots.filter(slot =>
+        !slot.is_booked && slot.date === dateStr
       );
-      setFilteredSlots(filtered);
+      setAvailableSlots(available);
     }
   }, [slots, selectedDate]);
 
-  const handleBook = async (id) => {
-    setBookingInProgress(id);
-    const result = await dispatch(bookAppointment(id));
-    setBookingInProgress(null);
-  };
-
-  const renderDay = (day, _selectedDays, pickersDayProps) => {
-    const dateStr = day.format('YYYY-MM-DD');
-    const slotsForDay = slots?.filter(slot => 
-      slot.date === dateStr && !slot.is_booked
-    ) || [];
-    
-    return (
-      <Box
-        {...pickersDayProps}
-        sx={{
-          position: 'relative',
-          ...(slotsForDay.length > 0 && {
-            '&:after': {
-              content: '""',
-              position: 'absolute',
-              bottom: 4,
-              left: '50%',
-              transform: 'translateX(-50%)',
-              width: 6,
-              height: 6,
-              borderRadius: '50%',
-              bgcolor: 'primary.main'
-            }
-          })
-        }}
-      />
-    );
+  const handleBook = async (slotId) => {
+    setBookingInProgress(slotId);
+    try {
+      await dispatch(bookAppointment(slotId));
+      dispatch(fetchTimeSlots());
+    } finally {
+      setBookingInProgress(null);
+    }
   };
 
   return (
@@ -103,7 +75,7 @@ const TimeSlotList = () => {
             titleTypographyProps={{ variant: 'h5' }}
             sx={{ bgcolor: 'primary.main', color: 'primary.contrastText' }}
           />
-          
+
           <CardContent>
             <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 3 }}>
               {/* Calendar Section */}
@@ -111,40 +83,39 @@ const TimeSlotList = () => {
                 <DateCalendar
                   value={selectedDate}
                   onChange={(newDate) => setSelectedDate(newDate)}
-                  renderDay={renderDay}
                   disablePast
                 />
               </Box>
-              
+
               {/* Time Slots Section */}
               <Box sx={{ flexGrow: 1 }}>
                 <Typography variant="h6" gutterBottom>
                   Available Slots for {selectedDate.format('MMMM D, YYYY')}
                 </Typography>
-                
+
                 {loading && (
                   <Alert icon={<Info />} severity="info" sx={{ mb: 2 }}>
                     <AlertTitle>Loading</AlertTitle>
                     Fetching available time slots...
                   </Alert>
                 )}
-                
+
                 {error && (
                   <Alert icon={<Warning />} severity="error" sx={{ mb: 2 }}>
                     <AlertTitle>Error</AlertTitle>
                     {error}
                   </Alert>
                 )}
-                
+
                 {bookingError && (
-                  <Alert 
-                    icon={<Warning />} 
-                    severity="error" 
+                  <Alert
+                    icon={<Warning />}
+                    severity="error"
                     sx={{ mb: 2 }}
                     action={
-                      <Button 
-                        color="inherit" 
-                        size="small" 
+                      <Button
+                        color="inherit"
+                        size="small"
                         component={Link}
                         to="/login"
                       >
@@ -155,7 +126,7 @@ const TimeSlotList = () => {
                     Please login to book appointments
                   </Alert>
                 )}
-                
+
                 {success && (
                   <Alert icon={<CheckCircle />} severity="success" sx={{ mb: 2 }}>
                     <AlertTitle>Success</AlertTitle>
@@ -163,64 +134,61 @@ const TimeSlotList = () => {
                   </Alert>
                 )}
 
-                {filteredSlots.length === 0 && !loading && (
-                  <Alert icon={<Info />} severity="warning" sx={{ mb: 2 }}>
-                    No available time slots for this date
-                  </Alert>
-                )}
+                <Grid container spacing={2} sx={{ mt: 2 }}>
+                  {FIXED_TIME_SLOTS.map((time) => {
+                    const slot = availableSlots.find(s => s.time === time);
+                    const isAvailable = !!slot;
+                    const isBooking = bookingInProgress === slot?.id;
 
-                <List dense>
-                  {filteredSlots.map((slot) => (
-                    <React.Fragment key={slot.id}>
-                      <ListItem>
-                        <ListItemText
-                          primary={
-                            <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                              <Chip
-                                icon={<CalendarToday fontSize="small" />}
-                                label={moment(slot.date).format('MMM D, YYYY')}
-                                size="small"
-                                variant="outlined"
-                              />
-                              <Chip
-                                icon={<AccessTime fontSize="small" />}
-                                label={slot.time.substring(0, 5)}
-                                size="small"
-                                variant="outlined"
-                              />
-                            </Box>
-                          }
-                        />
-                        <ListItemSecondaryAction>
-                          <Button
-                            variant="contained"
-                            size="small"
-                            startIcon={
-                              bookingInProgress === slot.id ? (
-                                <CircularProgress size={16} color="inherit" />
+                    return (
+                      <Grid item xs={6} sm={4} key={time}>
+                        <Button
+                          fullWidth
+                          variant={isAvailable ? "contained" : "outlined"}
+                          color={isAvailable ? "primary" : "inherit"}
+                          startIcon={<AccessTime />}
+                          onClick={() => isAvailable && handleBook(slot.id)}
+                          disabled={!isAvailable || isBooking}
+                          sx={{
+                            height: '100%',
+                            py: 2,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: 1
+                          }}
+                        >
+                          <Typography variant="body1">
+                            {moment(time, 'HH:mm:ss').format('h:mm A')}
+                          </Typography>
+                          {isAvailable && (
+                            <>
+                              {isBooking ? (
+                                <CircularProgress size={20} />
                               ) : (
                                 <Bookmark fontSize="small" />
-                              )
-                            }
-                            onClick={() => handleBook(slot.id)}
-                            disabled={bookingLoading || bookingInProgress === slot.id}
-                            sx={{ minWidth: 100 }}
-                          >
-                            {bookingInProgress === slot.id ? 'Booking...' : 'Book'}
-                          </Button>
-                        </ListItemSecondaryAction>
-                      </ListItem>
-                      <Divider component="li" />
-                    </React.Fragment>
-                  ))}
-                </List>
+                              )}
+                            </>
+                          )}
+                        </Button>
+                      </Grid>
+                    );
+                  })}
+                </Grid>
+
+                {availableSlots.length === 0 && !loading && (
+                  <Alert severity="info" sx={{ mt: 2 }}>
+                    {slots.some(s => s.date === selectedDate.format('YYYY-MM-DD'))
+                      ? 'All slots are booked for this date'
+                      : 'No time slots available. Please choose another date.'}
+                  </Alert>
+                )}
               </Box>
             </Box>
           </CardContent>
-          
+
           <CardActions sx={{ bgcolor: 'action.hover', p: 2 }}>
             <Typography variant="body2" color="text.secondary">
-              Select a date and available time slot to book your appointment
+              Select an available time slot to book your appointment
             </Typography>
           </CardActions>
         </Card>

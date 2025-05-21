@@ -51,13 +51,13 @@ Content-Type: application/json
 
 ### Create time slot
 POST http://localhost:8000/api/times
-Authorization: Bearer 62|7OXsJM0xxz91KPD5iX81zU0gtop09SnuPSN6hstfb86b78f8
+Authorization: Bearer 73|7hQ47JTOA6pUo0YUhJKgfTrqWKLAW09rAGQOT0im24c28fa0
 Content-Type: application/json
 Accept: application/json
 
 {
-  "date": "2025-05-20",
-  "time": "17:00"
+  "date": "2025-05-22",
+  
 }
 
 

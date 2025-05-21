@@ -34,6 +34,7 @@ Route::middleware(['auth:sanctum' ,'role:admin'])->group(function (){
     
     Route::post('/times' , [SlotsController::class , 'store']) ;
     Route::get('slots/date/{date}', [SlotsController::class, 'getByDate']);
+    Route::post('/slots/generate', [SlotsController::class, 'generateSlots']);
     Route::get('/times/{id}', [SlotsController::class, 'show']);    
     Route::put('/times/{id}', [SlotsController::class, 'update']);   
     Route::delete('/times/{id}', [SlotsController::class, 'destroy']);

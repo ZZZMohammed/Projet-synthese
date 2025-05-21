@@ -1,15 +1,28 @@
-import { React, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchTimeSlots, deleteTimeSlot, updateTimeSlot, ajouterTimeSlot } from '../../redux/actions/timeSlotAction';
+import {
+  fetchTimeSlots,
+  deleteTimeSlot,
+  updateTimeSlot,
+  ajouterTimeSlot
+} from '../../redux/actions/timeSlotAction';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 
-
 export default function AllTimeSlots() {
   const dispatch = useDispatch();
-  const { slots: times, loading, error, deleting, updating, adding, addSuccess } = useSelector(state => state.timeSlots);
+  const {
+    slots: times,
+    loading,
+    error,
+    deleting,
+    updating,
+    adding,
+    addSuccess
+  } = useSelector(state => state.timeSlots);
+
   const [deletingId, setDeletingId] = useState(null);
   const [editingSlot, setEditingSlot] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -28,27 +41,25 @@ export default function AllTimeSlots() {
   useEffect(() => {
     if (addSuccess) {
       setShowAddModal(false);
-      dispatch(fetchTimeSlots()); // Refresh the list after successful addition
+      dispatch(fetchTimeSlots());
     }
   }, [addSuccess, dispatch]);
 
   const handleDelete = (timeSlot_id) => {
     if (window.confirm('Are you sure you want to delete this time slot?')) {
       setDeletingId(timeSlot_id);
-      dispatch(deleteTimeSlot(timeSlot_id))
-        .finally(() => setDeletingId(null));
+      dispatch(deleteTimeSlot(timeSlot_id)).finally(() => {
+        setDeletingId(null);
+      });
     }
   };
 
   const handleEditClick = (timeSlot) => {
     setEditingSlot(timeSlot);
     setTimeError('');
-    
-    const formattedTime = formatTimeTo24Hour(timeSlot.time);
-    
     setFormData({
       date: timeSlot.date.split('T')[0],
-      time: formattedTime,
+      time: formatTimeTo24Hour(timeSlot.time),
       is_booked: timeSlot.is_booked
     });
     setShowEditModal(true);
@@ -57,7 +68,7 @@ export default function AllTimeSlots() {
   const handleAddClick = () => {
     setTimeError('');
     setFormData({
-      date: new Date().toISOString().split('T')[0], // Default to today's date
+      date: new Date().toISOString().split('T')[0],
       time: '',
       is_booked: false
     });
@@ -66,23 +77,25 @@ export default function AllTimeSlots() {
 
   const formatTimeTo24Hour = (timeString) => {
     if (!timeString) return '';
-    
+
+    // Already in 24-hour format
     if (/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(timeString)) {
       return timeString;
     }
-    
-    const timeParts = timeString.match(/(\d+):(\d+)\s*(AM|PM)/i);
-    if (timeParts) {
-      let hours = parseInt(timeParts[1]);
-      const minutes = timeParts[2];
-      const period = timeParts[3].toUpperCase();
-      
+
+    // Convert 12-hour format to 24-hour
+    const match = timeString.match(/(\d+):(\d+)\s*(AM|PM)/i);
+    if (match) {
+      let hours = parseInt(match[1]);
+      const minutes = match[2];
+      const period = match[3].toUpperCase();
+
       if (period === 'PM' && hours < 12) hours += 12;
       if (period === 'AM' && hours === 12) hours = 0;
-      
+
       return `${hours.toString().padStart(2, '0')}:${minutes}`;
     }
-    
+
     return timeString;
   };
 
@@ -96,53 +109,52 @@ export default function AllTimeSlots() {
 
   const handleUpdate = async () => {
     if (!validateTimeFormat()) return;
-    
+
     try {
-      await dispatch(updateTimeSlot(editingSlot.id, {
-        ...formData,
-        time: formData.time
-      }));
+      await dispatch(updateTimeSlot(editingSlot.id, formData));
       setShowEditModal(false);
-    } catch (error) {
-    
+    } catch (err) {
+      console.error('Update failed:', err);
     }
   };
 
   const handleAdd = async () => {
     if (!validateTimeFormat()) return;
-    
+
     try {
       await dispatch(ajouterTimeSlot(formData));
-    } catch (error) {
-
+    } catch (err) {
+      console.error('Add failed:', err);
     }
   };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
-    
-    if (name === 'time') {
-      setTimeError('');
-    }
+
+    if (name === 'time') setTimeError('');
   };
 
-  if (loading && times.length === 0) return (
-    <div className="d-flex justify-content-center align-items-center vh-100">
-      <div className="spinner-border text-primary" role="status">
-        <span className="visually-hidden">Loading...</span>
+  if (loading && times.length === 0) {
+    return (
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 
-  if (error) return (
-    <div className="alert alert-danger text-center mt-5" role="alert">
-      Error: {error}
-    </div>
-  );
+  if (error) {
+    return (
+      <div className="alert alert-danger text-center mt-5" role="alert">
+        Error: {error}
+      </div>
+    );
+  }
 
   return (
     <div className="container py-5">
@@ -150,22 +162,23 @@ export default function AllTimeSlots() {
         <div className="col-md-10 col-lg-8">
           <div className="d-flex justify-content-between align-items-center mb-4">
             <h1 className="mb-0">All Time Slots</h1>
-            
             <Button variant="success" onClick={handleAddClick}>
               Add New Time Slot
             </Button>
-            <Link className='btn btn-primary m-4 fw-bold' to={'/back'}>Back</Link>
+            <Link className="btn btn-primary m-4 fw-bold" to="/back">
+              Back
+            </Link>
           </div>
-          
-          {times && Array.isArray(times) && times.length > 0 ? (
+
+          {Array.isArray(times) && times.length > 0 ? (
             <div className="table-responsive">
               <table className="table table-striped table-hover">
                 <thead className="table-dark">
                   <tr>
-                    <th scope="col">Date</th>
-                    <th scope="col">Time</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Actions</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -175,7 +188,7 @@ export default function AllTimeSlots() {
                       <td>{time.time}</td>
                       <td>
                         <span className={`badge ${time.is_booked ? 'bg-danger' : 'bg-success'}`}>
-                          {time.is_booked ? "Booked" : "Available"}
+                          {time.is_booked ? 'Booked' : 'Available'}
                         </span>
                       </td>
                       <td>
@@ -213,7 +226,7 @@ export default function AllTimeSlots() {
             </div>
           ) : (
             <div className="alert alert-info text-center mt-5" role="alert">
-              No time slots available
+              No time slots available.
             </div>
           )}
         </div>
@@ -268,11 +281,7 @@ export default function AllTimeSlots() {
           <Button variant="secondary" onClick={() => setShowEditModal(false)}>
             Cancel
           </Button>
-          <Button 
-            variant="primary" 
-            onClick={handleUpdate}
-            disabled={updating}
-          >
+          <Button variant="primary" onClick={handleUpdate} disabled={updating}>
             {updating ? 'Saving...' : 'Save Changes'}
           </Button>
         </Modal.Footer>
@@ -327,17 +336,13 @@ export default function AllTimeSlots() {
           <Button variant="secondary" onClick={() => setShowAddModal(false)}>
             Cancel
           </Button>
-          <Button 
-            variant="success" 
-            onClick={handleAdd}
-            disabled={adding}
-          >
+          <Button variant="success" onClick={handleAdd} disabled={adding}>
             {adding ? (
               <>
                 <span className="spinner-border spinner-border-sm me-1" />
                 Adding...
               </>
-            ) : 'Add Time Slot'} 
+            ) : 'Add Time Slot'}
           </Button>
         </Modal.Footer>
       </Modal>
