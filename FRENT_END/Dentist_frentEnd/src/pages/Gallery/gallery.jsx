@@ -29,7 +29,7 @@ export default function Gallery() {
             {images.map((image)=> (
                 <div key={image.id} className='col-md-3 col-sm-6 mb-4 text-center'>
                     <img src={image.src}
-                       className="img-fluid gallery-image"/>
+                       className="img-fluid gallery-image" />
                 </div>
             )
 

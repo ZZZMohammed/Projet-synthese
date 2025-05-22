@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { React, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   fetchTimeSlots,
@@ -34,6 +34,11 @@ export default function AllTimeSlots() {
   });
   const [timeError, setTimeError] = useState('');
 
+  // New states for checkbox time logic
+  const [selectedDate, setSelectedDate] = useState('');
+  const [availableTimes, setAvailableTimes] = useState([]);
+  const [selectedTimes, setSelectedTimes] = useState([]);
+
   useEffect(() => {
     dispatch(fetchTimeSlots());
   }, [dispatch]);
@@ -48,9 +53,9 @@ export default function AllTimeSlots() {
   const handleDelete = (timeSlot_id) => {
     if (window.confirm('Are you sure you want to delete this time slot?')) {
       setDeletingId(timeSlot_id);
-      dispatch(deleteTimeSlot(timeSlot_id)).finally(() => {
-        setDeletingId(null);
-      });
+      dispatch(deleteTimeSlot(timeSlot_id)).finally(() =>
+        setDeletingId(null)
+      );
     }
   };
 
@@ -67,28 +72,24 @@ export default function AllTimeSlots() {
 
   const handleAddClick = () => {
     setTimeError('');
-    setFormData({
-      date: new Date().toISOString().split('T')[0],
-      time: '',
-      is_booked: false
-    });
+    setSelectedDate('');
+    setAvailableTimes([]);
+    setSelectedTimes([]);
     setShowAddModal(true);
   };
 
   const formatTimeTo24Hour = (timeString) => {
     if (!timeString) return '';
 
-    // Already in 24-hour format
     if (/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(timeString)) {
       return timeString;
     }
 
-    // Convert 12-hour format to 24-hour
-    const match = timeString.match(/(\d+):(\d+)\s*(AM|PM)/i);
-    if (match) {
-      let hours = parseInt(match[1]);
-      const minutes = match[2];
-      const period = match[3].toUpperCase();
+    const timeParts = timeString.match(/(\d+):(\d+)\s*(AM|PM)/i);
+    if (timeParts) {
+      let hours = parseInt(timeParts[1]);
+      const minutes = timeParts[2];
+      const period = timeParts[3].toUpperCase();
 
       if (period === 'PM' && hours < 12) hours += 12;
       if (period === 'AM' && hours === 12) hours = 0;
@@ -114,17 +115,45 @@ export default function AllTimeSlots() {
       await dispatch(updateTimeSlot(editingSlot.id, formData));
       setShowEditModal(false);
     } catch (err) {
-      console.error('Update failed:', err);
+      console.error("Update failed:", err);
     }
   };
 
-  const handleAdd = async () => {
-    if (!validateTimeFormat()) return;
+  
+  const fetchAvailableTimes = async (date) => {
+    
+    const response = ["09:00", "10:00", "11:00", "12:00", "15:00", "16:00", "17:00" , "18:00"];
+    setAvailableTimes(response);
+  };
 
+  const handleDateChange = async (e) => {
+    const date = e.target.value;
+    setSelectedDate(date);
+    setSelectedTimes([]);
+    await fetchAvailableTimes(date);
+  };
+
+  const handleCheckboxChange = (time) => {
+    setSelectedTimes((prev) =>
+      prev.includes(time)
+        ? prev.filter((t) => t !== time)
+        : [...prev, time]
+    );
+  };
+
+  const handleSubmitSelectedTimes = async () => {
     try {
-      await dispatch(ajouterTimeSlot(formData));
+      for (let time of selectedTimes) {
+        await dispatch(ajouterTimeSlot({
+          date: selectedDate,
+          time,
+          is_booked: false
+        }));
+      }
+      setShowAddModal(false);
+      dispatch(fetchTimeSlots());
     } catch (err) {
-      console.error('Add failed:', err);
+      console.error("Submit failed", err);
     }
   };
 
@@ -262,9 +291,6 @@ export default function AllTimeSlots() {
               <Form.Control.Feedback type="invalid">
                 {timeError}
               </Form.Control.Feedback>
-              <Form.Text className="text-muted">
-                Example: 14:30 for 2:30 PM
-              </Form.Text>
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Check
@@ -287,62 +313,51 @@ export default function AllTimeSlots() {
         </Modal.Footer>
       </Modal>
 
-      {/* Add Modal */}
+      {/* Add Modal with Checkbox Times */}
       <Modal show={showAddModal} onHide={() => setShowAddModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Add New Time Slot</Modal.Title>
+          <Modal.Title>Add Time Slots</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
             <Form.Group className="mb-3">
-              <Form.Label>Date</Form.Label>
+              <Form.Label>Select Date</Form.Label>
               <Form.Control
                 type="date"
-                name="date"
-                value={formData.date}
-                onChange={handleChange}
-                required
+                value={selectedDate}
+                onChange={handleDateChange}
               />
             </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Time (24-hour format)</Form.Label>
-              <Form.Control
-                type="time"
-                name="time"
-                value={formData.time}
-                onChange={handleChange}
-                required
-                isInvalid={!!timeError}
-              />
-              <Form.Control.Feedback type="invalid">
-                {timeError}
-              </Form.Control.Feedback>
-              <Form.Text className="text-muted">
-                Example: 14:30 for 2:30 PM
-              </Form.Text>
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Check
-                type="checkbox"
-                label="Mark as booked"
-                name="is_booked"
-                checked={formData.is_booked}
-                onChange={handleChange}
-              />
-            </Form.Group>
+
+            {availableTimes.length > 0 && (
+              <Form.Group className="mb-3">
+                <Form.Label>Available Times</Form.Label>
+                <div className="d-flex flex-wrap gap-2">
+                  {availableTimes.map((time) => (
+                    <Form.Check
+                      key={time}
+                      type="checkbox"
+                      id={`time-${time}`}
+                      label={time}
+                      checked={selectedTimes.includes(time)}
+                      onChange={() => handleCheckboxChange(time)}
+                    />
+                  ))}
+                </div>
+              </Form.Group>
+            )}
           </Form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowAddModal(false)}>
             Cancel
           </Button>
-          <Button variant="success" onClick={handleAdd} disabled={adding}>
-            {adding ? (
-              <>
-                <span className="spinner-border spinner-border-sm me-1" />
-                Adding...
-              </>
-            ) : 'Add Time Slot'}
+          <Button
+            variant="success"
+            onClick={handleSubmitSelectedTimes}
+            disabled={selectedTimes.length === 0 || !selectedDate}
+          >
+            Add Selected Slots
           </Button>
         </Modal.Footer>
       </Modal>
