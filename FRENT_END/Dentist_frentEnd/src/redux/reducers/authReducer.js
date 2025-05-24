@@ -1,6 +1,6 @@
 const initialState = {
   isAuthenticated: !!localStorage.getItem('token'),
-  user: null,
+  user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null, // Fixed: Load user from localStorage
   token: localStorage.getItem('token') || null,
   users: [],
   loading: false,
@@ -18,6 +18,7 @@ export const authReducer = (state = initialState, action) => {
 
     case 'LOGIN_SUCCESS':
       localStorage.setItem('token', action.payload.token);
+      localStorage.setItem('user', JSON.stringify(action.payload.user)); // Also store user in localStorage
       return {
         ...state,
         isAuthenticated: true,
@@ -29,6 +30,7 @@ export const authReducer = (state = initialState, action) => {
 
     case 'LOGOUT_SUCCESS':
       localStorage.removeItem('token');
+      localStorage.removeItem('user'); // Also remove user from localStorage
       return {
         ...state,
         isAuthenticated: false,
@@ -47,6 +49,8 @@ export const authReducer = (state = initialState, action) => {
       return { ...state, loading: true, error: null };
 
     case 'GET_PROFILE_SUCCESS':
+      // Update localStorage when profile is fetched
+      localStorage.setItem('user', JSON.stringify(action.payload));
       return {
         ...state,
         loading: false,
@@ -56,13 +60,16 @@ export const authReducer = (state = initialState, action) => {
       };
 
     case 'UPDATE_PROFILE_SUCCESS':
+      const updatedUser = {
+        ...state.user,
+        ...action.payload
+      };
+      // Update localStorage when profile is updated
+      localStorage.setItem('user', JSON.stringify(updatedUser));
       return {
         ...state,
         loading: false,
-        user: {
-          ...state.user,
-          ...action.payload
-        }
+        user: updatedUser
       };
 
     case 'PROFILE_FAIL':
@@ -97,18 +104,22 @@ export const authReducer = (state = initialState, action) => {
 
     // General error cases
     case 'AUTH_ERROR':
+      localStorage.removeItem('token');
+      localStorage.removeItem('user'); // Clear user data on auth error
       return {
         ...initialState,
         error: action.payload || 'Authentication error',
         isAuthenticated: false,
-        token: null
+        token: null,
+        user: null
       };
 
     case 'RESET_AUTH_STATE':
       return {
         ...initialState,
         isAuthenticated: !!localStorage.getItem('token'),
-        token: localStorage.getItem('token') || null
+        token: localStorage.getItem('token') || null,
+        user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null
       };
 
     default:

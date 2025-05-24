@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes, Navigate, Outlet } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import Home from './pages/Home/home';
@@ -21,10 +22,15 @@ import Profile from './component/profile';
 import AllUsers from './pages/admin/allUsers';
 import Gallery from './pages/Gallery/gallery';
 
-
 export default function App() {
-  const user = JSON.parse(localStorage.getItem('user')); 
-
+  // Get user from Redux store instead of localStorage directly
+  const { user } = useSelector(state => state.auth);
+  
+  // DEBUG: Log the user data
+  console.log('App.js - Redux user:', user);
+  console.log('App.js - User role:', user?.role);
+  console.log('App.js - Is admin?', user?.role === 'admin');
+  
   return (
     <BrowserRouter>
       <Routes>
@@ -44,13 +50,12 @@ export default function App() {
           <Route path='/about' element={<About/>} />
           <Route path='/Gallery' element={<Gallery/>} />
           <Route path='/mybook' element={<MyBook/>} />
-          <Route path='*' element={<Notfound/>} />
-        
+          <Route path='*' element={<Notfound/>} />         
         </Route>
-
-     
+               
         {user?.role === 'admin' ? (
           <>
+            {console.log('Rendering admin routes')}
             <Route path='/admin' element={<Admin/>} />
             <Route path='/users' element={<AllUsers/>} />
             <Route path='/allTimes' element={<AllTimeSlots/>} />
@@ -60,8 +65,10 @@ export default function App() {
             <Route path='/back' element={<Admin/>} />
           </>
         ) : (
-          
-          <Route path='/admin/*' element={<Navigate to="/" replace />} />
+          <>
+            {console.log('Rendering admin redirect')}
+            <Route path='/admin/*' element={<Navigate to="/" replace />} />
+          </>
         )}
       </Routes>
     </BrowserRouter>
