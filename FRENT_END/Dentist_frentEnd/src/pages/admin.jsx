@@ -3,8 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '../redux/actions/aythAction';
 import "bootstrap-icons/font/bootstrap-icons.css";
-import './admin.css'
-
+import './admin.css';
 
 export default function Admin() {
   const dispatch = useDispatch();
@@ -28,40 +27,53 @@ export default function Admin() {
   };
 
   return (
-    <div className="admin-dashboard">
-      {/* Header with flex container */}
-      <div 
-        className='d-flex justify-content-between align-items-center fixed-top' 
-        style={{
-          backgroundColor: '#4ad66d',
-          color: '#ffffff', 
-          padding: '1rem',
-          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-          zIndex: 1000
-        }}
-      >
-        {/* Empty div on left for balance */}
-        <div style={{width: '150px'}}></div>
-        
-        {/* Centered title */}
-        <h1 className='text-center fw-bold m-0 flex-grow-1'>
+    <div className="admin-dashboard" style={{ backgroundColor: '#f8f9fa', minHeight: '100vh' }}>
+      {/* Header */}
+      <header className="admin-header" style={{
+        backgroundColor: '#2c3e50',
+        color: '#ffffff',
+        padding: '1rem 2rem',
+        boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+        position: 'fixed',
+        width: '100%',
+        zIndex: 1000,
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+      }}>
+        <h1 className="admin-title" style={{
+          margin: 0,
+          fontSize: '1.5rem',
+          fontWeight: '600',
+          letterSpacing: '0.5px'
+        }}>
+          <i className="bi bi-speedometer2 me-2"></i>
           Admin Dashboard
         </h1>
         
-        {/* Buttons container on right */}
-        <div className="d-flex">
+        <div className="admin-actions" style={{ display: 'flex', gap: '1rem' }}>
           <Link 
             to="/profile" 
-            className="btn btn-light d-flex align-items-center me-2"
+            className="btn btn-outline-light d-flex align-items-center"
+            style={{
+              borderRadius: '20px',
+              padding: '0.5rem 1rem',
+              transition: 'all 0.3s ease'
+            }}
           >
             <i className="bi bi-person-fill me-2"></i>
             Profile
           </Link>
           
           <button 
-            className='btn btn-danger d-flex align-items-center' 
+            className='btn btn-outline-light d-flex align-items-center'
             onClick={handleLogout}
             disabled={isLoggingOut}
+            style={{
+              borderRadius: '20px',
+              padding: '0.5rem 1rem',
+              transition: 'all 0.3s ease'
+            }}
           >
             {isLoggingOut ? (
               <>
@@ -69,68 +81,184 @@ export default function Admin() {
                 Logging out...
               </>
             ) : (
-              'Logout'
+              <>
+                <i className="bi bi-box-arrow-right me-2"></i>
+                Logout
+              </>
             )}
           </button>
         </div>
-      </div>
+      </header>
 
-      {/* Main content with padding for fixed header */}
-      <div 
-        className='d-flex justify-content-center align-items-center vh-100'
-        style={{paddingTop: '80px'}}
-      >
-        <div className='d-flex flex-wrap gap-5 justify-content-center'>
-            <div>
-            <Link 
-              to={'/users'} 
-              className='nav-link text-white  p-4 d-flex align-items-center justify-content-center fw-bold rounded' 
-              style={{width: '200px', height: '100px', minWidth: '200px' , backgroundColor:'#99582a'}}
-              aria-label="Manage available time slots"
-            >
-              
-              All Users
-            </Link>
-          </div>
+      {/* Main content */}
+      <main style={{ 
+        padding: '6rem 2rem 2rem',
+        maxWidth: '1200px',
+        margin: '0 auto'
+      }}>
+        <div className="dashboard-grid" style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
+          gap: '1.5rem',
+          justifyContent: 'center'
+        }}>
+          {/* Users Card */}
+          <Link 
+            to={'/users'} 
+            className="dashboard-card"
+            style={{
+              backgroundColor: '#ffffff',
+              borderRadius: '10px',
+              padding: '1.5rem',
+              boxShadow: '0 4px 6px rgba(0,0,0,0.05)',
+              transition: 'all 0.3s ease',
+              textDecoration: 'none',
+              color: '#2c3e50',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              textAlign: 'center',
+              borderTop: '4px solid #3498db',
+              ':hover': {
+                transform: 'translateY(-5px)',
+                boxShadow: '0 6px 12px rgba(0,0,0,0.1)'
+              }
+            }}
+          >
+            <div className="card-icon" style={{
+              backgroundColor: '#e8f4fc',
+              width: '60px',
+              height: '60px',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: '1rem'
+            }}>
+              <i className="bi bi-people-fill" style={{ fontSize: '1.5rem', color: '#3498db' }}></i>
+            </div>
+            <h3 style={{ margin: '0.5rem 0', fontWeight: '600' }}>All Users</h3>
+            <p style={{ color: '#7f8c8d', margin: 0 }}>Manage system users</p>
+          </Link>
 
-          <div>
-            <Link 
-              to={'/allTimes'} 
-              className='nav-link text-white bg-dark p-4 d-flex align-items-center justify-content-center fw-bold rounded' 
-              style={{width: '200px', height: '100px', minWidth: '200px'}}
-              aria-label="Manage available time slots"
-            >
-              
-              Available <br />Time Slots
-            </Link>
-          </div>
+          {/* Time Slots Card */}
+          <Link 
+            to={'/allTimes'} 
+            className="dashboard-card"
+            style={{
+              backgroundColor: '#ffffff',
+              borderRadius: '10px',
+              padding: '1.5rem',
+              boxShadow: '0 4px 6px rgba(0,0,0,0.05)',
+              transition: 'all 0.3s ease',
+              textDecoration: 'none',
+              color: '#2c3e50',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              textAlign: 'center',
+              borderTop: '4px solid #2ecc71',
+              ':hover': {
+                transform: 'translateY(-5px)',
+                boxShadow: '0 6px 12px rgba(0,0,0,0.1)'
+              }
+            }}
+          >
+            <div className="card-icon" style={{
+              backgroundColor: '#e8f8f0',
+              width: '60px',
+              height: '60px',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: '1rem'
+            }}>
+              <i className="bi bi-clock-fill" style={{ fontSize: '1.5rem', color: '#2ecc71' }}></i>
+            </div>
+            <h3 style={{ margin: '0.5rem 0', fontWeight: '600' }}>Time Slots</h3>
+            <p style={{ color: '#7f8c8d', margin: 0 }}>Manage availability</p>
+          </Link>
 
-          <div>
-            <Link 
-              to={'/allBookings'} 
-              className='nav-link text-white bg-primary p-4 d-flex align-items-center justify-content-center fw-bold rounded' 
-              style={{width: '200px', height: '100px', minWidth: '200px'}}
-              aria-label="View all bookings"
-            >
-              All Bookings
-            </Link>
-          </div>
+          {/* Bookings Card */}
+          <Link 
+            to={'/allBookings'} 
+            className="dashboard-card"
+            style={{
+              backgroundColor: '#ffffff',
+              borderRadius: '10px',
+              padding: '1.5rem',
+              boxShadow: '0 4px 6px rgba(0,0,0,0.05)',
+              transition: 'all 0.3s ease',
+              textDecoration: 'none',
+              color: '#2c3e50',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              textAlign: 'center',
+              borderTop: '4px solid #9b59b6',
+              ':hover': {
+                transform: 'translateY(-5px)',
+                boxShadow: '0 6px 12px rgba(0,0,0,0.1)'
+              }
+            }}
+          >
+            <div className="card-icon" style={{
+              backgroundColor: '#f5eef8',
+              width: '60px',
+              height: '60px',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: '1rem'
+            }}>
+              <i className="bi bi-calendar-check-fill" style={{ fontSize: '1.5rem', color: '#9b59b6' }}></i>
+            </div>
+            <h3 style={{ margin: '0.5rem 0', fontWeight: '600' }}>Bookings</h3>
+            <p style={{ color: '#7f8c8d', margin: 0 }}>View all appointments</p>
+          </Link>
 
-          <div>
-            <Link 
-              to={'/notifications'} 
-              className='nav-link text-white bg-danger p-4 d-flex align-items-center justify-content-center fw-bold rounded' 
-              style={{width: '200px', height: '100px', minWidth: '200px'}}
-              aria-label="View notifications"
-            >
-              <i class="bi bi-bell-fill"></i>
-              Notifications
-            </Link>
-          </div>
-
-          
+          {/* Notifications Card */}
+          <Link 
+            to={'/notifications'} 
+            className="dashboard-card"
+            style={{
+              backgroundColor: '#ffffff',
+              borderRadius: '10px',
+              padding: '1.5rem',
+              boxShadow: '0 4px 6px rgba(0,0,0,0.05)',
+              transition: 'all 0.3s ease',
+              textDecoration: 'none',
+              color: '#2c3es50',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              textAlign: 'center',
+              borderTop: '4px solid #e74c3c',
+              ':hover': {
+                transform: 'translateY(-5px)',
+                boxShadow: '0 6px 12px rgba(0,0,0,0.1)'
+              }
+            }}
+          >
+            <div className="card-icon" style={{
+              backgroundColor: '#fdedec',
+              width: '60px',
+              height: '60px',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: '1rem'
+            }}>
+              <i className="bi bi-bell-fill" style={{ fontSize: '1.5rem', color: '#e74c3c' }}></i>
+            </div>
+            <h3 style={{ margin: '0.5rem 0', fontWeight: '600' }}>Notifications</h3>
+            <p style={{ color: '#7f8c8d', margin: 0 }}>System alerts</p>
+          </Link>
         </div>
-      </div>
+      </main>
     </div>
   );
 }

@@ -7,7 +7,7 @@ const Footer = () => {
       <div className="container">
         <div className="row">
           {/* Column 1 - About */}
-          <div className="col-md-4 mb-4 mb-md-0">
+          <div className="col-md-3 mb-4 mb-md-0">
             <h5 className="text-white mb-3">About Us</h5>
             <p className="text-white-50 small">
               Providing quality healthcare services with compassion and excellence.
@@ -26,7 +26,7 @@ const Footer = () => {
           </div>
 
           {/* Column 2 - Quick Links */}
-          <div className="col-md-4 mb-4 mb-md-0">
+          <div className="col-md-3 mb-4 mb-md-0">
             <h5 className="text-white mb-3">Quick Links</h5>
             <ul className="list-unstyled">
               <li className="mb-2">
