@@ -7,8 +7,8 @@ export default function Home() {
       {/* Hero Section */}
       <div className="home-hero d-flex align-items-center justify-content-center text-white text-center">
         <div>
-          <h1 className="display-3 fw-bold">Welcome to Largou Dental Clinic</h1>
-          <p className="lead">Modern care with a gentle touch</p>
+          {/* <h1 className="display-3 fw-bold">Welcome to Largou Dental Clinic</h1>
+          <p className="lead">Modern care with a gentle touch</p> */}
         </div>
       </div>
 
