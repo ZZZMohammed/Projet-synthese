@@ -10,15 +10,13 @@ class Time_Slot extends Model
 {
     use HasFactory;
 
-    protected $table = 'time_slots'; // <- with ONE underscore
+    protected $table = 'time_slots'; 
 
-
-    // Define the fillable fields to protect against mass assignment vulnerabilities
     protected $fillable = ['date', 'time', 'is_booked'];
 
     public function appointments()
     {
-        // One time slot can have many appointments
+        
         return $this->hasMany(Appointment::class);
     }
 }

@@ -57,13 +57,25 @@ export default function AllBookings() {
          dispatch(deleteAppointment(appointment_id));
   }} ;
 
-  const handleUpdate = (appointment_id) => {
-    if (window.confirm('Are you sure you want to accept this appointment?')) {
-      dispatch(updateAppointmentStatus(appointment_id, 'accepted'));
-    }
-  };
+ const handleUpdate = (appointment_id) => {
+  if (window.confirm('Are you sure you want to accept this appointment?')) {
+    dispatch(updateAppointmentStatus(appointment_id, 'accepted'));
+
+    // Update local state immediately
+    setBookings(prevBookings =>
+      prevBookings.map(booking =>
+        booking.id === appointment_id
+          ? { ...booking, status: 'accepted' }  // Update status locally
+          : booking
+      )
+    );
+  }
+};
+
 
   return (
+
+    
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-2xl font-bold mb-6 text-center pt-6">All Bookings</h1>
       <Link className='btn btn-primary m-4 fw-bold' to={'/back'}>Back</Link>
@@ -98,7 +110,11 @@ export default function AllBookings() {
                     </span>
                   </td>
                   <td className="py-2 px-4 border-b text-center btn btn-danger" onClick={()=>handleDelete(booking.id)}>Delete</td>
-                   <td className="py-2 px-4 border-b text-center btn btn-warning" onClick={()=>handleUpdate(booking.id)}>Update</td>
+               <td className="py-2 px-4 border-b text-center">
+                    {booking.status === 'pending' && (
+                      <button className="btn btn-warning" onClick={() => handleUpdate(booking.id)}>Update</button>
+                    )}
+                </td>
                 </tr>
               ))}
             </tbody>
