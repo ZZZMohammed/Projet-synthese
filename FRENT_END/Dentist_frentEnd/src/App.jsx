@@ -20,7 +20,7 @@ import Footer from './component/footer';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import Profile from './component/profile';
 import AllUsers from './pages/admin/allUsers';
-import Gallery from './pages/Gallery/gallery';
+
 
 export default function App() {
   // Get user from Redux store instead of localStorage directly
@@ -48,7 +48,7 @@ export default function App() {
           <Route path='/contact' element={<Contact/>} />
           <Route path='/list' element={<TimeSlotPage/>} />
           <Route path='/about' element={<About/>} />
-          <Route path='/Gallery' element={<Gallery/>} />
+   
           <Route path='/mybook' element={<MyBook/>} />
           <Route path='*' element={<Notfound/>} />         
         </Route>

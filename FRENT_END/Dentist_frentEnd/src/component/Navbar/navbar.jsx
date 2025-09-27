@@ -4,7 +4,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import logo from '../../../public/img/teth.png.webp';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../redux/actions/aythAction';
-import './navbar.css'
+import './navbar.css';
+
+
 
 export default function Navbar() {
   const dispatch = useDispatch();
@@ -23,41 +25,33 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light  bg-white shadow-sm fixed-top">
-      <div className="container-fluid">
-        {/* Logo - LEFT SIDE */}
+    <nav className="navbar navbar-expand-lg custom-navbar fixed-top">
+      <div className="container">
+        {/* Logo */}
         <Link className="navbar-brand" to="/">
-          <img 
-            src={logo} 
-            alt="Theth Logo" 
-            width="100" 
-            height="40"
-            className="d-inline-block align-top"
-          />
+          <img src={logo} alt="Theth Logo" width="110" height="40" />
         </Link>
 
-        {/* Mobile toggle button */}
-        <button 
-          className="navbar-toggler" 
-          type="button" 
-          data-bs-toggle="collapse" 
+        {/* Mobile toggle */}
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
           data-bs-target="#navbarContent"
-          aria-controls="navbarContent" 
-          aria-expanded="false" 
+          aria-controls="navbarContent"
+          aria-expanded="false"
           aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        {/* Nav Links - CENTER */}
-        <div className="collapse navbar-collapse links m-2" id="navbarContent">
-          <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
+        {/* Navigation Links */}
+        <div className="collapse navbar-collapse" id="navbarContent">
+          <ul className="navbar-nav mx-auto nav-links">
             <li className="nav-item">
-              <Link className="nav-link fw-bold " to="/">Home</Link>
+              <Link className="nav-link fw-bold" to="/">Home</Link>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link fw-bold" to="/Gallery">Gallery</Link>
-            </li>
+           
             <li className="nav-item">
               <Link className="nav-link fw-bold" to="/about">About Us</Link>
             </li>
@@ -68,13 +62,10 @@ export default function Navbar() {
               <Link className="nav-link fw-bold" to="/contact">Contact Us</Link>
             </li>
           </ul>
-        </div>
 
-        {/* Book Now Button - RIGHT SIDE */}
-        <div className="d-none d-lg-flex ms-auto">
-          <Link to={'/list'} className="btn btn-primary">Book Now</Link>
+          {/* Right Button */}
           {isAuthenticated && (
-            <button className='btn btn-danger ms-2' onClick={handleLogout}>LogOut</button>
+            <button className="btn btn-danger ms-lg-3" onClick={handleLogout}>Log Out</button>
           )}
         </div>
       </div>

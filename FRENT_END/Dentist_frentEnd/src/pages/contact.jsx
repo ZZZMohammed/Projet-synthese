@@ -31,7 +31,7 @@ export default function Contact() {
     };
 
     return (
-        <div style={{ backgroundColor: '#F7FAFF', minHeight: '100vh', padding: '2rem 0' }}>
+        <div style={{ backgroundColor: '#F7FAFF', minHeight: '100vh', padding: '2rem 0', marginTop: '70px' }}>
             <div className="container">
                 <h1 className='text-center p-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-400'>
                     Comment Nous Trouver

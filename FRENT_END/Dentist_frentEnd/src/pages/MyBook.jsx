@@ -5,11 +5,8 @@ import { Link } from 'react-router-dom';
 
 export default function MyBook() {
   const dispatch = useDispatch();
-  
-  // Debug the full state
-  const appointmentState = useSelector(state => state.appointments);
-  console.log('Current appointments state:', appointmentState);
-  
+
+  // Get appointments state
   const { appointments, loading, error, deleteSuccess } = useSelector(state => ({
     appointments: state.appointments.appointments || [],
     loading: state.appointments.loading,
@@ -17,16 +14,16 @@ export default function MyBook() {
     deleteSuccess: state.appointments.deleteSuccess
   }));
 
+  // Fetch appointments on mount and after delete
   useEffect(() => {
     dispatch(getAppointment());
   }, [dispatch, deleteSuccess]);
 
   const handleDelete = (appointmentId) => {
-    console.log('Attempting to delete appointment ID:', appointmentId);
     if (window.confirm('Are you sure you want to cancel this appointment?')) {
       dispatch(deleteAppointment(appointmentId));
     }
-  }
+  };
 
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
@@ -42,55 +39,84 @@ export default function MyBook() {
     });
   };
 
-  if (loading) return <div className="text-center py-4">Loading appointments...</div>;
-  if (error) return <div className="alert alert-danger text-center py-4">Error: Book Now From Here<Link className='btn btn-primary m-3' to={'/list'}>Book Now</Link></div>;
-
   return (
-    <div className="container py-5">
+    <div className="container py-5" style={{ marginTop: '70px' }}>
       <div className="row justify-content-center">
         <div className="col-lg-10">
           <h1 className="text-center mb-4">My Bookings</h1>
-          
-          {appointments.length > 0 ? (
-            <div className="table-responsive">
-              <table className="table table-bordered table-hover text-center">
-                <thead className="table-light">
-                  <tr>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {appointments.map((booking) => (
-                    <tr key={booking.id}>
-                      <td>{formatDate(booking.time_slot?.date)}</td>
-                      <td>{formatTime(booking.time_slot?.time)}</td>
-                      <td>
-                        <span className={`badge ${
-                          booking.status === 'pending' ? 'bg-warning text-dark' :
-                          booking.status === 'confirmed' ? 'bg-success' :
-                          'bg-danger'
-                        }`}>
-                          {booking.status}
-                        </span>
-                      </td>
-                      <td>
-                        <button 
-                          className="btn btn-danger btn-sm"
-                          onClick={() => handleDelete(booking.id)} 
-                        >
-                          Cancel
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+
+          {/* Loading */}
+          {loading && (
+            <div className="text-center py-4">
+              <div className="spinner-border text-primary" role="status"></div>
+              <p className="mt-2">Loading appointments...</p>
             </div>
-          ) : (
-            <div className="alert alert-info text-center">You have no bookings yet.</div>
+          )}
+
+          {/* Error */}
+          {error && !loading && (
+            <div className="alert alert-danger text-center py-4">
+              <p>Error fetching appointments.</p>
+              <Link className="btn btn-primary mt-2" to="/list">
+                Book Now
+              </Link>
+            </div>
+          )}
+
+          {/* Success */}
+          {!loading && !error && (
+            <>
+              {appointments.length > 0 ? (
+                <div className="table-responsive">
+                  <table className="table table-bordered table-hover text-center">
+                    <thead className="table-light">
+                      <tr>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {appointments.map((booking) => (
+                        <tr key={booking.id}>
+                          <td>{formatDate(booking.time_slot?.date)}</td>
+                          <td>{formatTime(booking.time_slot?.time)}</td>
+                          <td>
+                            <span
+                              className={`badge ${
+                                booking.status === 'pending'
+                                  ? 'bg-warning text-dark'
+                                  : booking.status === 'confirmed'
+                                  ? 'bg-success'
+                                  : 'bg-danger'
+                              }`}
+                            >
+                              {booking.status}
+                            </span>
+                          </td>
+                          <td>
+                            <button
+                              className="btn btn-danger btn-sm"
+                              onClick={() => handleDelete(booking.id)}
+                            >
+                              Cancel
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className="alert alert-info text-center">
+                  You have no bookings yet. <br />
+                  <Link to="/list" className="btn btn-outline-primary mt-2">
+                    Book Now
+                  </Link>
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>
