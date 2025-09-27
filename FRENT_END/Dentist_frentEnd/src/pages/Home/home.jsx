@@ -78,7 +78,8 @@ export default function Home() {
           {/* Image */}
           <div className="col-lg-6 d-flex justify-content-center">
             <img
-              src="/img/4.jpg"
+              src="/img/4.webp"
+               loading="lazy"
               className="img-fluid rounded-4 shadow-lg"
               alt="Dental Clinic Interior"
               style={{
@@ -158,6 +159,7 @@ export default function Home() {
       <div className="card border-0 shadow-sm rounded-4 h-100">
         <img
           src="/img/team.jpg"
+           loading="lazy"
           className="card-img-top rounded-top-4"
           alt="Dentist"
           style={{ height: "250px", objectFit: "cover" }}
@@ -173,6 +175,7 @@ export default function Home() {
       <div className="card border-0 shadow-sm rounded-4 h-100">
         <img
           src="/img/doctors/d1.jpeg"
+           loading="lazy"
           className="card-img-top rounded-top-4"
           alt="Assistant"
           style={{ height: "250px", objectFit: "cover" }}
@@ -188,6 +191,7 @@ export default function Home() {
       <div className="card border-0 shadow-sm rounded-4 h-100">
         <img
           src="/img/doctors/d2.jpeg"
+           loading="lazy"
           className="card-img-top rounded-top-4"
           alt="Technician"
           style={{ height: "250px", objectFit: "cover" }}
