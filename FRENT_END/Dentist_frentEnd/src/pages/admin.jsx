@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '../redux/actions/aythAction';
 import "bootstrap-icons/font/bootstrap-icons.css";
-import './admin.css';
+
 
 export default function Admin() {
   const dispatch = useDispatch();

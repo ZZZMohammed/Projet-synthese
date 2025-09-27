@@ -29,7 +29,7 @@ export default function Home() {
 
   return (
     <>
-      {/* Hero Section (KEPT AS IS) */}
+  
       <div
         id="carouselExample"
         className="carousel slide carousel-fade"
@@ -46,6 +46,7 @@ export default function Home() {
                 src={slide.image}
                 className="d-block w-100"
                 alt={`Slide ${slide.id}`}
+                
               />
               <div className="carousel-caption d-none d-md-block"></div>
             </div>
@@ -94,13 +95,13 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section className="py-5 bg-light">
+      <section className="py-5 bg-light ">
         <div className="container text-center">
           <h2 className="fw-bold mb-5" style={{ color: '#2d7d9a' }}>
             Our Services
           </h2>
           <div className="row g-4">
-            <div className="col-md-3">
+            <div className="col-md-4" >
               <div className="p-4 shadow-sm rounded-4 bg-white h-100">
                 <i className="bi bi-heart-pulse fs-1 text-primary mb-3"></i>
                 <h5 className="fw-bold mb-2">General Dentistry</h5>
@@ -119,7 +120,7 @@ export default function Home() {
                 </p>
               </div>
             </div>
-            <div className="col-md-3">
+            <div className="col-md-4">
               <div className="p-4 shadow-sm rounded-4 bg-white h-100">
                 <i className="bi bi-brightness-high fs-1 text-primary mb-3"></i>
                 <h5 className="fw-bold mb-2">Cosmetic Dentistry</h5>
@@ -155,7 +156,7 @@ export default function Home() {
     Meet Our Team
   </h2>
   <div className="row g-4">
-    <div className="col-md-3">
+    <div className="col-md-4">
       <div className="card border-0 shadow-sm rounded-4 h-100">
         <img
           src="/img/team.jpg"
@@ -163,6 +164,8 @@ export default function Home() {
           className="card-img-top rounded-top-4"
           alt="Dentist"
           style={{ height: "250px", objectFit: "cover" }}
+          width="300"
+  height="250"
         />
         <div className="card-body">
           <h5 className="fw-bold">Dr. Sarah Benali</h5>
@@ -174,11 +177,13 @@ export default function Home() {
     <div className="col-md-3">
       <div className="card border-0 shadow-sm rounded-4 h-100">
         <img
-          src="/img/doctors/d1.jpeg"
+          src="/img/doctors/d1.webp"
            loading="lazy"
           className="card-img-top rounded-top-4"
           alt="Assistant"
           style={{ height: "250px", objectFit: "cover" }}
+          width="300"
+  height="250"
         />
         <div className="card-body">
           <h5 className="fw-bold">Amine El Idrissi</h5>
@@ -187,14 +192,16 @@ export default function Home() {
       </div>
     </div>
 
-    <div className="col-md-3">
+    <div className="col-md-4">
       <div className="card border-0 shadow-sm rounded-4 h-100">
         <img
-          src="/img/doctors/d2.jpeg"
+          src="/img/doctors/d2.webp"
            loading="lazy"
           className="card-img-top rounded-top-4"
           alt="Technician"
           style={{ height: "250px", objectFit: "cover" }}
+          width="300"
+  height="250"
         />
         <div className="card-body">
           <h5 className="fw-bold">Nadia Rami</h5>
