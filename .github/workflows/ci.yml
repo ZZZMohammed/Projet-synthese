@@ -73,9 +73,9 @@ jobs:
         node-version: '20'
 
     - name: Install frontend dependencies
-      working-directory: ./FRENT_END
+      working-directory: ./FRENT_END/Dentist_frentEnd
       run: npm install
 
     - name: Run React tests
-      working-directory: ./FRENT_END
+      working-directory: ./FRENT_END/Dentist_frentEnd
       run: npm test -- --watchAll=false
