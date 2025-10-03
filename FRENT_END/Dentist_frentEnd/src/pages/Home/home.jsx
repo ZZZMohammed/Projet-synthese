@@ -1,6 +1,6 @@
 import './home.css';
 import { Link } from 'react-router-dom';
-
+import { motion } from "framer-motion";
 import pic1 from '../../../public/img/team.jpg';
 import pic2 from '../../../public/img/centre.jpg';
 import pic3 from '../../../public/img/reception.jpg';
@@ -55,11 +55,11 @@ export default function Home() {
       </div>
 
       {/* Info Section */}
-      <section className="container py-5">
+       <section className="container py-5">
         <div className="row align-items-center g-5">
           {/* Text Content */}
           <div className="col-lg-5">
-            <h2 className="fw-bold mb-4" style={{ color: '#2d7d9a' }}>
+            <h2 className="fw-bold mb-4" style={{ color: "#2d7d9a" }}>
               Your Smile, Our Passion
             </h2>
             <p className="lead text-muted mb-3">
@@ -68,27 +68,31 @@ export default function Home() {
               they all share a philosophy of gentle approach and expertise.
             </p>
             <p className="text-muted mb-4">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente
-              ad fugit ipsa? Rem corrupti accusamus neque?
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente ad
+              fugit ipsa? Rem corrupti accusamus neque?
             </p>
             <Link to="/about" className="btn btn-outline-primary px-4 py-2">
               Learn More
             </Link>
           </div>
 
-          {/* Image */}
+          {/* Image with Framer Motion */}
           <div className="col-lg-6 d-flex justify-content-center">
-            <img
+            <motion.img
               src="/img/4.webp"
-               loading="lazy"
+              loading="lazy"
               className="img-fluid rounded-4 shadow-lg"
               alt="Dental Clinic Interior"
               style={{
-                maxHeight: '380px',
-                width: '100%',
-                objectFit: 'cover',
-                borderRadius: '12px',
+                maxHeight: "380px",
+                width: "100%",
+                objectFit: "cover",
+                borderRadius: "12px",
               }}
+              initial={{ opacity: 0, y: 50 }}            // hidden
+              whileInView={{ opacity: 1, y: 0 }}         // animate on scroll
+              transition={{ duration: 1, ease: "easeOut" }}
+              viewport={{ once: true, amount: 0.3 }}     // run once when 30% visible
             />
           </div>
         </div>
