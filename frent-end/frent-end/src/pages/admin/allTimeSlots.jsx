@@ -122,7 +122,7 @@ export default function AllTimeSlots() {
   
   const fetchAvailableTimes = async (date) => {
     
-    const response = ["09:00", "10:00", "11:00", "12:00", "15:00", "16:00", "17:00" , "18:00"];
+    const response = [""];
     setAvailableTimes(response);
   };
 
@@ -331,7 +331,7 @@ export default function AllTimeSlots() {
 
             {availableTimes.length > 0 && (
               <Form.Group className="mb-3">
-                <Form.Label>Available Times</Form.Label>
+                <Form.Label>Confirm</Form.Label>
                 <div className="d-flex flex-wrap gap-2">
                   {availableTimes.map((time) => (
                     <Form.Check

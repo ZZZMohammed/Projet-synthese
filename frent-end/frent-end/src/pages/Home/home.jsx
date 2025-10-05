@@ -47,7 +47,7 @@ export default function Home() {
                 src={slide.image}
                 className="d-block w-100 carousel-img"
                 alt={`Slide ${slide.id}`}
-                loading="lazy"
+                // loading="lazy"
               />
               <div className="carousel-caption d-none d-md-block"></div>
             </div>
