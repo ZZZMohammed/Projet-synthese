@@ -29,12 +29,13 @@ export default function Home() {
 
   return (
     <>
-  
+      {/* Carousel Section */}
       <div
         id="carouselExample"
-        className="carousel slide carousel-fade"
+        className="carousel slide"
         data-bs-ride="carousel"
         data-bs-interval="3000"
+        data-bs-pause="false"
       >
         <div className="carousel-inner">
           {slides.map((slide, index) => (
@@ -44,9 +45,9 @@ export default function Home() {
             >
               <img
                 src={slide.image}
-                className="d-block w-100"
+                className="d-block w-100 carousel-img"
                 alt={`Slide ${slide.id}`}
-                
+                loading="lazy"
               />
               <div className="carousel-caption d-none d-md-block"></div>
             </div>
@@ -55,11 +56,11 @@ export default function Home() {
       </div>
 
       {/* Info Section */}
-       <section className="container py-5">
+      <section className="container py-5">
         <div className="row align-items-center g-5">
           {/* Text Content */}
           <div className="col-lg-5">
-            <h2 className="fw-bold mb-4" style={{ color: "#2d7d9a" }}>
+            <h2 className="fw-bold mb-4 text-primary">
               Your Smile, Our Passion
             </h2>
             <p className="lead text-muted mb-3">
@@ -81,72 +82,69 @@ export default function Home() {
             <motion.img
               src="/img/4.webp"
               loading="lazy"
-              className="img-fluid rounded-4 shadow-lg"
+              className="img-fluid rounded-4 shadow-lg info-img"
               alt="Dental Clinic Interior"
-              style={{
-                maxHeight: "380px",
-                width: "100%",
-                objectFit: "cover",
-                borderRadius: "12px",
-              }}
-              initial={{ opacity: 0, y: 50 }}            // hidden
-              whileInView={{ opacity: 1, y: 0 }}         // animate on scroll
-              transition={{ duration: 1, ease: "easeOut" }}
-              viewport={{ once: true, amount: 0.3 }}     // run once when 30% visible
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              viewport={{ once: true, amount: 0.3 }}
             />
           </div>
         </div>
       </section>
 
       {/* Services Section */}
-      <section className="py-5 bg-light ">
-        <div className="container text-center">
-          <h2 className="fw-bold mb-5" style={{ color: '#2d7d9a' }}>
-            Our Services
-          </h2>
-          <div className="row g-4">
-            <div className="col-md-4" >
-              <div className="p-4 shadow-sm rounded-4 bg-white h-100">
-                <i className="bi bi-heart-pulse fs-1 text-primary mb-3"></i>
-                <h5 className="fw-bold mb-2">General Dentistry</h5>
-                <p className="text-muted">
-                  Routine checkups, cleanings, and preventive care for your
-                  smile.
-                </p>
-              </div>
-            </div>
-            <div className="col-md-3">
-              <div className="p-4 shadow-sm rounded-4 bg-white h-100">
-                <i className="bi bi-braces fs-1 text-primary mb-3"></i>
-                <h5 className="fw-bold mb-2">Orthodontics</h5>
-                <p className="text-muted">
-                  Modern braces and aligners to straighten your teeth.
-                </p>
-              </div>
-            </div>
-            <div className="col-md-4">
-              <div className="p-4 shadow-sm rounded-4 bg-white h-100">
-                <i className="bi bi-brightness-high fs-1 text-primary mb-3"></i>
-                <h5 className="fw-bold mb-2">Cosmetic Dentistry</h5>
-                <p className="text-muted">
-                  Teeth whitening, veneers, and more to enhance your smile.
-                </p>
-              </div>
-            </div>
+  <section className="py-5 bg-light text-center">
+  <div className="container-fluid px-5"> {/* wider container */}
+    <h2 className="text-primary mb-5">Our Services</h2>
+    <div className="row justify-content-center g-4">
+      <div className="col-12 col-md-4 col-lg-3">
+        <div className="card shadow-sm border-0 p-4 h-100">
+          <div className="card-body">
+            <i className="bi bi-heart-pulse fs-1 text-primary mb-3"></i>
+            <h5 className="fw-bold">General Dentistry</h5>
+            <p className="text-muted small">
+              Routine checkups, cleanings, and preventive care for your smile.
+            </p>
           </div>
         </div>
-      </section>
+      </div>
+
+      <div className="col-12 col-md-4 col-lg-3">
+        <div className="card shadow-sm border-0 p-4 h-100">
+          <div className="card-body">
+            <i className="bi bi-braces fs-1 text-primary mb-3"></i>
+            <h5 className="fw-bold">Orthodontics</h5>
+            <p className="text-muted small">
+              Modern braces and aligners to straighten your teeth.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="col-12 col-md-4 col-lg-3">
+        <div className="card shadow-sm border-0 p-4 h-100">
+          <div className="card-body">
+            <i className="bi bi-brightness-high fs-1 text-primary mb-3"></i>
+            <h5 className="fw-bold">Cosmetic Dentistry</h5>
+            <p className="text-muted small">
+              Teeth whitening, veneers, and more to enhance your smile.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
 
       {/* Banner Section */}
-      <section
-        className="text-white text-center py-5"
-        style={{ backgroundColor: '#2d7d9a' }}
-      >
+      <section className="text-white text-center py-5 banner-section">
         <div className="container">
           <h2 className="fw-bold mb-3">Ready to book your next visit?</h2>
           <p className="lead mb-4">
-            Schedule your appointment with ease and let us take care of your
-            smile.
+            Schedule your appointment with ease and let us take care of your smile.
           </p>
           <Link to="/list" className="btn btn-light btn-lg px-4 fw-semibold">
             Book Appointment
@@ -154,22 +152,18 @@ export default function Home() {
         </div>
       </section>
 
-     {/* Team Section */}
-<section className="container py-5 text-center">
-  <h2 className="fw-bold mb-5" style={{ color: '#2d7d9a' }}>
-    Meet Our Team
-  </h2>
-  <div className="row g-4">
-    <div className="col-md-4">
+      {/* Team Section */}
+    <section className="container-fluid py-5 text-center px-5">
+  <h2 className="fw-bold mb-5 text-primary">Meet Our Team</h2>
+  <div className="row justify-content-center g-4">
+    {/* Card 1 */}
+    <div className="col-12 col-sm-6 col-md-4 col-lg-3">
       <div className="card border-0 shadow-sm rounded-4 h-100">
         <img
           src="/img/team.jpg"
-           loading="lazy"
-          className="card-img-top rounded-top-4"
+          className="card-img-top rounded-top-4 team-img"
           alt="Dentist"
-          style={{ height: "250px", objectFit: "cover" }}
-          width="300"
-  height="250"
+          loading="lazy"
         />
         <div className="card-body">
           <h5 className="fw-bold">Dr. Sarah Benali</h5>
@@ -178,16 +172,14 @@ export default function Home() {
       </div>
     </div>
 
-    <div className="col-md-3">
+    {/* Card 2 */}
+    <div className="col-12 col-sm-6 col-md-4 col-lg-3">
       <div className="card border-0 shadow-sm rounded-4 h-100">
         <img
           src="/img/doctors/d1.webp"
-           loading="lazy"
-          className="card-img-top rounded-top-4"
+          className="card-img-top rounded-top-4 team-img"
           alt="Assistant"
-          style={{ height: "250px", objectFit: "cover" }}
-          width="300"
-  height="250"
+          loading="lazy"
         />
         <div className="card-body">
           <h5 className="fw-bold">Amine El Idrissi</h5>
@@ -196,16 +188,14 @@ export default function Home() {
       </div>
     </div>
 
-    <div className="col-md-4">
+    {/* Card 3 */}
+    <div className="col-12 col-sm-6 col-md-4 col-lg-3">
       <div className="card border-0 shadow-sm rounded-4 h-100">
         <img
           src="/img/doctors/d2.webp"
-           loading="lazy"
-          className="card-img-top rounded-top-4"
+          className="card-img-top rounded-top-4 team-img"
           alt="Technician"
-          style={{ height: "250px", objectFit: "cover" }}
-          width="300"
-  height="250"
+          loading="lazy"
         />
         <div className="card-body">
           <h5 className="fw-bold">Nadia Rami</h5>

@@ -1,0 +1,98 @@
+/* Hero Section */
+.home-hero {
+  background: url('/img/reception.webp') center/cover no-repeat;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.4);
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+/* Image Styles */
+.carousel-img,
+.info-img,
+.team-img {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 1.5rem;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.info-img {
+  max-height: 380px;
+}
+
+.service-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Buttons & Text Colors */
+.text-primary {
+  color: #2d7d9a !important;
+}
+
+.btn-primary {
+  background-color: #2d7d9a;
+  border-color: #2d7d9a;
+}
+
+.btn-primary:hover {
+  background-color: #1f5d74;
+  border-color: #1f5d74;
+}
+
+/* Banner Section */
+.banner-section {
+  background-image: linear-gradient(to right, #2d7d9a, #1f5d74);
+  color: white;
+}
+
+
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .display-5 {
+    font-size: 2.2rem;
+  }
+
+  .lead {
+    font-size: 1rem;
+  }
+
+  .info-img {
+    max-height: 20rem;
+  }
+}
+
+/* Performance & GPU Optimization */
+img, .home-hero {
+  transform: translateZ(0);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+.team-img {
+  height: 300px; /* uniform height for all cards */
+  object-fit: cover;
+  border-top-left-radius: 1.5rem;
+  border-top-right-radius: 1.5rem;
+}
