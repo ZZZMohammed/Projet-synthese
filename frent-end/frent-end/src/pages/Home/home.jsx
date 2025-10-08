@@ -1,9 +1,9 @@
 import './home.css';
 import { Link } from 'react-router-dom';
 import { motion } from "framer-motion";
-import pic1 from '../../../public/img/team.jpg';
-import pic2 from '../../../public/img/centre.jpg';
-import pic3 from '../../../public/img/reception.jpg';
+import pic1 from '/img/team.webp';
+import pic2 from '/img/centre.webp';
+import pic3 from '/img/reception.webp';
 
 export default function Home() {
   const slides = [
@@ -160,7 +160,7 @@ export default function Home() {
     <div className="col-12 col-sm-6 col-md-4 col-lg-3">
       <div className="card border-0 shadow-sm rounded-4 h-100">
         <img
-          src="/img/team.jpg"
+          src="/img/team.webp"
           className="card-img-top rounded-top-4 team-img"
           alt="Dentist"
           loading="lazy"
