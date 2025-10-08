@@ -6,8 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../redux/actions/aythAction';
 import './navbar.css';
 
-
-
 export default function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -51,7 +49,6 @@ export default function Navbar() {
             <li className="nav-item">
               <Link className="nav-link fw-bold" to="/">Home</Link>
             </li>
-           
             <li className="nav-item">
               <Link className="nav-link fw-bold" to="/about">About Us</Link>
             </li>
@@ -63,10 +60,18 @@ export default function Navbar() {
             </li>
           </ul>
 
-          {/* Right Button */}
-          {isAuthenticated && (
-            <button className="btn btn-danger ms-lg-3" onClick={handleLogout}>Log Out</button>
-          )}
+          {/* Right Buttons */}
+          <div className="d-flex align-items-center gap-2">
+            <Link to="/list" className="btn btn-primary fw-semibold">
+              Book Now
+            </Link>
+
+            {isAuthenticated && (
+              <button className="btn btn-danger fw-semibold" onClick={handleLogout}>
+                Log Out
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </nav>
