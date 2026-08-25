@@ -13,7 +13,7 @@ class SocialAuthController extends Controller
         return Socialite::driver('google')->stateless()->redirect();
     }
 
-   public function handleGoogleCallback()
+  public function handleGoogleCallback()
 {
     $googleUser = Socialite::driver('google')
         ->stateless()
@@ -31,8 +31,11 @@ class SocialAuthController extends Controller
         ]);
     }
 
+    $token = $user->createToken('auth_token')->plainTextToken;
+
     return response()->json([
         'user' => $user,
+        'token' => $token,
     ]);
 }
 }
