@@ -8,12 +8,15 @@ use App\Http\Controllers\API\ContactController;
 use App\Http\Controllers\API\AppointmentController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\API\SocialAuthController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
 
+
+Route::get('/auth/google', [SocialAuthController::class, 'redirectToGoogle']);
 
 
 // USER ROUTES
