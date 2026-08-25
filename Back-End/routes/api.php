@@ -17,6 +17,7 @@ Route::get('/user', function (Request $request) {
 
 
 Route::get('/auth/google', [SocialAuthController::class, 'redirectToGoogle']);
+Route::get('/auth/google/callback', [SocialAuthController::class, 'handleGoogleCallback']);
 
 
 // USER ROUTES
