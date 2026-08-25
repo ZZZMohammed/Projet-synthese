@@ -15,6 +15,9 @@ export default function Login() {
 
   // Redux auth state
   const { error: authError } = useSelector((state) => state.auth);
+  const handleGoogleLogin = () => {
+    window.location.href = 'http://localhost:8000/api/auth/google';
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,6 +29,7 @@ export default function Login() {
       setLoading(false);
       return;
     }
+    
 
     try {
       const result = await dispatch(login({ email, password }));
@@ -102,12 +106,20 @@ export default function Login() {
                     'Login'
                   )}
                 </button>
+
+              
               </form>
 
               <div className="mt-3 text-center">
                 <small className="text-muted">
                   Don&apos;t have an account? <Link to="/register">Register</Link>
                 </small>
+
+                <div>
+                  <button type="button" onClick={handleGoogleLogin}>
+    Continue with Google
+</button>
+                </div>
               </div>
             </div>
           </div>
