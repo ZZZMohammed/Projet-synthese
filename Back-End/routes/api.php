@@ -9,6 +9,7 @@ use App\Http\Controllers\API\AppointmentController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\API\SocialAuthController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -79,3 +80,33 @@ Route::middleware(['auth:sanctum'])->group(function (){
 
 
 
+// EMAIL VERIFICATION
+
+Route::middleware('auth:sanctum')->group(function () {
+
+    // Resend verification email
+    Route::post('/email/verification-notification', function (Request $request) {
+
+        if ($request->user()->hasVerifiedEmail()) {
+            return response()->json([
+                'message' => 'Email already verified.'
+            ]);
+        }
+
+        $request->user()->sendEmailVerificationNotification();
+
+        return response()->json([
+            'message' => 'Verification link sent.'
+        ]);
+    })->middleware('throttle:6,1');
+
+});
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+
+    $request->fulfill();
+
+    return redirect('http://localhost:5173/email-verified');
+
+})->middleware(['auth:sanctum', 'signed'])
+  ->name('verification.verify');
