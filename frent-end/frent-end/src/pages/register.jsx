@@ -22,45 +22,78 @@ export default function Register() {
   };
 
   const validateForm = () => {
-    const newErrors = {};
-    
-    if (!form.name.trim()) newErrors.name = 'Name is required';
-    if (!form.email.trim()) newErrors.email = 'Email is required';
-    else if (!/^\S+@\S+\.\S+$/.test(form.email)) newErrors.email = 'Email is invalid';
-    if (!form.password) newErrors.password = 'Password is required';
-    else if (form.password.length < 6) newErrors.password = 'Password must be at least 6 characters';
-    if (form.password !== form.confirmpass) newErrors.confirmpass = 'Passwords do not match';
-    
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+  const newErrors = {};
+
+  if (!form.name.trim()) {
+    newErrors.name = 'Name is required';
+  }
+
+  if (!form.email.trim()) {
+    newErrors.email = 'Email is required';
+  } else if (!/^\S+@\S+\.\S+$/.test(form.email)) {
+    newErrors.email = 'Email is invalid';
+  }
+
+  if (!form.password) {
+    newErrors.password = 'Password is required';
+  } else if (form.password.length < 8) {
+    newErrors.password = 'Password must be at least 8 characters';
+  }
+
+  if (form.password !== form.confirmpass) {
+    newErrors.confirmpass = 'Passwords do not match';
+  }
+
+  setErrors(newErrors);
+
+  return Object.keys(newErrors).length === 0;
+};
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setApiError('');
+  e.preventDefault();
 
-    if (!validateForm()) {
-      setLoading(false);
-      return;
-    }
+  setApiError('');
 
-    try {
-      const res = await axios.post('http://localhost:8000/api/register', {
+  if (!validateForm()) {
+    return;
+  }
+
+  setLoading(true);
+
+  try {
+    const res = await axios.post(
+      'http://localhost:8000/api/register',
+      {
         name: form.name,
         email: form.email,
-        password: form.password
-      });
+        password: form.password,
+      }
+    );
 
-      localStorage.setItem('token', res.data.token);
-      navigate('/');
-    } catch (error) {
-      console.error(error);
-      setApiError(error.response?.data?.message || 'Registration failed. Please try again.');
-    } finally {
-      setLoading(false);
+    console.log(res.data);
+
+    // No token here!
+    // User must verify email before logging in.
+    navigate('/verify-email');
+
+  } catch (error) {
+    console.error(error);
+
+    if (error.response?.status === 422) {
+      setApiError(
+        error.response.data.message || 'Please check your information.'
+      );
+    } else {
+      setApiError(
+        error.response?.data?.message ||
+        'Registration failed. Please try again.'
+      );
     }
-  };
+
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="container mt-5">

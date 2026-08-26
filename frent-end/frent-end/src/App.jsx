@@ -21,6 +21,9 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import Profile from './component/profile';
 import AllUsers from './pages/admin/allUsers';
 import GoogleCallback from './pages/GoogleCallback';
+import EmailVerified from "./pages/EmailVerified";
+import VerifyEmail from "./pages/VerifyEmail";
+
 
 
 export default function App() {
@@ -50,7 +53,8 @@ export default function App() {
           <Route path='/list' element={<TimeSlotPage/>} />
           <Route path='/about' element={<About/>} />
           <Route path="/auth/google/callback" element={<GoogleCallback />}/>
-   
+          <Route path="/email-verified" element={<EmailVerified />} />
+          <Route path="/verify-email" element={<VerifyEmail />} />
           <Route path='/mybook' element={<MyBook/>} />
           <Route path='*' element={<Notfound/>} />         
         </Route>
