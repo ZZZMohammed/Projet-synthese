@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Auth\Events\Registered;
 
 class UserController extends Controller
 {
@@ -17,48 +18,67 @@ class UserController extends Controller
             'message' => 'Users retrieved successfully'
         ]);
     }
+
+    
+
+    // login 
     
     public function login(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string',
-        ]);
+{
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required|string',
+    ]);
 
-        $user = User::where('email', $request->email)->first();
+    $user = User::where('email', $request->email)->first();
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            return response()->json(['message' => 'Invalid credentials'], 401);
-        }
-
-        // Generate a token for the user
-        $token = $user->createToken('auth_token')->plainTextToken;
+    if (!$user || !Hash::check($request->password, $user->password)) {
         return response()->json([
-            'token' => $token ,
-            'user' => $user
-        ]);
+            'message' => 'Invalid credentials'
+        ], 401);
     }
+
+    if (!$user->hasVerifiedEmail()) {
+        return response()->json([
+            'message' => 'Please verify your email before logging in.',
+            'email_verified' => false
+        ], 403);
+    }
+
+    $token = $user->createToken('auth_token')->plainTextToken;
+
+    return response()->json([
+        'message' => 'Login successful',
+        'token' => $token,
+        'user' => $user,
+        'email_verified' => true
+    ]);
+}
 
     public function register(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:8',
-            'role' => 'nullable|string|in:admin,patient',
-        ]);
+{
+    $request->validate([
+        'name' => 'required|string',
+        'email' => 'required|email|unique:users,email',
+        'password' => 'required|string|min:8',
+        'role' => 'nullable|string|in:admin,patient',
+    ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => $request->role ?? 'patient',
-        ]);
-        // Generate a token for the user
-        $token = $user->createToken('auth_token')->plainTextToken;
+    $user = User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+        'role' => $request->role ?? 'patient',
+    ]);
 
-        return response()->json(['user' => $user, 'token' => $token], 201);
-    }
+    // Send email verification
+    event(new Registered($user));
+
+    return response()->json([
+        'message' => 'Registration successful. Please verify your email.',
+        'user' => $user,
+    ], 201);
+}
 
 
 
