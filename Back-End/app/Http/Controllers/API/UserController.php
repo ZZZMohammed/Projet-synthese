@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
 
+
 class UserController extends Controller
 {
 
@@ -55,7 +56,7 @@ class UserController extends Controller
     ]);
 }
 
-    public function register(Request $request)
+   public function register(Request $request)
 {
     $request->validate([
         'name' => 'required|string',
@@ -75,7 +76,7 @@ class UserController extends Controller
     event(new Registered($user));
 
     return response()->json([
-        'message' => 'Registration successful. Please verify your email.',
+        'message' => 'Registration successful. Please check your email.',
         'user' => $user,
     ], 201);
 }

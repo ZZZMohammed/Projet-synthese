@@ -10,6 +10,8 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\API\SocialAuthController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Models\User;
+
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -109,4 +111,31 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
     return redirect('http://localhost:5173/email-verified');
 
 })->middleware(['auth:sanctum', 'signed'])
+  ->name('verification.verify');
+
+
+
+//   email verfy
+Route::get('/email/verify/{id}/{hash}', function (Request $request, $id, $hash) {
+
+    $user = User::findOrFail($id);
+
+    // Check that the hash belongs to this user's email
+    if (! hash_equals((string) $hash, sha1($user->getEmailForVerification()))) {
+        return response()->json([
+            'message' => 'Invalid verification link.'
+        ], 403);
+    }
+
+    // Already verified
+    if ($user->hasVerifiedEmail()) {
+        return redirect('http://localhost:5173/email-verified');
+    }
+
+    // Mark email as verified
+    $user->markEmailAsVerified();
+
+    return redirect('http://localhost:5173/email-verified');
+
+})->middleware('signed')
   ->name('verification.verify');
